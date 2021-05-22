@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardMovie"
+                android:layout_width="160dp"
+                android:layout_height="240dp"
+                android:layout_marginStart="@dimen/marginM"
+                android:layout_marginTop="@dimen/marginS"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageMovies"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/poster_a_start_is_born" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@id/cardMovie"
+                app:layout_constraintLeft_toRightOf="@id/cardMovie"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textMovieName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/marginM"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/fontXXL"
+                    android:textStyle="bold"
+                    tools:text="Movie Name" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginM"
+                    android:layout_marginTop="@dimen/marginM"
+                    android:textSize="@dimen/fontL"
+                    android:text="Tahun Terbit"
+                    android:textColor="@color/colorText"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textPublishedYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/marginM"
+                    android:layout_marginBottom="@dimen/marginML"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/fontM"
+                    app:layout_constraintLeft_toRightOf="@id/cardMovie"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textMovieName"
+                    tools:text="2021" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginM"
+                    android:text="Director"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/fontL"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textDirectorName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginM"
+                    android:textColor="@color/colorText"
+                    tools:text="@tools:sample/first_names" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="@dimen/marginM"
+                android:layout_marginTop="@dimen/marginM"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/cardMovie"
+                tools:layout_editor_absoluteX="16dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/fontL"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textMovieDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginS"
+                    android:textColor="@color/colorText"
+                    app:layout_constraintTop_toBottomOf="@id/cardMovie"
+                    tools:maxLines="5"
+                    tools:text="@tools:sample/lorem/random" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginM"
+                    android:text="Video Trailer"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/fontL"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textLinkNotFound"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginS"
+                    android:text="Video trailer tidak tersedia"
+                    android:textColor="@color/colorText"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="@dimen/marginS"
+                    android:layout_marginBottom="@dimen/marginML"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
+                    <WebView
+                        android:id="@+id/webView"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_margin="0dp"
+                        android:padding="0dp" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
+            app:title="Detail" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
