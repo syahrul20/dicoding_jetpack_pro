@@ -15,11 +15,15 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField 'String', 'API_URL', '\"https://api.themoviedb.org/3/\"'
+        buildConfigField 'String', 'API_URL_IMAGE_ORIGINAL', '\"https://image.tmdb.org/t/p/original/\"'
+        buildConfigField 'String', 'API_KEY', '\"c36ae443fcb0ac61f517d17238c6d854"'
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary  true
+        vectorDrawables.useSupportLibrary true
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
 
@@ -52,17 +56,20 @@ dependencies {
 
     //GSON
     implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     //Android Architecture Components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion"
     implementation "androidx.activity:activity-ktx:$ktxVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$liveDataVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "io.insert-koin:koin-android:$koin_version"
 
     //NETWORK
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation "com.squareup.okhttp3:logging-interceptor:3.12.10"
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+    implementation 'com.github.chuckerteam.chucker:library:3.4.0'
 
     //Testing
     testImplementation "junit:junit:$junitVersion"

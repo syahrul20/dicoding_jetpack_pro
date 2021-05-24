@@ -1,35 +1,31 @@
 package com.sf.jetpack.mymov.adapter
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sf.jetpack.mymov.data.Movie
+import com.sf.jetpack.mymov.BuildConfig.API_URL_IMAGE_ORIGINAL
 import com.sf.jetpack.mymov.databinding.ItemMoviesBinding
+import com.sf.jetpack.mymov.network.response.MovieData
+import com.sf.jetpack.mymov.utils.loadUrl
 
 class MoviesAdapter(
-    private val itemList: List<Movie>,
-    private val context: Context,
+    private val itemList: List<MovieData>,
     private val listener: IMovie? = null
 ) :
     RecyclerView.Adapter<MoviesAdapter.ItemViewHolder>() {
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(view.root)
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) = with(holder) {
         itemList[position].let { movie ->
-            binding.textMovieName.text = movie.name
-            binding.textYearMovie.text = movie.publishedYear
-            binding.textMovieDescription.text = movie.description
-            val movieImage = context.resources.getIdentifier(movie.image, null, context.packageName)
-            binding.imageMovies.setImageDrawable(context.getDrawable(movieImage))
+            binding.textMovieName.text = movie.title
+            binding.textYearMovie.text = movie.release_date
+            binding.textMovieDescription.text = movie.overview
+            binding.imageMovies.loadUrl(API_URL_IMAGE_ORIGINAL + movie.poster_path)
             binding.root.setOnClickListener {
                 listener?.onMovieClicked(movie)
             }
@@ -45,6 +41,6 @@ class MoviesAdapter(
     }
 
     interface IMovie {
-        fun onMovieClicked(movie: Movie)
+        fun onMovieClicked(movie: MovieData)
     }
 }

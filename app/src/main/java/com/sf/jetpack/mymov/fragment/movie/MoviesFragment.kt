@@ -6,17 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import com.sf.jetpack.mymov.adapter.MoviesAdapter
-import com.sf.jetpack.mymov.data.Movie
 import com.sf.jetpack.mymov.databinding.FragmentMoviesBinding
 import com.sf.jetpack.mymov.detail.DetailActivity
+import com.sf.jetpack.mymov.network.response.MovieData
 import com.sf.jetpack.mymov.utils.Extra
 import com.sf.jetpack.mymov.utils.TYPE
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesFragment : Fragment(), MoviesAdapter.IMovie {
 
-    private val viewModel: MovieViewModel by viewModels()
+    private val viewModel: MovieViewModel by viewModel()
 
     private var _binding: FragmentMoviesBinding? = null
     private val binding get() = _binding!!
@@ -39,15 +39,21 @@ class MoviesFragment : Fragment(), MoviesAdapter.IMovie {
         super.onViewCreated(view, savedInstanceState)
 
         setUpRecyclerView()
+        setUpObserver()
+    }
+
+    private fun setUpObserver() {
+        viewModel.getListMovieFromApi().observe(viewLifecycleOwner, { data ->
+            moviesAdapter = MoviesAdapter(data.results, this)
+            binding.rvMovie.adapter = moviesAdapter
+        })
     }
 
     private fun setUpRecyclerView() {
         val data = viewModel.getListMovie()
-        moviesAdapter = MoviesAdapter(data, requireContext(), this)
-        binding.rvMovie.adapter = moviesAdapter
     }
 
-    override fun onMovieClicked(movie: Movie) {
+    override fun onMovieClicked(movie: MovieData) {
         Intent(requireActivity(), DetailActivity::class.java).apply {
             putExtra(Extra.ID, movie.id.toString())
             putExtra(Extra.TYPE, TYPE.MOVIE.name)
