@@ -1,18 +1,17 @@
 package com.sf.jetpack.mymov.adapter
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sf.jetpack.mymov.data.TvShowsData
+import com.sf.jetpack.mymov.BuildConfig
 import com.sf.jetpack.mymov.databinding.ItemMoviesBinding
+import com.sf.jetpack.mymov.network.response.TvResultList
+import com.sf.jetpack.mymov.utils.loadUrl
 
 class TvShowsAdapter(
-    private val itemList: List<TvShowsData>,
-    private val context: Context,
-    private val listener: IMovie? = null
+    private val itemList: List<TvResultList>,
+    private val listener: ITvShow? = null
 ) :
     RecyclerView.Adapter<TvShowsAdapter.ItemViewHolder>() {
 
@@ -21,16 +20,15 @@ class TvShowsAdapter(
         return ItemViewHolder(view.root)
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) = with(holder) {
         itemList[position].let { tvShow ->
             binding.textMovieName.text = tvShow.name
-            binding.textYearMovie.text = tvShow.publishedYear
-            binding.textMovieDescription.text = tvShow.description
-            val movieImage = context.resources.getIdentifier(tvShow.image, null, context.packageName)
-            binding.imageMovies.setImageDrawable(context.getDrawable(movieImage))
+            binding.textMovieDescription.text = tvShow.overview
+            val rate = (tvShow.vote_average * 10) / 20
+            binding.ratingBar.rating = rate.toFloat()
+            binding.imageMovies.loadUrl(BuildConfig.API_URL_IMAGE_W500 + tvShow.poster_path)
             binding.root.setOnClickListener {
-                listener?.onMovieClicked(tvShow)
+                listener?.onTvShowClickListener(tvShow)
             }
         }
     }
@@ -43,7 +41,7 @@ class TvShowsAdapter(
         val binding = ItemMoviesBinding.bind(itemView)
     }
 
-    interface IMovie {
-        fun onMovieClicked(tvShow: TvShowsData)
+    interface ITvShow {
+        fun onTvShowClickListener(tvShow: TvResultList)
     }
 }

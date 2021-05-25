@@ -6,17 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import com.sf.jetpack.mymov.adapter.TvShowsAdapter
-import com.sf.jetpack.mymov.data.TvShowsData
 import com.sf.jetpack.mymov.databinding.FragmentTvShowsBinding
-import com.sf.jetpack.mymov.detail.DetailActivity
+import com.sf.jetpack.mymov.detail.DetailMovieActivity
+import com.sf.jetpack.mymov.network.response.TvResultList
 import com.sf.jetpack.mymov.utils.Extra
 import com.sf.jetpack.mymov.utils.TYPE
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class TvShowsFragment : Fragment(), TvShowsAdapter.IMovie {
+class TvShowsFragment : Fragment(), TvShowsAdapter.ITvShow {
 
-    private val viewModel: TvShowViewModel by viewModels()
+    private val viewModel: TvShowViewModel by viewModel()
 
     private var _binding: FragmentTvShowsBinding? = null
     private val binding get() = _binding!!
@@ -38,17 +38,18 @@ class TvShowsFragment : Fragment(), TvShowsAdapter.IMovie {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpRecyclerView()
+        setUpObserver()
     }
 
-    private fun setUpRecyclerView() {
-        val data = viewModel.getListTvShow()
-        tvShowAdapter = TvShowsAdapter(data, requireContext(), this)
-        binding.rvTvShows.adapter = tvShowAdapter
+    private fun setUpObserver() {
+        viewModel.getListTvShowFromApi().observe(viewLifecycleOwner, {
+            tvShowAdapter = TvShowsAdapter(it.results, this)
+            binding.rvTvShows.adapter = tvShowAdapter
+        })
     }
 
-    override fun onMovieClicked(tvShow: TvShowsData) {
-        Intent(requireActivity(), DetailActivity::class.java).apply {
+    override fun onTvShowClickListener(tvShow: TvResultList) {
+        Intent(requireActivity(), DetailMovieActivity::class.java).apply {
             putExtra(Extra.ID, tvShow.id.toString())
             putExtra(Extra.TYPE, TYPE.TV_SHOW.name)
             startActivity(this)

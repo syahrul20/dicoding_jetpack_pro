@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.sf.jetpack.mymov.adapter.MoviesAdapter
 import com.sf.jetpack.mymov.databinding.FragmentMoviesBinding
-import com.sf.jetpack.mymov.detail.DetailActivity
-import com.sf.jetpack.mymov.network.response.MovieData
+import com.sf.jetpack.mymov.detail.DetailMovieActivity
+import com.sf.jetpack.mymov.network.response.ListData
 import com.sf.jetpack.mymov.utils.Extra
 import com.sf.jetpack.mymov.utils.TYPE
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -38,7 +38,6 @@ class MoviesFragment : Fragment(), MoviesAdapter.IMovie {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpRecyclerView()
         setUpObserver()
     }
 
@@ -49,12 +48,8 @@ class MoviesFragment : Fragment(), MoviesAdapter.IMovie {
         })
     }
 
-    private fun setUpRecyclerView() {
-        val data = viewModel.getListMovie()
-    }
-
-    override fun onMovieClicked(movie: MovieData) {
-        Intent(requireActivity(), DetailActivity::class.java).apply {
+    override fun onMovieClicked(movie: ListData) {
+        Intent(requireActivity(), DetailMovieActivity::class.java).apply {
             putExtra(Extra.ID, movie.id.toString())
             putExtra(Extra.TYPE, TYPE.MOVIE.name)
             startActivity(this)

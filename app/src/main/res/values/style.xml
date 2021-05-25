@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="ShapeAppearanceOverlay.App.SelectedCornerRadius" parent="">
-        <item name="cornerSize">75dp</item>
+        <item name="cornerSize">10dp</item>
         <item name="cornerFamilyTopRight">rounded</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.App.Round10Percent" parent="">
+        <item name="cornerSize">10%</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+    </style>
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorRatingNormal</item>
+        <item name="colorControlActivated">@color/colorRatingGold</item>
     </style>
 </resources>

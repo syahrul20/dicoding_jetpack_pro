@@ -2,6 +2,8 @@ package com.sf.jetpack.mymov.utils
 
 import com.sf.jetpack.mymov.data.Movie
 import com.sf.jetpack.mymov.data.TvShowsData
+import com.sf.jetpack.mymov.network.response.MovieDetailResponse
+import com.sf.jetpack.mymov.network.response.MovieResponse
 
 object DummyData {
 
@@ -237,5 +239,36 @@ object DummyData {
             )
         }
         return tvShows
+    }
+
+    fun generateMovieDetailData(): MovieDetailResponse {
+        return MovieDetailResponse(
+            false,
+            "",
+            null,
+            0,
+            arrayListOf(),
+            "",
+            578701,
+            "tt3215824",
+            "",
+            "Those Who Wish Me Dead",
+            "A young boy finds himself pursued by two assassins in the Montana wilderness with a survival expert determined to protecting him - and a forest fire threatening to consume them all.",
+            null,
+            "",
+            arrayListOf(),
+            arrayListOf(),
+            "",
+            0,
+            0,
+            arrayListOf(),
+            "",
+            "Nature finds a way.",
+            "",
+            false,
+            null,
+            0,
+            API.MESSAGE_SUCCESS
+        )
     }
 }

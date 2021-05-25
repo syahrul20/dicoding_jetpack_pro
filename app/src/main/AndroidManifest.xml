@@ -17,7 +17,7 @@
             android:name=".home.HomeActivity"
             android:theme="@style/Theme.MyMovies.NoActionBar" />
         <activity
-            android:name=".detail.DetailActivity"
+            android:name=".detail.DetailMovieActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"

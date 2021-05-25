@@ -10,3 +10,8 @@ enum class TYPE {
     MOVIE,
     TV_SHOW
 }
+
+object API{
+    const val MESSAGE_FAIL = "Gagal mengambil data"
+    const val MESSAGE_SUCCESS = "Sukses mengambil data"
+}

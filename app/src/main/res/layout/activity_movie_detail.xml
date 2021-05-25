@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageMovieCover"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:scaleType="matrix"
+                tools:src="@drawable/poster_alita" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageBlackTransparent"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_gradient_black" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="320dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageMovie"
+                    android:layout_width="120dp"
+                    android:layout_height="180dp"
+                    android:layout_marginStart="@dimen/marginS"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.SelectedCornerRadius"
+                    tools:src="@drawable/poster_alita" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textMovieName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginM"
+                    android:layout_marginTop="@dimen/marginML"
+                    android:layout_marginBottom="@dimen/marginM"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:textSize="@dimen/fontXL"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/ratingBar"
+                    app:layout_constraintLeft_toRightOf="@id/imageMovie"
+                    app:layout_constraintRight_toRightOf="parent"
+                    tools:text="@tools:sample/lorem/random" />
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/ratingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginM"
+                    android:layout_marginTop="@dimen/marginS"
+                    android:layout_marginBottom="@dimen/marginML"
+                    android:backgroundTint="@color/colorPrimaryLight"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:progressTint="@color/colorRatingGold"
+                    android:rating="4"
+                    android:secondaryProgressTint="@color/colorRatingGold"
+                    android:stepSize="0.1"
+                    android:theme="@style/RatingBar"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/imageMovie" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textRating"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginM"
+                    android:textColor="@color/colorRatingGold"
+                    android:textSize="@dimen/fontXS"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/ratingBar"
+                    app:layout_constraintLeft_toRightOf="@id/ratingBar"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/ratingBar"
+                    tools:text="4.2/5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </RelativeLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <include
+            android:id="@+id/contentMovieDetail"
+            layout="@layout/layout_movie_detail" />
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

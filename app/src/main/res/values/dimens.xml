@@ -5,9 +5,11 @@
     <dimen name="appbar_padding">16dp</dimen>
 
     <dimen name="marginS">8dp</dimen>
+    <dimen name="marginSM">12dp</dimen>
     <dimen name="marginM">16dp</dimen>
     <dimen name="marginML">18dp</dimen>
 
+    <dimen name="fontXS">12sp</dimen>
     <dimen name="fontS">14sp</dimen>
     <dimen name="fontM">16sp</dimen>
     <dimen name="fontL">18sp</dimen>

@@ -16,7 +16,8 @@ android {
         versionName "1.0"
 
         buildConfigField 'String', 'API_URL', '\"https://api.themoviedb.org/3/\"'
-        buildConfigField 'String', 'API_URL_IMAGE_ORIGINAL', '\"https://image.tmdb.org/t/p/original/\"'
+        buildConfigField 'String', 'API_URL_IMAGE_ORIGINAL', '\"https://image.tmdb.org/t/p/original\"'
+        buildConfigField 'String', 'API_URL_IMAGE_W500', '\"https://image.tmdb.org/t/p/w500\"'
         buildConfigField 'String', 'API_KEY', '\"c36ae443fcb0ac61f517d17238c6d854"'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -63,7 +64,7 @@ dependencies {
     implementation "androidx.activity:activity-ktx:$ktxVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$liveDataVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-android:$koinVersion"
 
     //NETWORK
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -74,6 +75,10 @@ dependencies {
     //Testing
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "junit:junit:$junitVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+    testImplementation "androidx.arch.core:core-testing:$androidCoreTestVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "androidx.test:runner:$androidTestVersion"
