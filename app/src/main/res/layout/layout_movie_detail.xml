@@ -30,7 +30,7 @@
                 android:id="@+id/textReleaseDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/marginS"
+                android:layout_marginTop="@dimen/marginSM"
                 tools:text="20 Desember 2021" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -52,7 +52,7 @@
                 android:id="@+id/textGenre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/marginS"
+                android:layout_marginTop="@dimen/marginSM"
                 android:ellipsize="end"
                 android:maxLines="1"
                 tools:text="Comic, Action," />
@@ -73,7 +73,7 @@
         android:id="@+id/textOverview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginS"
+        android:layout_marginTop="@dimen/marginM"
         tools:maxLines="10"
         tools:text="@tools:sample/lorem/random" />
 
@@ -90,8 +90,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginM"
+        android:nestedScrollingEnabled="true"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_movie_cast" />
+        tools:listitem="@layout/item_movie_cast"
+        tools:visibility="visible" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginM"
+        android:text="@string/app_movie_recommendations"
+        android:textSize="@dimen/fontL"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMovieRecommendations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginM"
+        android:nestedScrollingEnabled="true"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:spanCount="2"
+        tools:listitem="@layout/item_movie_recommendation" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

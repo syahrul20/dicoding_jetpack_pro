@@ -2,7 +2,6 @@ package com.sf.jetpack.mymov.detail
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
@@ -11,12 +10,10 @@ import com.sf.jetpack.mymov.BuildConfig.API_URL_IMAGE_ORIGINAL
 import com.sf.jetpack.mymov.BuildConfig.API_URL_IMAGE_W500
 import com.sf.jetpack.mymov.R
 import com.sf.jetpack.mymov.adapter.MovieCreditAdapter
+import com.sf.jetpack.mymov.adapter.MovieRecommendationAdapter
 import com.sf.jetpack.mymov.databinding.ActivityMovieDetailBinding
-import com.sf.jetpack.mymov.utils.Extra
-import com.sf.jetpack.mymov.utils.convertDate
-import com.sf.jetpack.mymov.utils.loadUrl
+import com.sf.jetpack.mymov.utils.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -59,7 +56,18 @@ class DetailMovieActivity : AppCompatActivity() {
         viewModel.getMovieCredit(movieId).observe(this, {
             val movieCreditAdapter = MovieCreditAdapter(it.cast)
             with(detailBinding.contentMovieDetail) {
+                val snapHelper = StartSnapHelper()
+                snapHelper.attachToRecyclerView(recyclerViewCast)
+                recyclerViewCast.addItemDecoration(HorizontalItemDecoration(this@DetailMovieActivity))
                 recyclerViewCast.adapter = movieCreditAdapter
+            }
+        })
+
+        viewModel.getMovieRecommendations(movieId).observe(this, {
+            val movieRecommendationAdapter = MovieRecommendationAdapter(it.results)
+            with(detailBinding.contentMovieDetail) {
+                recyclerViewMovieRecommendations.addItemDecoration(GridItemDecoration(resources.getDimensionPixelSize(R.dimen.marginM)))
+                recyclerViewMovieRecommendations.adapter = movieRecommendationAdapter
             }
         })
     }

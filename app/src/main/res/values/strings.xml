@@ -9,4 +9,5 @@
     <string name="app_movie_genre">Genre</string>
     <string name="app_movie_overview">Overview</string>
     <string name="app_movie_cast">Cast</string>
+    <string name="app_movie_recommendations">Recommendation</string>
 </resources>
