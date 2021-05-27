@@ -28,6 +28,7 @@
         android:layout_gravity="center"
         android:layout_marginHorizontal="@dimen/marginS"
         android:layout_marginTop="@dimen/marginS"
+        android:textStyle="bold"
         tools:text="@tools:sample/full_names" />
 
     <com.google.android.material.textview.MaterialTextView

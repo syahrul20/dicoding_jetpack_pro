@@ -2,10 +2,13 @@ package com.sf.jetpack.mymov.detail
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.google.android.material.appbar.AppBarLayout
 import com.sf.jetpack.mymov.BuildConfig.API_URL_IMAGE_ORIGINAL
 import com.sf.jetpack.mymov.BuildConfig.API_URL_IMAGE_W500
 import com.sf.jetpack.mymov.R
@@ -66,18 +69,24 @@ class DetailMovieActivity : AppCompatActivity() {
         viewModel.getMovieRecommendations(movieId).observe(this, {
             val movieRecommendationAdapter = MovieRecommendationAdapter(it.results)
             with(detailBinding.contentMovieDetail) {
-                recyclerViewMovieRecommendations.addItemDecoration(GridItemDecoration(resources.getDimensionPixelSize(R.dimen.marginM)))
+                recyclerViewMovieRecommendations.addItemDecoration(
+                    GridItemDecoration(
+                        resources.getDimensionPixelSize(
+                            R.dimen.marginM
+                        )
+                    )
+                )
                 recyclerViewMovieRecommendations.adapter = movieRecommendationAdapter
             }
         })
     }
 
     private fun setUpActionBar() {
-//        setSupportActionBar(detailBinding.toolbar)
-//        supportActionBar?.apply {
-//            setDisplayHomeAsUpEnabled(true)
-//            setDisplayShowHomeEnabled(true)
-//        }
+        setSupportActionBar(detailBinding.toolbar)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
     }
 
     private fun setUpExtra() {
