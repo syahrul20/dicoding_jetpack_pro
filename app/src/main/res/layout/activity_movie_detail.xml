@@ -18,9 +18,9 @@
             android:layout_height="wrap_content"
             app:collapsedTitleTextAppearance="@color/white"
             app:contentScrim="@color/colorPrimary"
-            app:titleEnabled="false"
             app:expandedTitleTextAppearance="@android:color/transparent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:titleEnabled="false">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageMovieCover"
@@ -128,9 +128,24 @@
         android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <include
-            android:id="@+id/contentMovieDetail"
-            layout="@layout/layout_movie_detail" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/contentMovieDetail"
+                layout="@layout/layout_movie_detail" />
+
+            <ProgressBar
+                android:id="@+id/progressLoading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/marginXL"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/colorPrimaryLight" />
+
+        </FrameLayout>
 
     </androidx.core.widget.NestedScrollView>
 

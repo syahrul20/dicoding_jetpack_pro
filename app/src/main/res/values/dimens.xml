@@ -9,6 +9,7 @@
     <dimen name="marginSM">12dp</dimen>
     <dimen name="marginM">16dp</dimen>
     <dimen name="marginML">18dp</dimen>
+    <dimen name="marginXL">24dp</dimen>
 
     <dimen name="fontXS">12sp</dimen>
     <dimen name="fontS">14sp</dimen>

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.google.android.material.appbar.AppBarLayout
 import com.sf.jetpack.mymov.BuildConfig.API_URL_IMAGE_ORIGINAL
 import com.sf.jetpack.mymov.BuildConfig.API_URL_IMAGE_W500
@@ -15,6 +16,7 @@ import com.sf.jetpack.mymov.R
 import com.sf.jetpack.mymov.adapter.MovieCreditAdapter
 import com.sf.jetpack.mymov.adapter.MovieRecommendationAdapter
 import com.sf.jetpack.mymov.databinding.ActivityMovieDetailBinding
+import com.sf.jetpack.mymov.network.response.ListData
 import com.sf.jetpack.mymov.utils.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -35,6 +37,17 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun setUpObserver(movieId: String) {
+        viewModel.isLoading.observe(this, { isLoading ->
+            with(detailBinding) {
+                if (isLoading) {
+                    progressLoading.isVisible = true
+                    contentMovieDetail.containerMovieDetail.isVisible = false
+                } else {
+                    progressLoading.isVisible = false
+                    contentMovieDetail.containerMovieDetail.isVisible = true
+                }
+            }
+        })
         viewModel.getDetailMovieFromApi(movieId, this).observe(this, {
             detailBinding.apply {
                 textMovieName.text = it.originalTitle
@@ -92,19 +105,19 @@ class DetailMovieActivity : AppCompatActivity() {
     private fun setUpExtra() {
         val extras = intent.extras
         if (extras != null) {
-            val selectedId = extras.getString(Extra.ID)
+            val data = extras.getParcelable<ListData>(Extra.DATA)
+            val selectedId = data?.id
             if (selectedId != null) {
-                viewModel.setSelectedId(selectedId)
-                setUpObserver(selectedId)
+                setUpObserver(selectedId.toString())
+                with(detailBinding) {
+                    textMovieName.text = data.title
+                    imageMovieCover.loadUrl(API_URL_IMAGE_ORIGINAL + data.poster_path)
+                    imageMovie.loadUrl(API_URL_IMAGE_W500 + data.poster_path)
+                    val rate = data.vote_average.let { (it * 10) / 20 }
+                    ratingBar.rating = rate.toFloat()
+                    textRating.text = getString(R.string.app_movie_rating_count, rate)
+                }
             }
-        }
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            window.decorView.systemUiVisibility = View.VISIBLE
         }
     }
 
