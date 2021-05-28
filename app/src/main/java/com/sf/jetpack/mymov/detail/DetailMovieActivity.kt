@@ -41,7 +41,8 @@ class DetailMovieActivity : AppCompatActivity() {
                 }
             }
         })
-        viewModel.getDetailMovieFromApi(movieId, this).observe(this, {
+        viewModel.getDetailMovieFromApi(movieId).observe(this, {
+            viewModel.isLoading.value = false
             detailBinding.apply {
                 textMovieName.text = it.originalTitle
                 imageMovieCover.loadUrl(API_URL_IMAGE_ORIGINAL + it.posterPath)

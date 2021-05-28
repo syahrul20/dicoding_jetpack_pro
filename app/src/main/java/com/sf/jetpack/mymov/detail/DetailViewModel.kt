@@ -16,11 +16,11 @@ import com.sf.jetpack.mymov.utils.API
 import com.sf.jetpack.mymov.utils.DummyData
 
 class DetailViewModel(
-    private val tvShowRepository: ITvRepository,
-    private val movieRepository: IMovieRepository
+    private val movieRepository: IMovieRepository,
+    private val tvShowRepository: ITvRepository
 ) : ViewModel() {
     private var errorMessage = MutableLiveData<String>()
-    var isLoading = MutableLiveData<Boolean>()
+    var isLoading = MutableLiveData(true)
 
     private lateinit var selectedId: String
 
@@ -51,21 +51,8 @@ class DetailViewModel(
     }
 
     fun getDetailMovieFromApi(
-        movieId: String,
-        lifecycleOwner: LifecycleOwner
-    ): LiveData<MovieDetailResponse> {
-        isLoading.value = true
-        val movieData = MutableLiveData<MovieDetailResponse>()
-        movieRepository.getDetailMovie(movieId).observe(lifecycleOwner, {
-            isLoading.value = false
-            if (it.message != API.MESSAGE_FAIL) {
-                movieData.value = it
-            } else {
-                errorMessage.value = it.message
-            }
-        })
-        return movieData
-    }
+        movieId: String
+    ): LiveData<MovieDetailResponse> = movieRepository.getDetailMovie(movieId)
 
     fun getMovieCredit(movieId: String): LiveData<DataCreditResponse> =
         movieRepository.getMovieCredit(movieId)

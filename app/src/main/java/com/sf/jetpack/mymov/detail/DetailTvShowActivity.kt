@@ -59,6 +59,7 @@ class DetailTvShowActivity : AppCompatActivity() {
             }
         })
         viewModel.getDetailTvFromApi(tvShowId, this).observe(this, {
+            viewModel.isLoading.value = false
             detailBinding.apply {
                 textTvShowName.text = it.name
                 imageMovieCover.loadUrl(BuildConfig.API_URL_IMAGE_ORIGINAL + it.posterPath)

@@ -25,7 +25,7 @@ class DetailMovieViewModelTest {
     private val dummyMovieEntity = DummyData.generateMovieListData()[0]
     private val dummyTvShowEntity = DummyData.generateTvShowListData()[0]
     private val movieId = dummyMovieEntity.id
-    private val movieDetailId = DummyData.generateMovieDetailData().id
+    private val movieDummy = DummyData.generateMovieDetailData()
     private val tvShowId = dummyTvShowEntity.id
 
     @get:Rule
@@ -36,6 +36,9 @@ class DetailMovieViewModelTest {
 
     @Mock
     private lateinit var tvShowRepository: ITvRepository
+
+    @Mock
+    private lateinit var observer: Observer<MovieDetailResponse>
 
     @Before
     fun setUp() {
@@ -69,20 +72,27 @@ class DetailMovieViewModelTest {
         assertEquals(dummyTvShowEntity.creator, tvShowEntity.creator)
     }
 
-
     @Test
     fun getDetailMovieFromApi() {
         val movieDetailDataDummy = DummyData.generateMovieDetailData()
         val movieDetailData = MutableLiveData<MovieDetailResponse>()
         movieDetailData.value = movieDetailDataDummy
 
-        val lifecycleOwner: LifecycleOwner = mock(LifecycleOwner::class.java)
-        val lifecycle = LifecycleRegistry(mock(LifecycleOwner::class.java))
-        lifecycle.currentState = Lifecycle.State.RESUMED
-        `when`(lifecycleOwner.lifecycle).thenReturn(lifecycle)
-        `when`(movieRepository.getDetailMovie(movieDetailId.toString())).thenReturn(movieDetailData)
-        val movieDetailEntities = viewModel.getDetailMovieFromApi(movieDetailId.toString(), lifecycleOwner).value
-        verify(movieRepository).getDetailMovie(movieDetailId.toString())
+        `when`(movieRepository.getDetailMovie(movieDummy.id.toString())).thenReturn(movieDetailData)
+        val movieDetailEntities = viewModel.getDetailMovieFromApi(movieDummy.id.toString()).value as MovieDetailResponse
+        verify(movieRepository).getDetailMovie(movieDummy.id.toString())
         assertNotNull(movieDetailEntities)
+        assertEquals(movieDummy.originalTitle, movieDetailEntities.originalTitle)
+        assertEquals(movieDummy.releaseDate, movieDetailEntities.releaseDate)
+        assertEquals(movieDummy.genres, movieDetailEntities.genres)
+        assertEquals(movieDummy.voteAverage, movieDetailEntities.voteAverage)
+        assertEquals(movieDummy.overview, movieDetailEntities.overview)
+
+        viewModel.getDetailMovieFromApi(movieDummy.id.toString()).observeForever(observer)
+        verify(observer).onChanged(movieDetailDataDummy)
+    }
+
+    @Test
+    fun getMovieCredit() {
     }
 }
