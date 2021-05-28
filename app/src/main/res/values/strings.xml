@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Movies</string>
+    <string name="app_name">MiMO</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="app_tab_movies">Movies</string>
     <string name="app_tab_tv_show">TV Show</string>

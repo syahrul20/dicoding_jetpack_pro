@@ -1,5 +1,8 @@
 package com.sf.jetpack.mymov.network.response
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 data class TvResponse(
     val page: Int = 0,
     val results: List<TvResultList> = arrayListOf(),
@@ -8,6 +11,7 @@ data class TvResponse(
     val message: String
 )
 
+@Parcelize
 data class TvResultList(
     val backdrop_path: String,
     val first_air_date: String,
@@ -22,4 +26,4 @@ data class TvResultList(
     val poster_path: String,
     val vote_average: Double,
     val vote_count: Int
-)
+) : Parcelable

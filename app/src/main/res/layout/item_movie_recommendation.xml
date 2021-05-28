@@ -40,6 +40,6 @@
         android:stepSize="0.1"
         android:theme="@style/RatingBar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/imageMovie" />
+        app:layout_constraintLeft_toRightOf="@id/imageTvShow" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -8,20 +8,19 @@ import com.sf.jetpack.mymov.data.Movie
 import com.sf.jetpack.mymov.data.TvShowsData
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
-import com.sf.jetpack.mymov.network.response.MovieCreditResponse
+import com.sf.jetpack.mymov.network.response.DataCreditResponse
 import com.sf.jetpack.mymov.network.response.MovieDetailResponse
-import com.sf.jetpack.mymov.network.response.MovieRecommendationResponse
+import com.sf.jetpack.mymov.network.response.DataRecommendationsResponse
 import com.sf.jetpack.mymov.network.response.TvDetailResponse
 import com.sf.jetpack.mymov.utils.API
 import com.sf.jetpack.mymov.utils.DummyData
 
 class DetailViewModel(
-    private val movieRepository: IMovieRepository,
-    private val tvShowRepository: ITvRepository
+    private val tvShowRepository: ITvRepository,
+    private val movieRepository: IMovieRepository
 ) : ViewModel() {
+    private var errorMessage = MutableLiveData<String>()
     var isLoading = MutableLiveData<Boolean>()
-    var tvShowData = MutableLiveData<TvDetailResponse>()
-    var errorMessage = MutableLiveData<String>()
 
     private lateinit var selectedId: String
 
@@ -51,7 +50,10 @@ class DetailViewModel(
         return tvShow
     }
 
-    fun getDetailMovieFromApi(movieId: String, lifecycleOwner: LifecycleOwner): LiveData<MovieDetailResponse> {
+    fun getDetailMovieFromApi(
+        movieId: String,
+        lifecycleOwner: LifecycleOwner
+    ): LiveData<MovieDetailResponse> {
         isLoading.value = true
         val movieData = MutableLiveData<MovieDetailResponse>()
         movieRepository.getDetailMovie(movieId).observe(lifecycleOwner, {
@@ -65,11 +67,18 @@ class DetailViewModel(
         return movieData
     }
 
-    fun getMovieCredit(movieId: String): LiveData<MovieCreditResponse> = movieRepository.getMovieCredit(movieId)
-    fun getMovieRecommendations(movieId: String): LiveData<MovieRecommendationResponse> = movieRepository.getMovieRecommendations(movieId)
+    fun getMovieCredit(movieId: String): LiveData<DataCreditResponse> =
+        movieRepository.getMovieCredit(movieId)
 
-    fun getDetailTvFromApi(tvId: String, lifecycleOwner: LifecycleOwner) {
+    fun getMovieRecommendations(movieId: String): LiveData<DataRecommendationsResponse> =
+        movieRepository.getMovieRecommendations(movieId)
+
+    fun getDetailTvFromApi(
+        tvId: String,
+        lifecycleOwner: LifecycleOwner
+    ): LiveData<TvDetailResponse> {
         isLoading.value = true
+        val tvShowData = MutableLiveData<TvDetailResponse>()
         tvShowRepository.getDetailTv(tvId).observe(lifecycleOwner, {
             isLoading.value = false
             if (it.message != API.MESSAGE_FAIL) {
@@ -78,5 +87,12 @@ class DetailViewModel(
                 errorMessage.value = it.message
             }
         })
+        return tvShowData
     }
+
+    fun getTvShowCredit(tvId: String): LiveData<DataCreditResponse> =
+        tvShowRepository.getTvShowCredit(tvId)
+
+    fun getTvShowRecommendations(tvId: String): LiveData<DataRecommendationsResponse> =
+        tvShowRepository.getTvShowRecommendations(tvId)
 }

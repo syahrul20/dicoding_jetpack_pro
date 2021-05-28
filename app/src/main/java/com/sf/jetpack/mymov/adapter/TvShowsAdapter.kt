@@ -22,8 +22,8 @@ class TvShowsAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) = with(holder) {
         itemList[position].let { tvShow ->
-            binding.textMovieName.text = tvShow.name
-            binding.textMovieDescription.text = tvShow.overview
+            binding.textName.text = tvShow.name
+            binding.textDescription.text = tvShow.overview
             val rate = (tvShow.vote_average * 10) / 20
             binding.ratingBar.rating = rate.toFloat()
             binding.imageMovies.loadUrl(BuildConfig.API_URL_IMAGE_W500 + tvShow.poster_path)

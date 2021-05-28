@@ -47,7 +47,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/textMovieName"
+                    android:id="@+id/textName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/marginS"
@@ -58,7 +58,7 @@
                     tools:text="Movies 1" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/textMovieDescription"
+                    android:id="@+id/textDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/marginSM"

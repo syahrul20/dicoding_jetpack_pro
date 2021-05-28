@@ -51,8 +51,6 @@ class MoviesFragment : Fragment(), MoviesAdapter.IMovie {
     override fun onMovieClicked(movie: ListData) {
         Intent(requireActivity(), DetailMovieActivity::class.java).apply {
             putExtra(Extra.DATA, movie)
-//            putExtra(Extra.ID, movie.id.toString())
-//            putExtra(Extra.TYPE, TYPE.MOVIE.name)
             startActivity(this)
         }
     }

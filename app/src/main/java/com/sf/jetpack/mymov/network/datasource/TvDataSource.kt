@@ -1,6 +1,8 @@
 package com.sf.jetpack.mymov.network.datasource
 
 import com.sf.jetpack.mymov.BuildConfig
+import com.sf.jetpack.mymov.network.response.DataCreditResponse
+import com.sf.jetpack.mymov.network.response.DataRecommendationsResponse
 import com.sf.jetpack.mymov.network.response.TvDetailResponse
 import com.sf.jetpack.mymov.network.response.TvResponse
 import retrofit2.Call
@@ -19,4 +21,16 @@ interface TvDataSource {
         @Path("tvId") tvId: String,
         @Query("api_key") api_key: String = BuildConfig.API_KEY
     ): Call<TvDetailResponse>
+
+    @GET("tv/{tvId}}/credits")
+    fun getTvShowCredit(
+        @Path("tvId") tvId: String,
+        @Query("api_key") api_key: String = BuildConfig.API_KEY
+    ): Call<DataCreditResponse>
+
+    @GET("tv/{tvId}}/recommendations")
+    fun getTvShowRecommendations(
+        @Path("tvId") tvId: String,
+        @Query("api_key") api_key: String = BuildConfig.API_KEY
+    ): Call<DataRecommendationsResponse>
 }

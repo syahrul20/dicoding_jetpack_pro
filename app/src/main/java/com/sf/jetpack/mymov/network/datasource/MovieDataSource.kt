@@ -1,9 +1,9 @@
 package com.sf.jetpack.mymov.network.datasource
 
 import com.sf.jetpack.mymov.BuildConfig.API_KEY
-import com.sf.jetpack.mymov.network.response.MovieCreditResponse
+import com.sf.jetpack.mymov.network.response.DataCreditResponse
 import com.sf.jetpack.mymov.network.response.MovieDetailResponse
-import com.sf.jetpack.mymov.network.response.MovieRecommendationResponse
+import com.sf.jetpack.mymov.network.response.DataRecommendationsResponse
 import com.sf.jetpack.mymov.network.response.MovieResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -26,11 +26,11 @@ interface MovieDataSource {
     fun getMovieCredit(
         @Path("id") id: String,
         @Query("api_key") api_key: String = API_KEY
-    ): Call<MovieCreditResponse>
+    ): Call<DataCreditResponse>
 
     @GET("movie/{id}/recommendations")
     fun getMovieRecomendation(
         @Path("id") id: String,
         @Query("api_key") api_key: String = API_KEY
-    ): Call<MovieRecommendationResponse>
+    ): Call<DataRecommendationsResponse>
 }

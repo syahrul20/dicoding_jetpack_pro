@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.sf.jetpack.mymov.network.datasource.TvDataSource
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
-import com.sf.jetpack.mymov.network.response.MovieDetailResponse
-import com.sf.jetpack.mymov.network.response.TvDetailResponse
-import com.sf.jetpack.mymov.network.response.TvResponse
+import com.sf.jetpack.mymov.network.response.*
 import com.sf.jetpack.mymov.utils.API
 import retrofit2.Call
 import retrofit2.Callback
@@ -77,6 +75,48 @@ class TvRepository(
                     null,
                     0,
                     API.MESSAGE_FAIL
+                )
+            }
+        })
+        return data
+    }
+
+    override fun getTvShowCredit(tvId: String): LiveData<DataCreditResponse> {
+        val data = MutableLiveData<DataCreditResponse>()
+        val call = tvDataSource.getTvShowCredit(tvId)
+        call.enqueue(object : Callback<DataCreditResponse> {
+            override fun onResponse(
+                call: Call<DataCreditResponse>,
+                response: Response<DataCreditResponse>
+            ) {
+                data.value = response.body()
+            }
+
+            override fun onFailure(call: Call<DataCreditResponse>, t: Throwable) {
+                Log.i("Fail", t.message.toString())
+                data.value = DataCreditResponse(message = "Gagal mengambil data", id = null)
+            }
+        })
+        return data
+    }
+
+    override fun getTvShowRecommendations(tvId: String): LiveData<DataRecommendationsResponse> {
+        val data = MutableLiveData<DataRecommendationsResponse>()
+        val call = tvDataSource.getTvShowRecommendations(tvId)
+        call.enqueue(object : Callback<DataRecommendationsResponse> {
+            override fun onResponse(
+                call: Call<DataRecommendationsResponse>,
+                response: Response<DataRecommendationsResponse>
+            ) {
+                data.value = response.body()
+            }
+
+            override fun onFailure(call: Call<DataRecommendationsResponse>, t: Throwable) {
+                Log.i("Fail", t.message.toString())
+                data.value = DataRecommendationsResponse(
+                    message = "Gagal mengambil data",
+                    totalPages = null,
+                    totalResults = null
                 )
             }
         })

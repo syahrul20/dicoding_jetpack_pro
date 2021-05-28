@@ -22,8 +22,8 @@ class MoviesAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) = with(holder) {
         itemList[position].let { movie ->
-            binding.textMovieName.text = movie.title
-            binding.textMovieDescription.text = movie.overview
+            binding.textName.text = movie.title
+            binding.textDescription.text = movie.overview
             val rate = (movie.vote_average * 10) / 20
             binding.ratingBar.rating = rate.toFloat()
             binding.imageMovies.loadUrl(API_URL_IMAGE_W500 + movie.poster_path)

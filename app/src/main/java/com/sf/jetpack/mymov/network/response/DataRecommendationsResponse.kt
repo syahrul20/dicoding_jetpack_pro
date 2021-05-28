@@ -3,7 +3,7 @@ package com.sf.jetpack.mymov.network.response
 import com.google.gson.annotations.SerializedName
 
 
-data class MovieRecommendationResponse(
+data class DataRecommendationsResponse(
     @SerializedName("page")
     val page: Int = 1,
     @SerializedName("results")
@@ -30,6 +30,8 @@ data class Result(
     val originalLanguage: String,
     @SerializedName("original_title")
     val originalTitle: String,
+    @SerializedName("original_name")
+    val originalName: String,
     @SerializedName("overview")
     val overview: String,
     @SerializedName("popularity")

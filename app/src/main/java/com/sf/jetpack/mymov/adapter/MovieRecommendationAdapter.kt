@@ -11,7 +11,8 @@ import com.sf.jetpack.mymov.utils.loadUrl
 
 
 class MovieRecommendationAdapter(
-    private val itemList: List<Result>
+    private val itemList: List<Result>,
+    private val isMovie: Boolean
 ) :
     RecyclerView.Adapter<MovieRecommendationAdapter.ItemViewHolder>() {
 
@@ -27,7 +28,7 @@ class MovieRecommendationAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) = with(holder) {
         itemList[position].let { movie ->
             with(binding) {
-                textMovieName.text = movie.originalTitle
+                textMovieName.text = if (isMovie) movie.originalTitle else movie.originalName
                 imageMovie.loadUrl(BuildConfig.API_URL_IMAGE_W500 + movie.posterPath)
                 val rate = movie.voteAverage.let { (it * 10) / 20 }
                 ratingBar.rating = rate.toFloat()

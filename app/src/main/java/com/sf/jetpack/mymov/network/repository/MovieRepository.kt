@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.sf.jetpack.mymov.network.datasource.MovieDataSource
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
-import com.sf.jetpack.mymov.network.response.MovieCreditResponse
+import com.sf.jetpack.mymov.network.response.DataCreditResponse
 import com.sf.jetpack.mymov.network.response.MovieDetailResponse
-import com.sf.jetpack.mymov.network.response.MovieRecommendationResponse
+import com.sf.jetpack.mymov.network.response.DataRecommendationsResponse
 import com.sf.jetpack.mymov.network.response.MovieResponse
 import com.sf.jetpack.mymov.utils.API
 import retrofit2.Call
@@ -81,39 +81,39 @@ class MovieRepository(
         return data
     }
 
-    override fun getMovieCredit(movieId: String): LiveData<MovieCreditResponse> {
-        val data = MutableLiveData<MovieCreditResponse>()
+    override fun getMovieCredit(movieId: String): LiveData<DataCreditResponse> {
+        val data = MutableLiveData<DataCreditResponse>()
         val call = movieDataSource.getMovieCredit(movieId)
-        call.enqueue(object : Callback<MovieCreditResponse> {
+        call.enqueue(object : Callback<DataCreditResponse> {
             override fun onResponse(
-                call: Call<MovieCreditResponse>,
-                response: Response<MovieCreditResponse>
+                call: Call<DataCreditResponse>,
+                response: Response<DataCreditResponse>
             ) {
                 data.value = response.body()
             }
 
-            override fun onFailure(call: Call<MovieCreditResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DataCreditResponse>, t: Throwable) {
                 Log.i("Fail", t.message.toString())
-                data.value = MovieCreditResponse(message = "Gagal mengambil data", id = null)
+                data.value = DataCreditResponse(message = "Gagal mengambil data", id = null)
             }
         })
         return data
     }
 
-    override fun getMovieRecommendations(movieId: String): LiveData<MovieRecommendationResponse> {
-        val data = MutableLiveData<MovieRecommendationResponse>()
+    override fun getMovieRecommendations(movieId: String): LiveData<DataRecommendationsResponse> {
+        val data = MutableLiveData<DataRecommendationsResponse>()
         val call = movieDataSource.getMovieRecomendation(movieId)
-        call.enqueue(object : Callback<MovieRecommendationResponse> {
+        call.enqueue(object : Callback<DataRecommendationsResponse> {
             override fun onResponse(
-                call: Call<MovieRecommendationResponse>,
-                response: Response<MovieRecommendationResponse>
+                call: Call<DataRecommendationsResponse>,
+                response: Response<DataRecommendationsResponse>
             ) {
                 data.value = response.body()
             }
 
-            override fun onFailure(call: Call<MovieRecommendationResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DataRecommendationsResponse>, t: Throwable) {
                 Log.i("Fail", t.message.toString())
-                data.value = MovieRecommendationResponse(
+                data.value = DataRecommendationsResponse(
                     message = "Gagal mengambil data",
                     totalPages = null,
                     totalResults = null

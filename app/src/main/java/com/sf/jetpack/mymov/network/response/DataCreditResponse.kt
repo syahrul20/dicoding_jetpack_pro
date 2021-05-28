@@ -1,7 +1,7 @@
 package com.sf.jetpack.mymov.network.response
 import com.google.gson.annotations.SerializedName
 
-data class MovieCreditResponse(
+data class DataCreditResponse(
     @SerializedName("cast")
     val cast: List<Cast> = arrayListOf(),
     @SerializedName("crew")

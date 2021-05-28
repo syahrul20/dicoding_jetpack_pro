@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.sf.jetpack.mymov.adapter.TvShowsAdapter
 import com.sf.jetpack.mymov.databinding.FragmentTvShowsBinding
 import com.sf.jetpack.mymov.detail.DetailMovieActivity
+import com.sf.jetpack.mymov.detail.DetailTvShowActivity
 import com.sf.jetpack.mymov.network.response.TvResultList
 import com.sf.jetpack.mymov.utils.Extra
 import com.sf.jetpack.mymov.utils.TYPE
@@ -49,9 +50,8 @@ class TvShowsFragment : Fragment(), TvShowsAdapter.ITvShow {
     }
 
     override fun onTvShowClickListener(tvShow: TvResultList) {
-        Intent(requireActivity(), DetailMovieActivity::class.java).apply {
-            putExtra(Extra.ID, tvShow.id.toString())
-            putExtra(Extra.TYPE, TYPE.TV_SHOW.name)
+        Intent(requireActivity(), DetailTvShowActivity::class.java).apply {
+            putExtra(Extra.DATA, tvShow)
             startActivity(this)
         }
     }
