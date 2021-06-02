@@ -15,7 +15,7 @@ data class Cast(
     @SerializedName("adult")
     val adult: Boolean,
     @SerializedName("cast_id")
-    val castId: Int,
+    val castId: Int?,
     @SerializedName("character")
     val character: String,
     @SerializedName("credit_id")
@@ -60,5 +60,5 @@ data class Crew(
     @SerializedName("popularity")
     val popularity: Double,
     @SerializedName("profile_path")
-    val profilePath: String
+    val profilePath: String?
 )

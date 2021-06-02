@@ -2,13 +2,14 @@ package com.sf.jetpack.mymov.detail
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.sf.jetpack.mymov.BuildConfig.API_URL_IMAGE_ORIGINAL
 import com.sf.jetpack.mymov.BuildConfig.API_URL_IMAGE_W500
 import com.sf.jetpack.mymov.R
-import com.sf.jetpack.mymov.adapter.MovieCreditAdapter
-import com.sf.jetpack.mymov.adapter.MovieRecommendationAdapter
+import com.sf.jetpack.mymov.adapter.DataCreditAdapter
+import com.sf.jetpack.mymov.adapter.DataRecommendationsAdapter
 import com.sf.jetpack.mymov.databinding.ActivityMovieDetailBinding
 import com.sf.jetpack.mymov.network.response.ListData
 import com.sf.jetpack.mymov.utils.*
@@ -43,28 +44,32 @@ class DetailMovieActivity : AppCompatActivity() {
         })
         viewModel.getDetailMovieFromApi(movieId).observe(this, {
             viewModel.isLoading.value = false
-            detailBinding.apply {
-                textMovieName.text = it.originalTitle
-                imageMovieCover.loadUrl(API_URL_IMAGE_ORIGINAL + it.posterPath)
-                imageMovie.loadUrl(API_URL_IMAGE_W500 + it.posterPath)
-                val rate = it.voteAverage?.let { (it * 10) / 20 }
-                ratingBar.rating = rate?.toFloat() ?: 0F
-                textRating.text = getString(R.string.app_movie_rating_count, rate)
-                with(this.contentMovieDetail) {
-                    textReleaseDate.text = it.releaseDate
-                    textOverview.text = it.overview
-                    val genres = ArrayList<String>()
-                    it.genres.forEach { item ->
-                        genres.add(item.name)
+            if (it.message == API.MESSAGE_FAIL) {
+                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+            } else {
+                detailBinding.apply {
+                    textMovieName.text = it.originalTitle
+                    imageMovieCover.loadUrl(API_URL_IMAGE_ORIGINAL + it.posterPath)
+                    imageMovie.loadUrl(API_URL_IMAGE_W500 + it.posterPath)
+                    val rate = it.voteAverage?.let { vote -> (vote * 10) / 20 }
+                    ratingBar.rating = rate?.toFloat() ?: 0F
+                    textRating.text = getString(R.string.app_movie_rating_count, rate)
+                    with(this.contentMovieDetail) {
+                        textReleaseDate.text = it.releaseDate
+                        textOverview.text = it.overview
+                        val genres = ArrayList<String>()
+                        it.genres.forEach { item ->
+                            genres.add(item.name)
+                        }
+                        textGenre.text = genres.joinToString()
+                        textReleaseDate.text = convertDate(it.releaseDate, "yyyy-MM-dd", "dd MMM yyyy")
                     }
-                    textGenre.text = genres.joinToString()
-                    textReleaseDate.text = convertDate(it.releaseDate, "yyyy-MM-dd", "dd MMM yyyy")
                 }
             }
         })
 
         viewModel.getMovieCredit(movieId).observe(this, {
-            val dataCreditAdapter = MovieCreditAdapter(it.cast)
+            val dataCreditAdapter = DataCreditAdapter(it.cast)
             with(detailBinding.contentMovieDetail) {
                 val snapHelper = StartSnapHelper()
                 snapHelper.attachToRecyclerView(recyclerViewCast)
@@ -74,7 +79,7 @@ class DetailMovieActivity : AppCompatActivity() {
         })
 
         viewModel.getMovieRecommendations(movieId).observe(this, {
-            val movieRecommendationAdapter = MovieRecommendationAdapter(it.results, true)
+            val movieRecommendationAdapter = DataRecommendationsAdapter(it.results, true)
             with(detailBinding.contentMovieDetail) {
                 recyclerViewMovieRecommendations.addItemDecoration(
                     GridItemDecoration(

@@ -10,11 +10,11 @@ import com.sf.jetpack.mymov.network.response.Result
 import com.sf.jetpack.mymov.utils.loadUrl
 
 
-class MovieRecommendationAdapter(
+class DataRecommendationsAdapter(
     private val itemList: List<Result>,
     private val isMovie: Boolean
 ) :
-    RecyclerView.Adapter<MovieRecommendationAdapter.ItemViewHolder>() {
+    RecyclerView.Adapter<DataRecommendationsAdapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = ItemMovieRecommendationBinding.inflate(

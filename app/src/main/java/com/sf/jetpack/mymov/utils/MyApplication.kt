@@ -26,8 +26,8 @@ class MyApplication : Application() {
                 listOf(
                     httpModule,
                     retrofitModule,
-                    repositoryModules,
-                    viewModelModules
+                    repositoryModule,
+                    viewModelModule
                 )
             )
         }
@@ -41,11 +41,11 @@ class MyApplication : Application() {
         single { ApiService.apiRequest<MovieDataSource>(get()) }
         single { ApiService.apiRequest<TvDataSource>(get()) }
     }
-    private val repositoryModules = module {
+    private val repositoryModule = module {
         single<IMovieRepository> { MovieRepository(get()) }
         single<ITvRepository> { TvRepository(get()) }
     }
-    private val viewModelModules = module {
+    private val viewModelModule = module {
         viewModel { MovieViewModel(get()) }
         viewModel { TvShowViewModel(get()) }
         viewModel { DetailViewModel(get(), get()) }

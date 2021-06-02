@@ -22,13 +22,13 @@ interface TvDataSource {
         @Query("api_key") api_key: String = BuildConfig.API_KEY
     ): Call<TvDetailResponse>
 
-    @GET("tv/{tvId}}/credits")
+    @GET("tv/{tvId}/credits")
     fun getTvShowCredit(
         @Path("tvId") tvId: String,
         @Query("api_key") api_key: String = BuildConfig.API_KEY
     ): Call<DataCreditResponse>
 
-    @GET("tv/{tvId}}/recommendations")
+    @GET("tv/{tvId}/recommendations")
     fun getTvShowRecommendations(
         @Path("tvId") tvId: String,
         @Query("api_key") api_key: String = BuildConfig.API_KEY

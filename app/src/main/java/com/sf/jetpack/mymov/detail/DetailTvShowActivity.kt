@@ -3,11 +3,12 @@ package com.sf.jetpack.mymov.detail
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.core.view.isVisible
 import com.sf.jetpack.mymov.BuildConfig
 import com.sf.jetpack.mymov.R
-import com.sf.jetpack.mymov.adapter.MovieCreditAdapter
-import com.sf.jetpack.mymov.adapter.MovieRecommendationAdapter
+import com.sf.jetpack.mymov.adapter.DataCreditAdapter
+import com.sf.jetpack.mymov.adapter.DataRecommendationsAdapter
 import com.sf.jetpack.mymov.databinding.ActivityDetailTvShowBinding
 import com.sf.jetpack.mymov.network.response.TvResultList
 import com.sf.jetpack.mymov.utils.*
@@ -58,29 +59,33 @@ class DetailTvShowActivity : AppCompatActivity() {
                 }
             }
         })
-        viewModel.getDetailTvFromApi(tvShowId, this).observe(this, {
+        viewModel.getDetailTvFromApi(tvShowId).observe(this, {
             viewModel.isLoading.value = false
-            detailBinding.apply {
-                textTvShowName.text = it.name
-                imageMovieCover.loadUrl(BuildConfig.API_URL_IMAGE_ORIGINAL + it.posterPath)
-                imageTvShow.loadUrl(BuildConfig.API_URL_IMAGE_W500 + it.posterPath)
-                val rate = it.voteAverage?.let { (it * 10) / 20 }
-                ratingBar.rating = rate?.toFloat() ?: 0F
-                textRating.text = getString(R.string.app_movie_rating_count, rate)
-                with(this.contentTvShowDetail) {
-                    textOverview.text = it.overview
-                    val genres = ArrayList<String>()
-                    it.genres.forEach { item ->
-                        genres.add(item.name)
+            if (it.message == API.MESSAGE_FAIL) {
+                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+            } else {
+                detailBinding.apply {
+                    textTvShowName.text = it.name
+                    imageMovieCover.loadUrl(BuildConfig.API_URL_IMAGE_ORIGINAL + it.posterPath)
+                    imageTvShow.loadUrl(BuildConfig.API_URL_IMAGE_W500 + it.posterPath)
+                    val rate = it.voteAverage?.let { vote -> (vote * 10) / 20 }
+                    ratingBar.rating = rate?.toFloat() ?: 0F
+                    textRating.text = getString(R.string.app_movie_rating_count, rate)
+                    with(this.contentTvShowDetail) {
+                        textOverview.text = it.overview
+                        val genres = ArrayList<String>()
+                        it.genres.forEach { item ->
+                            genres.add(item.name)
+                        }
+                        textGenre.text = genres.joinToString()
+                        textReleaseDate.text = convertDate(it.firstAirDate, "yyyy-MM-dd", "dd MMM yyyy")
                     }
-                    textGenre.text = genres.joinToString()
-                    textReleaseDate.text = convertDate(it.firstAirDate, "yyyy-MM-dd", "dd MMM yyyy")
                 }
             }
         })
 
         viewModel.getTvShowCredit(tvShowId).observe(this, {
-            val dataCreditAdapter = MovieCreditAdapter(it.cast)
+            val dataCreditAdapter = DataCreditAdapter(it.cast)
             with(detailBinding.contentTvShowDetail) {
                 val snapHelper = StartSnapHelper()
                 snapHelper.attachToRecyclerView(recyclerViewCast)
@@ -90,7 +95,7 @@ class DetailTvShowActivity : AppCompatActivity() {
         })
 
         viewModel.getTvShowRecommendations(tvShowId).observe(this, {
-            val movieRecommendationAdapter = MovieRecommendationAdapter(it.results, false)
+            val movieRecommendationAdapter = DataRecommendationsAdapter(it.results, false)
             with(detailBinding.contentTvShowDetail) {
                 recyclerViewMovieRecommendations.addItemDecoration(
                     GridItemDecoration(

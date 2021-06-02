@@ -3,6 +3,7 @@ package com.sf.jetpack.mymov.network
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.sf.jetpack.mymov.BuildConfig
 import com.sf.jetpack.mymov.BuildConfig.API_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,17 +15,21 @@ class ApiService {
 
         fun httpClient(context: Context): OkHttpClient {
             val builder = OkHttpClient.Builder()
-            val logInterceptor = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
-            builder.apply {
-                addInterceptor(logInterceptor)
-                addInterceptor(ChuckerInterceptor.Builder(context)
-                    .collector(ChuckerCollector(context))
-                    .maxContentLength(250000L)
-                    .redactHeaders(emptySet())
-                    .alwaysReadResponseBody(false)
-                    .build())
+            if (BuildConfig.ENABLE_LOG) {
+                val logInterceptor = HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
+                builder.apply {
+                    addInterceptor(logInterceptor)
+                    addInterceptor(
+                        ChuckerInterceptor.Builder(context)
+                            .collector(ChuckerCollector(context))
+                            .maxContentLength(250000L)
+                            .redactHeaders(emptySet())
+                            .alwaysReadResponseBody(false)
+                            .build()
+                    )
+                }
             }
             return builder.build()
         }

@@ -29,7 +29,20 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField 'Boolean', 'ENABLE_LOG', "true"
+            buildConfigField 'String', 'API_URL', '\"https://api.themoviedb.org/3/\"'
+            buildConfigField 'String', 'API_URL_IMAGE_ORIGINAL', '\"https://image.tmdb.org/t/p/original\"'
+            buildConfigField 'String', 'API_URL_IMAGE_W500', '\"https://image.tmdb.org/t/p/w500\"'
+            buildConfigField 'String', 'API_KEY', '\"c36ae443fcb0ac61f517d17238c6d854"'
+        }
         release {
+            buildConfigField 'Boolean', 'ENABLE_LOG', "false"
+            buildConfigField 'String', 'API_URL', '\"https://api.themoviedb.org/3/\"'
+            buildConfigField 'String', 'API_URL_IMAGE_ORIGINAL', '\"https://image.tmdb.org/t/p/original\"'
+            buildConfigField 'String', 'API_URL_IMAGE_W500', '\"https://image.tmdb.org/t/p/w500\"'
+            buildConfigField 'String', 'API_KEY', '\"c36ae443fcb0ac61f517d17238c6d854"'
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
