@@ -85,6 +85,8 @@ dependencies {
 
     //Testing
     implementation "androidx.test.espresso:espresso-idling-resource:$iddlingResourceVersion"
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"

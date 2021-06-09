@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import com.sf.jetpack.mymov.databinding.ActivitySplashScreenBinding
 import com.sf.jetpack.mymov.home.HomeActivity
+import com.sf.jetpack.mymov.home.MainActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -22,7 +23,11 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private fun setUpSplashScreen() {
         Handler(Looper.getMainLooper()).postDelayed({
-            Intent(this, HomeActivity::class.java).apply {
+//            Intent(this, HomeActivity::class.java).apply {
+//                startActivity(this)
+//                finish()
+//            }
+            Intent(this, MainActivity::class.java).apply {
                 startActivity(this)
                 finish()
             }
