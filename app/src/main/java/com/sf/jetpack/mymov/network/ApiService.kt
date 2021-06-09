@@ -15,7 +15,7 @@ class ApiService {
 
         fun httpClient(context: Context): OkHttpClient {
             val builder = OkHttpClient.Builder()
-            if (BuildConfig.ENABLE_LOG) {
+            if (BuildConfig.DEBUG) {
                 val logInterceptor = HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
                 }

@@ -29,7 +29,7 @@ interface MovieDataSource {
     ): Call<DataCreditResponse>
 
     @GET("movie/{id}/recommendations")
-    fun getMovieRecomendation(
+    fun getMovieRecommendation(
         @Path("id") id: String,
         @Query("api_key") api_key: String = API_KEY
     ): Call<DataRecommendationsResponse>

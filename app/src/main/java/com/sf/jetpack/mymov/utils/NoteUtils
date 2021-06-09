@@ -1,0 +1,73 @@
+
+   =========================================
+    | NOTES UNIT & INSTRUMENTATION TESTING |
+   ========================================
+
+   ------------
+   UNIT TESTING
+   ------------
+   #MovieViewModelTest:
+   - Memastikan data tidak null
+   - Memastikan banyak data sesuai dengan yang diharapkan
+   - Memastikan judul item pertama sesuai dengan yang diharapkan
+
+   #TvShowViewModelTest:
+   - Memastikan data tidak null
+   - Memastikan banyak data sesuai dengan yang diharapkan
+   - Memastikan judul item pertama sesuai dengan yang diharapkan
+
+   #DetailViewModelTest:
+   * Detail Movie
+        - Memastikan data tidak null
+        - Memastikan data yang tampil sesuai dengan yang diharapkan
+   * Movie Credit
+        - Memastikan data tidak null
+        - Memastikan data yang tampil sesuai dengan yang diharapkan
+   * Movie Recommendation
+        - Memastikan data tidak null
+        - Memastikan data yang tampil sesuai dengan yang diharapkan
+   * Detail TV Show
+        - Memastikan data tidak null
+        - Memastikan data yang tampil sesuai dengan yang diharapkan
+   * TV Show Credit
+        - Memastikan data tidak null
+        - Memastikan data yang tampil sesuai dengan yang diharapkan
+   * TV Show Recommendation
+        - Memastikan data tidak null
+        - Memastikan data yang tampil sesuai dengan yang diharapkan
+
+   ------------------------
+   INSTRUMENTATION TESTING
+   ------------------------
+   #MENAMPILKAN LIST DATA DARI MOVIE
+    - memastikan rv_movie dalam keadaan tampil
+    - scroll rv_movie ke posisi data terakhir
+
+   #MENAMPILKAN DATA DETAIL MOVIE
+    - memberikan action ke item pertama dari rv_movie
+    - memastikan komponen TextView untuk judul film dalam keadaan tampil
+    - memastikan komponen TextView untuk deskripsi film dalam keadaan tampil
+    - memastikan komponen ImageView untuk gambar film dalam keadaan tampil
+    - memastikan komponen ImageView untuk gambar cover film dalam keadaan tampil
+
+   #MENAMPILKAN DATA CAST MOVIE
+    - memberikan action ke item pertama dari rv_movie
+    - memastikan komponen RecyclerView untuk data cast movie film dalam keadaan tampil
+
+   #MENAMPILKAN LIST DATA DARI TV SHOW
+    - menekan tablayout dengan teks "TV Show"
+    - memastikan rv_tv_shows dalam keadaan tampil
+    - scroll rv_tv_shows ke posisi data terakhir
+
+   #MENAMPILKAN DETAIL TV SHOW
+    - menekan tablayout dengan teks "TV Show"
+    - memberikan action ke item pertama dari rv_tv_shows
+    - memastikan komponen TextView untuk judul tv show dalam keadaan tampil
+    - memastikan komponen TextView untuk deskripsi tv show dalam keadaan tampil
+    - memastikan komponen ImageView untuk gambar film tv show keadaan tampil
+    - memastikan komponen ImageView untuk gambar cover tv show dalam keadaan tampil
+
+   #MENAMPILKAN DATA CAST MOVIE
+    - menekan tablayout dengan teks "TV Show"
+    - memberikan action ke item pertama dari rv_tv_shows
+    - memastikan komponen RecyclerView untuk data cast tv show film dalam keadaan tampil

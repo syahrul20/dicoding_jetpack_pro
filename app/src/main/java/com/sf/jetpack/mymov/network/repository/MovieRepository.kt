@@ -10,9 +10,16 @@ import com.sf.jetpack.mymov.network.response.MovieDetailResponse
 import com.sf.jetpack.mymov.network.response.DataRecommendationsResponse
 import com.sf.jetpack.mymov.network.response.MovieResponse
 import com.sf.jetpack.mymov.utils.API
+import com.sf.jetpack.mymov.utils.EspressoIdleResource
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
+
+/**
+ * بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
+ * Created By Fahmi
+ */
 
 class MovieRepository(
     private val movieDataSource: MovieDataSource
@@ -22,14 +29,19 @@ class MovieRepository(
     override fun getListMovie(): LiveData<MovieResponse> {
         val data = MutableLiveData<MovieResponse>()
         val call = movieDataSource.getListMovie()
+        EspressoIdleResource.increment()
         call.enqueue(object : Callback<MovieResponse> {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                data.value = response.body()
+                try {
+                    data.value = response.body()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                EspressoIdleResource.decrement()
             }
 
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                Log.i("Fail", t.message.toString())
-                data.value = MovieResponse(message = "Gagal mengambil data")
+                data.value = MovieResponse(message = API.MESSAGE_FAIL)
             }
         })
         return data
@@ -38,15 +50,22 @@ class MovieRepository(
     override fun getDetailMovie(movieId: String): LiveData<MovieDetailResponse> {
         val data = MutableLiveData<MovieDetailResponse>()
         val call = movieDataSource.getDetailMovie(movieId)
+        EspressoIdleResource.increment()
         call.enqueue(object : Callback<MovieDetailResponse> {
             override fun onResponse(
                 call: Call<MovieDetailResponse>,
                 response: Response<MovieDetailResponse>
             ) {
-                data.value = response.body() as MovieDetailResponse
+                try {
+                    data.value = response.body()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                EspressoIdleResource.decrement()
             }
 
             override fun onFailure(call: Call<MovieDetailResponse>, t: Throwable) {
+                EspressoIdleResource.decrement()
                 Log.i("Fail", t.message.toString())
                 data.value = MovieDetailResponse(
                     false,
@@ -84,17 +103,23 @@ class MovieRepository(
     override fun getMovieCredit(movieId: String): LiveData<DataCreditResponse> {
         val data = MutableLiveData<DataCreditResponse>()
         val call = movieDataSource.getMovieCredit(movieId)
+        EspressoIdleResource.increment()
         call.enqueue(object : Callback<DataCreditResponse> {
             override fun onResponse(
                 call: Call<DataCreditResponse>,
                 response: Response<DataCreditResponse>
             ) {
-                data.value = response.body()
+                try {
+                    data.value = response.body()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                EspressoIdleResource.decrement()
             }
 
             override fun onFailure(call: Call<DataCreditResponse>, t: Throwable) {
-                Log.i("Fail", t.message.toString())
-                data.value = DataCreditResponse(message = "Gagal mengambil data", id = null)
+                EspressoIdleResource.decrement()
+                data.value = DataCreditResponse(message = API.MESSAGE_FAIL, id = null)
             }
         })
         return data
@@ -102,19 +127,25 @@ class MovieRepository(
 
     override fun getMovieRecommendations(movieId: String): LiveData<DataRecommendationsResponse> {
         val data = MutableLiveData<DataRecommendationsResponse>()
-        val call = movieDataSource.getMovieRecomendation(movieId)
+        val call = movieDataSource.getMovieRecommendation(movieId)
+        EspressoIdleResource.increment()
         call.enqueue(object : Callback<DataRecommendationsResponse> {
             override fun onResponse(
                 call: Call<DataRecommendationsResponse>,
                 response: Response<DataRecommendationsResponse>
             ) {
-                data.value = response.body()
+                try {
+                    data.value = response.body()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                EspressoIdleResource.decrement()
             }
 
             override fun onFailure(call: Call<DataRecommendationsResponse>, t: Throwable) {
-                Log.i("Fail", t.message.toString())
+                EspressoIdleResource.decrement()
                 data.value = DataRecommendationsResponse(
-                    message = "Gagal mengambil data",
+                    message = API.MESSAGE_FAIL,
                     totalPages = null,
                     totalResults = null
                 )

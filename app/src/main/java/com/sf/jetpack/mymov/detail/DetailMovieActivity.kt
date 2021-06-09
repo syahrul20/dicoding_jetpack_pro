@@ -16,6 +16,11 @@ import com.sf.jetpack.mymov.utils.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
+/**
+ * بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
+ * Created By Fahmi
+ */
+
 class DetailMovieActivity : AppCompatActivity() {
 
     private lateinit var detailBinding: ActivityMovieDetailBinding
@@ -35,10 +40,10 @@ class DetailMovieActivity : AppCompatActivity() {
             with(detailBinding) {
                 if (isLoading) {
                     progressLoading.isVisible = true
-                    contentMovieDetail.containerMovieDetail.isVisible = false
+                    contentMovieDetail.containerDetail.isVisible = false
                 } else {
                     progressLoading.isVisible = false
-                    contentMovieDetail.containerMovieDetail.isVisible = true
+                    contentMovieDetail.containerDetail.isVisible = true
                 }
             }
         })
@@ -81,14 +86,14 @@ class DetailMovieActivity : AppCompatActivity() {
         viewModel.getMovieRecommendations(movieId).observe(this, {
             val movieRecommendationAdapter = DataRecommendationsAdapter(it.results, true)
             with(detailBinding.contentMovieDetail) {
-                recyclerViewMovieRecommendations.addItemDecoration(
+                recyclerViewRecommendations.addItemDecoration(
                     GridItemDecoration(
                         resources.getDimensionPixelSize(
                             R.dimen.marginM
                         )
                     )
                 )
-                recyclerViewMovieRecommendations.adapter = movieRecommendationAdapter
+                recyclerViewRecommendations.adapter = movieRecommendationAdapter
             }
         })
     }

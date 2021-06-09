@@ -14,6 +14,11 @@ import com.sf.jetpack.mymov.network.response.TvResultList
 import com.sf.jetpack.mymov.utils.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+/**
+ * بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
+ * Created By Fahmi
+ */
+
 class DetailTvShowActivity : AppCompatActivity() {
 
     private lateinit var detailBinding: ActivityDetailTvShowBinding
@@ -37,7 +42,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                 setUpObserver(selectedId.toString())
                 with(detailBinding) {
                     textTvShowName.text = data.name
-                    imageMovieCover.loadUrl(BuildConfig.API_URL_IMAGE_ORIGINAL + data.poster_path)
+                    imageTvShowCover.loadUrl(BuildConfig.API_URL_IMAGE_ORIGINAL + data.poster_path)
                     imageTvShow.loadUrl(BuildConfig.API_URL_IMAGE_W500 + data.poster_path)
                     val rate = data.vote_average.let { (it * 10) / 20 }
                     ratingBar.rating = rate.toFloat()
@@ -52,10 +57,10 @@ class DetailTvShowActivity : AppCompatActivity() {
             with(detailBinding) {
                 if (isLoading) {
                     progressLoading.isVisible = true
-                    contentTvShowDetail.containerMovieDetail.isVisible = false
+                    contentTvShowDetail.containerDetail.isVisible = false
                 } else {
                     progressLoading.isVisible = false
-                    contentTvShowDetail.containerMovieDetail.isVisible = true
+                    contentTvShowDetail.containerDetail.isVisible = true
                 }
             }
         })
@@ -66,7 +71,7 @@ class DetailTvShowActivity : AppCompatActivity() {
             } else {
                 detailBinding.apply {
                     textTvShowName.text = it.name
-                    imageMovieCover.loadUrl(BuildConfig.API_URL_IMAGE_ORIGINAL + it.posterPath)
+                    imageTvShowCover.loadUrl(BuildConfig.API_URL_IMAGE_ORIGINAL + it.posterPath)
                     imageTvShow.loadUrl(BuildConfig.API_URL_IMAGE_W500 + it.posterPath)
                     val rate = it.voteAverage?.let { vote -> (vote * 10) / 20 }
                     ratingBar.rating = rate?.toFloat() ?: 0F
@@ -95,16 +100,16 @@ class DetailTvShowActivity : AppCompatActivity() {
         })
 
         viewModel.getTvShowRecommendations(tvShowId).observe(this, {
-            val movieRecommendationAdapter = DataRecommendationsAdapter(it.results, false)
+            val tvShowRecommendationAdapter = DataRecommendationsAdapter(it.results, false)
             with(detailBinding.contentTvShowDetail) {
-                recyclerViewMovieRecommendations.addItemDecoration(
+                recyclerViewRecommendations.addItemDecoration(
                     GridItemDecoration(
                         resources.getDimensionPixelSize(
                             R.dimen.marginM
                         )
                     )
                 )
-                recyclerViewMovieRecommendations.adapter = movieRecommendationAdapter
+                recyclerViewRecommendations.adapter = tvShowRecommendationAdapter
             }
         })
     }

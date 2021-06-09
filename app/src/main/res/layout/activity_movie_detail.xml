@@ -126,6 +126,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/nestedScrollView"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <FrameLayout
@@ -134,7 +135,7 @@
 
             <include
                 android:id="@+id/contentMovieDetail"
-                layout="@layout/layout_movie_detail" />
+                layout="@layout/layout_content_detail" />
 
             <ProgressBar
                 android:id="@+id/progressLoading"

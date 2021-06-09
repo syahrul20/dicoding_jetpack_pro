@@ -6,13 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.sf.jetpack.mymov.adapter.TvShowsAdapter
 import com.sf.jetpack.mymov.databinding.FragmentTvShowsBinding
-import com.sf.jetpack.mymov.detail.DetailMovieActivity
 import com.sf.jetpack.mymov.detail.DetailTvShowActivity
 import com.sf.jetpack.mymov.network.response.TvResultList
+import com.sf.jetpack.mymov.utils.API
 import com.sf.jetpack.mymov.utils.Extra
-import com.sf.jetpack.mymov.utils.TYPE
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TvShowsFragment : Fragment(), TvShowsAdapter.ITvShow {
@@ -43,9 +43,13 @@ class TvShowsFragment : Fragment(), TvShowsAdapter.ITvShow {
     }
 
     private fun setUpObserver() {
-        viewModel.getListTvShowFromApi().observe(viewLifecycleOwner, {
-            tvShowAdapter = TvShowsAdapter(it.results, this)
-            binding.rvTvShows.adapter = tvShowAdapter
+        viewModel.getListTvShowFromApi().observe(viewLifecycleOwner, { data ->
+            if (data.message != API.MESSAGE_FAIL) {
+                tvShowAdapter = TvShowsAdapter(data.results, this)
+                binding.rvTvShows.adapter = tvShowAdapter
+            } else {
+                Toast.makeText(requireContext(), data.message, Toast.LENGTH_SHORT).show()
+            }
         })
     }
 

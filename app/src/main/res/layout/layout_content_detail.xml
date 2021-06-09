@@ -2,7 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/containerMovieDetail"
+    android:id="@+id/containerDetail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
@@ -96,7 +96,7 @@
         android:nestedScrollingEnabled="false"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_movie_cast"
+        tools:listitem="@layout/item_cast"
         tools:visibility="visible" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -108,7 +108,7 @@
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewMovieRecommendations"
+        android:id="@+id/recyclerViewRecommendations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginM"
@@ -116,6 +116,6 @@
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/item_movie_recommendation" />
+        tools:listitem="@layout/item_recommendation" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

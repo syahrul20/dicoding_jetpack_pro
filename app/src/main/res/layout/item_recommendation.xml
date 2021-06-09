@@ -8,7 +8,7 @@
     tools:background="@color/colorPrimary">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageMovie"
+        android:id="@+id/imageItemRecommendation"
         android:layout_width="match_parent"
         android:layout_height="240dp"
         android:scaleType="centerCrop"
@@ -16,7 +16,7 @@
         tools:src="@tools:sample/backgrounds/scenic" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/textMovieName"
+        android:id="@+id/textItemRecommendationName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginM"

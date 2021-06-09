@@ -6,12 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.sf.jetpack.mymov.adapter.MoviesAdapter
 import com.sf.jetpack.mymov.databinding.FragmentMoviesBinding
 import com.sf.jetpack.mymov.detail.DetailMovieActivity
 import com.sf.jetpack.mymov.network.response.ListData
+import com.sf.jetpack.mymov.utils.API
 import com.sf.jetpack.mymov.utils.Extra
-import com.sf.jetpack.mymov.utils.TYPE
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesFragment : Fragment(), MoviesAdapter.IMovie {
@@ -43,8 +44,12 @@ class MoviesFragment : Fragment(), MoviesAdapter.IMovie {
 
     private fun setUpObserver() {
         viewModel.getListMovieFromApi().observe(viewLifecycleOwner, { data ->
-            moviesAdapter = MoviesAdapter(data.results, this)
-            binding.rvMovie.adapter = moviesAdapter
+            if (data.message != API.MESSAGE_FAIL) {
+                moviesAdapter = MoviesAdapter(data.results, this)
+                binding.rvMovie.adapter = moviesAdapter
+            } else{
+                Toast.makeText(requireContext(), data.message, Toast.LENGTH_SHORT).show()
+            }
         })
     }
 

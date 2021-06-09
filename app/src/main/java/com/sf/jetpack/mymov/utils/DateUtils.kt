@@ -5,8 +5,9 @@ import java.util.*
 
 
 fun convertDate(date: String, format: String, to: String): String {
-    var dateFormat = SimpleDateFormat(format)
-    val newDate: Date = dateFormat.parse(date)
-    dateFormat = SimpleDateFormat(to)
-    return dateFormat.format(newDate)
+    var dateFormat = SimpleDateFormat(format, Locale.ENGLISH)
+    val newDate: Date? = dateFormat.parse(date)
+    dateFormat = SimpleDateFormat(to, Locale.ENGLISH)
+    return dateFormat.format(newDate ?: "")
+
 }

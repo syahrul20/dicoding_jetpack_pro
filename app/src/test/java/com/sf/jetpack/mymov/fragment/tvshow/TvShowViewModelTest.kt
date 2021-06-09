@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.verify
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
-import com.sf.jetpack.mymov.network.response.MovieResponse
 import com.sf.jetpack.mymov.network.response.TvResponse
 import com.sf.jetpack.mymov.utils.DummyData
 import org.junit.Test
@@ -35,7 +34,6 @@ class TvShowViewModelTest {
     fun setUp() {
         viewModel = TvShowViewModel(tvShowRepository)
     }
-
     @Test
     fun getListTvShow() {
         val tvShowList = DummyData.generateListTvShowResponse()
@@ -43,11 +41,11 @@ class TvShowViewModelTest {
         dummyListTvShow.value = tvShowList
 
         Mockito.`when`(tvShowRepository.getListTvOnTheAir()).thenReturn(dummyListTvShow)
-        val movieEntities = viewModel.getListTvShowFromApi().value as TvResponse
+        val tvShowEntities = viewModel.getListTvShowFromApi().value as TvResponse
         verify(tvShowRepository).getListTvOnTheAir()
-        assertNotNull(movieEntities)
-        assertEquals(10, movieEntities.results.size)
-        assertEquals(tvShowList.results[0].name, movieEntities.results[0].name)
+        assertNotNull(tvShowEntities)
+        assertEquals(10, tvShowEntities.results.size)
+        assertEquals(tvShowList.results[0].name, tvShowEntities.results[0].name)
         viewModel.getListTvShowFromApi().observeForever(tvShowObserver)
         verify(tvShowObserver).onChanged(tvShowList)
     }

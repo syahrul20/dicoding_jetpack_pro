@@ -10,6 +10,11 @@ import com.sf.jetpack.mymov.network.response.MovieDetailResponse
 import com.sf.jetpack.mymov.network.response.DataRecommendationsResponse
 import com.sf.jetpack.mymov.network.response.TvDetailResponse
 
+/**
+ * بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
+ * Created By Fahmi
+ */
+
 class DetailViewModel(
     private val movieRepository: IMovieRepository,
     private val tvShowRepository: ITvRepository

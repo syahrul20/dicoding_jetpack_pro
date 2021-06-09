@@ -30,14 +30,12 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField 'Boolean', 'ENABLE_LOG', "true"
             buildConfigField 'String', 'API_URL', '\"https://api.themoviedb.org/3/\"'
             buildConfigField 'String', 'API_URL_IMAGE_ORIGINAL', '\"https://image.tmdb.org/t/p/original\"'
             buildConfigField 'String', 'API_URL_IMAGE_W500', '\"https://image.tmdb.org/t/p/w500\"'
             buildConfigField 'String', 'API_KEY', '\"c36ae443fcb0ac61f517d17238c6d854"'
         }
         release {
-            buildConfigField 'Boolean', 'ENABLE_LOG', "false"
             buildConfigField 'String', 'API_URL', '\"https://api.themoviedb.org/3/\"'
             buildConfigField 'String', 'API_URL_IMAGE_ORIGINAL', '\"https://image.tmdb.org/t/p/original\"'
             buildConfigField 'String', 'API_URL_IMAGE_W500', '\"https://image.tmdb.org/t/p/w500\"'
@@ -81,11 +79,12 @@ dependencies {
 
     //NETWORK
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation "com.squareup.okhttp3:logging-interceptor:3.12.10"
-    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+    implementation "com.squareup.okhttp3:logging-interceptor:4.4.0"
+    implementation 'com.squareup.okhttp3:okhttp:4.4.0'
     implementation 'com.github.chuckerteam.chucker:library:3.4.0'
 
     //Testing
+    implementation "androidx.test.espresso:espresso-idling-resource:$iddlingResourceVersion"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
