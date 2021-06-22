@@ -6,6 +6,7 @@ import com.sf.jetpack.mymov.network.response.MovieDetailResponse
 import com.sf.jetpack.mymov.network.response.DataRecommendationsResponse
 import com.sf.jetpack.mymov.network.response.MovieResponse
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -15,6 +16,12 @@ interface MovieDataSource {
     fun getListMovie(
         @Query("api_key") api_key: String = API_KEY
     ): Call<MovieResponse>
+
+    @GET("movie/now_playing")
+    suspend fun getListMoviePaging(
+        @Query("page") page: Int,
+        @Query("api_key") api_key: String = API_KEY
+    ): Response<MovieResponse>
 
     @GET("movie/{id}")
     fun getDetailMovie(

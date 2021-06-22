@@ -1,6 +1,7 @@
 package com.sf.jetpack.mymov.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -9,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.sf.jetpack.mymov.R
 import com.sf.jetpack.mymov.databinding.ActivityMainBinding
+import com.sf.jetpack.mymov.fragment.movie.MoviesFragment
 
 /*
  * بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم

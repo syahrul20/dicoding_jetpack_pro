@@ -1,10 +1,11 @@
 package com.sf.jetpack.mymov.network.response
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 data class MovieResponse(
-    val results: List<ListData> = arrayListOf(),
+    val results: ArrayList<ListData> = arrayListOf(),
     val message: String? = ""
 )
 

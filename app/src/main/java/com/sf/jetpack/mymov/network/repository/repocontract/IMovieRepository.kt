@@ -1,10 +1,9 @@
 package com.sf.jetpack.mymov.network.repository.repocontract
 
 import androidx.lifecycle.LiveData
-import com.sf.jetpack.mymov.network.response.DataCreditResponse
-import com.sf.jetpack.mymov.network.response.MovieDetailResponse
-import com.sf.jetpack.mymov.network.response.DataRecommendationsResponse
-import com.sf.jetpack.mymov.network.response.MovieResponse
+import androidx.paging.PagingData
+import com.sf.jetpack.mymov.network.response.*
+import kotlinx.coroutines.flow.Flow
 
 interface IMovieRepository {
     fun getListMovie(): LiveData<MovieResponse>

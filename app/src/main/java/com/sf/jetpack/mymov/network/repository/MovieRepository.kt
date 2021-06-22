@@ -5,15 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.sf.jetpack.mymov.network.datasource.MovieDataSource
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
-import com.sf.jetpack.mymov.network.response.DataCreditResponse
-import com.sf.jetpack.mymov.network.response.MovieDetailResponse
-import com.sf.jetpack.mymov.network.response.DataRecommendationsResponse
-import com.sf.jetpack.mymov.network.response.MovieResponse
+import com.sf.jetpack.mymov.network.response.*
 import com.sf.jetpack.mymov.utils.API
 import com.sf.jetpack.mymov.utils.EspressoIdleResource
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import retrofit2.*
 import java.lang.Exception
 
 /**

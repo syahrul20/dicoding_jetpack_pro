@@ -1,11 +1,9 @@
 package com.sf.jetpack.mymov.network.datasource
 
 import com.sf.jetpack.mymov.BuildConfig
-import com.sf.jetpack.mymov.network.response.DataCreditResponse
-import com.sf.jetpack.mymov.network.response.DataRecommendationsResponse
-import com.sf.jetpack.mymov.network.response.TvDetailResponse
-import com.sf.jetpack.mymov.network.response.TvResponse
+import com.sf.jetpack.mymov.network.response.*
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -15,6 +13,12 @@ interface TvDataSource {
     fun getTvOnTheAir(
         @Query("api_key") api_key: String = BuildConfig.API_KEY
     ): Call<TvResponse>
+
+    @GET("tv/on_the_air")
+    suspend fun getTvOnAirPaging(
+        @Query("page") page: Int,
+        @Query("api_key") api_key: String = BuildConfig.API_KEY
+    ): Response<TvResponse>
 
     @GET("tv/{tvId}")
     fun getTvDetail(

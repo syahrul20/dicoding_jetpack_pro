@@ -7,10 +7,11 @@ import com.sf.jetpack.mymov.fragment.tvshow.TvShowViewModel
 import com.sf.jetpack.mymov.network.ApiService
 import com.sf.jetpack.mymov.network.datasource.MovieDataSource
 import com.sf.jetpack.mymov.network.datasource.TvDataSource
-import com.sf.jetpack.mymov.network.repository.MovieRepository
-import com.sf.jetpack.mymov.network.repository.TvRepository
+import com.sf.jetpack.mymov.network.repository.*
+import com.sf.jetpack.mymov.network.repository.repocontract.IMoviePagingRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
+import com.sf.jetpack.mymov.network.repository.repocontract.ITvShowPagingRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
@@ -43,11 +44,13 @@ class MyApplication : Application() {
     }
     private val repositoryModule = module {
         single<IMovieRepository> { MovieRepository(get()) }
+        single<IMoviePagingRepository> { MoviePagingRepository(get()) }
+        single<ITvShowPagingRepository> { TvShowPagingRepository(get()) }
         single<ITvRepository> { TvRepository(get()) }
     }
     private val viewModelModule = module {
-        viewModel { MovieViewModel(get()) }
-        viewModel { TvShowViewModel(get()) }
+        viewModel { MovieViewModel(get(), get()) }
+        viewModel { TvShowViewModel(get(), get()) }
         viewModel { DetailViewModel(get(), get()) }
     }
 }
