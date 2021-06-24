@@ -18,11 +18,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class TvShowsFragment : Fragment(), TvShowsAdapter.ITvShow {
+class TvShowsFragment : Fragment(), TvShowPagingAdapter.ITvShow {
 
     private val viewModel: TvShowViewModel by viewModel()
     private val tvShowPagingAdapter by lazy {
-        TvShowPagingAdapter()
+        TvShowPagingAdapter(this)
     }
 
     private var _binding: FragmentTvShowsBinding? = null
