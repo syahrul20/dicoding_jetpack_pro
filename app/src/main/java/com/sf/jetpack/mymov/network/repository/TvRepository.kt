@@ -2,11 +2,15 @@ package com.sf.jetpack.mymov.network.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.sf.jetpack.mymov.db.FavoriteDao
+import com.sf.jetpack.mymov.db.FavoriteEntity
 import com.sf.jetpack.mymov.network.datasource.TvDataSource
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
 import com.sf.jetpack.mymov.network.response.*
 import com.sf.jetpack.mymov.utils.API
 import com.sf.jetpack.mymov.utils.EspressoIdleResource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,6 +22,7 @@ import java.lang.Exception
  */
 
 class TvRepository(
+    private val favoriteDao: FavoriteDao,
     private val tvDataSource: TvDataSource
 ) :
     ITvRepository {
@@ -148,5 +153,11 @@ class TvRepository(
             }
         })
         return data
+    }
+
+    override suspend fun getListTvFavorite(): List<FavoriteEntity> {
+        return withContext(Dispatchers.IO) {
+            favoriteDao.getAll()
+        }
     }
 }

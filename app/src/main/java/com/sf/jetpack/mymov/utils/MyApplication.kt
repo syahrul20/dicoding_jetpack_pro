@@ -1,6 +1,8 @@
 package com.sf.jetpack.mymov.utils
 
 import android.app.Application
+import com.sf.jetpack.mymov.db.AppDatabase
+import com.sf.jetpack.mymov.db.FavoriteDao
 import com.sf.jetpack.mymov.detail.DetailViewModel
 import com.sf.jetpack.mymov.fragment.movie.MovieViewModel
 import com.sf.jetpack.mymov.fragment.tvshow.TvShowViewModel
@@ -28,6 +30,7 @@ class MyApplication : Application() {
                     httpModule,
                     retrofitModule,
                     repositoryModule,
+                    databaseModule,
                     viewModelModule
                 )
             )
@@ -38,15 +41,23 @@ class MyApplication : Application() {
         single { ApiService.httpClient(androidContext()) }
     }
 
+    private val databaseModule = module {
+        fun favoriteDao(database: AppDatabase): FavoriteDao {
+            return database.favoriteDao()
+        }
+        single { AppDatabase.getInstance(androidContext()) }
+        single { favoriteDao(get()) }
+    }
+
     private val retrofitModule = module {
         single { ApiService.apiRequest<MovieDataSource>(get()) }
         single { ApiService.apiRequest<TvDataSource>(get()) }
     }
     private val repositoryModule = module {
-        single<IMovieRepository> { MovieRepository(get()) }
+        single<IMovieRepository> { MovieRepository(get(), get()) }
         single<IMoviePagingRepository> { MoviePagingRepository(get()) }
         single<ITvShowPagingRepository> { TvShowPagingRepository(get()) }
-        single<ITvRepository> { TvRepository(get()) }
+        single<ITvRepository> { TvRepository(get(), get()) }
     }
     private val viewModelModule = module {
         viewModel { MovieViewModel(get(), get()) }

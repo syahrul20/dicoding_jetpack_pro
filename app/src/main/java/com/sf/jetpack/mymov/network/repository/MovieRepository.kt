@@ -3,11 +3,15 @@ package com.sf.jetpack.mymov.network.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.sf.jetpack.mymov.db.FavoriteDao
+import com.sf.jetpack.mymov.db.FavoriteEntity
 import com.sf.jetpack.mymov.network.datasource.MovieDataSource
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
 import com.sf.jetpack.mymov.network.response.*
 import com.sf.jetpack.mymov.utils.API
 import com.sf.jetpack.mymov.utils.EspressoIdleResource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.*
 import java.lang.Exception
 
@@ -17,7 +21,8 @@ import java.lang.Exception
  */
 
 class MovieRepository(
-    private val movieDataSource: MovieDataSource
+    private val movieDataSource: MovieDataSource,
+    private val favoriteDao: FavoriteDao
 ) :
     IMovieRepository {
 
@@ -40,6 +45,25 @@ class MovieRepository(
             }
         })
         return data
+    }
+
+    override suspend fun insertListMovieFavorite(favoriteEntity: FavoriteEntity) {
+        withContext(Dispatchers.IO) {
+            favoriteDao.insert(favoriteEntity)
+        }
+    }
+
+
+    override suspend fun deleteListMovieFavorite(favoriteEntity: FavoriteEntity) {
+        withContext(Dispatchers.IO) {
+            favoriteDao.delete(favoriteEntity)
+        }
+    }
+
+    override suspend fun getListMovieFavorite(): List<FavoriteEntity> {
+        return withContext(Dispatchers.IO) {
+            favoriteDao.getAll()
+        }
     }
 
     override fun getDetailMovie(movieId: String): LiveData<MovieDetailResponse> {

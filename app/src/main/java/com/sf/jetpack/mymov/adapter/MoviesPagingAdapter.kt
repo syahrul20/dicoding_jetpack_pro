@@ -7,7 +7,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sf.jetpack.mymov.BuildConfig
+import com.sf.jetpack.mymov.R
 import com.sf.jetpack.mymov.databinding.ItemMoviesBinding
+import com.sf.jetpack.mymov.db.FavoriteEntity
 import com.sf.jetpack.mymov.network.response.ListData
 import com.sf.jetpack.mymov.utils.loadUrl
 import java.lang.NullPointerException
@@ -18,7 +20,8 @@ import java.lang.NullPointerException
  */
 
 class MoviesPagingAdapter(
-    private val listener: IMovie? = null
+    private val listener: IMovie? = null,
+    private val favoriteList: ArrayList<FavoriteEntity>
 ) : PagingDataAdapter<ListData, MoviesPagingAdapter.ItemViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -51,11 +54,31 @@ class MoviesPagingAdapter(
         val binding = ItemMoviesBinding.bind(itemView)
         fun bind(item: ListData) {
             item.let { movie ->
+                for (favorite in favoriteList) {
+                    if (item.title == favorite.title) {
+                        item.isFavorite = favorite.isFavorite
+                    }
+                }
+                var isFavorite = item.isFavorite == 1
                 binding.textName.text = movie.title
                 binding.textDescription.text = movie.overview
                 val rate = (movie.vote_average * 10) / 20
                 binding.ratingBar.rating = rate.toFloat()
                 binding.imageMovies.loadUrl(BuildConfig.API_URL_IMAGE_W500 + movie.poster_path)
+                if (movie.isFavorite == 1) {
+                    binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_active)
+                } else {
+                    binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_inactive)
+                }
+                binding.imageBookmark.setOnClickListener {
+                    isFavorite = !isFavorite
+                    if (isFavorite) {
+                        binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_active)
+                    } else {
+                        binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_inactive)
+                    }
+                    listener?.onItemFavoriteClicked(movie)
+                }
                 binding.root.setOnClickListener {
                     listener?.onMovieClicked(item)
                 }
@@ -65,5 +88,6 @@ class MoviesPagingAdapter(
 
     interface IMovie {
         fun onMovieClicked(movie: ListData)
+        fun onItemFavoriteClicked(movie: ListData)
     }
 }

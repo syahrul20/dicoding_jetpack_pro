@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.sf.jetpack.mymov.R
+import com.sf.jetpack.mymov.fragment.movie.MovieFavoriteFragment
 import com.sf.jetpack.mymov.fragment.movie.MoviesFragment
+import com.sf.jetpack.mymov.fragment.tvshow.TvShowFavoriteFragment
 import com.sf.jetpack.mymov.fragment.tvshow.TvShowsFragment
 
 /**
@@ -23,8 +25,8 @@ class FavoritePagerAdapter(private val context: Context, fm: FragmentManager)
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> MoviesFragment()
-            else -> TvShowsFragment()
+            0 -> MovieFavoriteFragment()
+            else -> TvShowFavoriteFragment()
         }
     }
 
