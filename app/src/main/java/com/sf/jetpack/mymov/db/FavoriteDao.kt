@@ -1,5 +1,6 @@
 package com.sf.jetpack.mymov.db
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -14,6 +15,9 @@ import androidx.room.Query
 interface FavoriteDao {
     @Query("SELECT * FROM favorites")
     fun getAll(): List<FavoriteEntity>
+
+    @Query("SELECT * FROM favorites")
+    fun getAllMovieFavorite(): PagingSource<Int, FavoriteEntity>
 
     @Insert
     fun insert(vararg favorite: FavoriteEntity)

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import com.sf.jetpack.mymov.adapter.ItemStateLoadingAdapter
 import com.sf.jetpack.mymov.adapter.TvShowPagingAdapter
 import com.sf.jetpack.mymov.databinding.FragmentTvShowsBinding
@@ -55,16 +56,15 @@ class TvShowsFragment : Fragment(), TvShowPagingAdapter.ITvShow {
         binding.rvTvShows.adapter = tvShowPagingAdapter.withLoadStateFooter(
             footer = ItemStateLoadingAdapter { tvShowPagingAdapter.retry() }
         )
+        tvShowPagingAdapter.addLoadStateListener { loadState ->
+            val isLoading = loadState.source.refresh is LoadState.Loading
+            setLoading(isLoading)
+        }
     }
 
     private fun setUpObserver() {
-        setLoading(true)
         lifecycleScope.launch {
-            viewModel.getListTvShowPaging().collectLatest {
-                delay(500)
-                setLoading(false)
-                tvShowPagingAdapter.submitData(it)
-            }
+            viewModel.getListTvShowPaging().collectLatest { tvShowPagingAdapter.submitData(it) }
         }
     }
 
@@ -89,7 +89,7 @@ class TvShowsFragment : Fragment(), TvShowPagingAdapter.ITvShow {
         tvShow.isFavorite = if (tvShow.isFavorite == 1) 0 else 1
         tvShow.type = TYPE.TV_SHOW.name
         val db = AppDatabase.getInstance(requireContext())
-        GlobalScope.launch {
+        lifecycleScope.launch {
             val favoriteData = FavoriteEntity(
                 tvShow.id,
                 tvShow.name,
@@ -101,8 +101,6 @@ class TvShowsFragment : Fragment(), TvShowPagingAdapter.ITvShow {
                 tvShow.type
             )
             db.favoriteDao().insert(favoriteData)
-            val data = db.favoriteDao().getAll()
-            Log.i("zxc", data.joinToString())
         }
     }
 

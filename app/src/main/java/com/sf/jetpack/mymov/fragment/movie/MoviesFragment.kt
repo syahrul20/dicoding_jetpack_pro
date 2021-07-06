@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import com.sf.jetpack.mymov.adapter.MoviesPagingAdapter
 import com.sf.jetpack.mymov.adapter.ItemStateLoadingAdapter
 import com.sf.jetpack.mymov.databinding.FragmentMoviesBinding
@@ -56,15 +57,16 @@ class MoviesFragment : Fragment(), MoviesPagingAdapter.IMovie {
         binding.rvMovie.adapter = moviesPagingAdapter.withLoadStateFooter(
             footer = ItemStateLoadingAdapter { moviesPagingAdapter.retry() }
         )
+        moviesPagingAdapter.addLoadStateListener { loadState ->
+            val isLoading = loadState.source.refresh is LoadState.Loading
+            setLoading(isLoading)
+        }
     }
 
     private fun setUpObserver() {
         viewModel.getAllMovieFavorite()
-        setLoading(true)
         lifecycleScope.launch {
             viewModel.listMovie.collectLatest {
-                delay(500)
-                setLoading(false)
                 moviesPagingAdapter.submitData(it)
             }
         }

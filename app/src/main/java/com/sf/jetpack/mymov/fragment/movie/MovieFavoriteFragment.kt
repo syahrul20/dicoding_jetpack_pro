@@ -8,46 +8,65 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import com.sf.jetpack.mymov.adapter.ItemStateLoadingAdapter
 import com.sf.jetpack.mymov.adapter.MoviesFavoriteAdapter
-import com.sf.jetpack.mymov.databinding.FragmentMoviesBinding
+import com.sf.jetpack.mymov.databinding.FragmentMoviesFavoriteBinding
 import com.sf.jetpack.mymov.db.FavoriteEntity
 import com.sf.jetpack.mymov.detail.DetailMovieActivity
 import com.sf.jetpack.mymov.utils.Extra
 import com.sf.jetpack.mymov.utils.TYPE
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
 
     private val viewModel: MovieViewModel by viewModel()
 
-    private var _binding: FragmentMoviesBinding? = null
+    private var _binding: FragmentMoviesFavoriteBinding? = null
     private val binding get() = _binding!!
-    private lateinit var moviesFavoriteAdapter: MoviesFavoriteAdapter
+    private val moviesFavoriteAdapter: MoviesFavoriteAdapter by lazy {
+        MoviesFavoriteAdapter(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMoviesBinding.inflate(inflater, container, false)
+        _binding = FragmentMoviesFavoriteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpView()
         initData()
     }
 
+    private fun setUpView() {
+        binding.rvMovie.adapter = moviesFavoriteAdapter
+        binding.rvMovie.adapter = moviesFavoriteAdapter.withLoadStateFooter(
+            footer = ItemStateLoadingAdapter { moviesFavoriteAdapter.retry() }
+        )
+        moviesFavoriteAdapter.addLoadStateListener { loadState ->
+            val isListEmpty = loadState.refresh is LoadState.NotLoading && moviesFavoriteAdapter.itemCount  == 0
+            val isLoading = loadState.source.refresh is LoadState.Loading
+            binding.containerNoData.isVisible = isListEmpty
+            setLoading(isLoading)
+        }
+    }
+
     private fun initData() {
-        setLoading(true)
-        viewModel.getAllMovieFavorite()
-        viewModel.movieFavoriteData.observe(viewLifecycleOwner, {
-            setLoading(false)
-            val movieFavoriteList = it.filter { item -> item.type == TYPE.MOVIE.name }
-            moviesFavoriteAdapter = MoviesFavoriteAdapter(movieFavoriteList, this)
-            binding.rvMovie.adapter = moviesFavoriteAdapter
-        })
+        lifecycleScope.launch {
+            viewModel.listMovieFavorite.collectLatest {
+                Log.i("zxcasdas", it.toString())
+                moviesFavoriteAdapter.submitData(it)
+            }
+        }
     }
 
     private fun setLoading(isLoading: Boolean) = with(binding) {
@@ -73,6 +92,7 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
+        Log.i("zxcasd", hidden.toString())
         if (!hidden) {
             initData()
         }

@@ -1,12 +1,15 @@
 package com.sf.jetpack.mymov.fragment.movie
 
 import androidx.lifecycle.*
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.sf.jetpack.mymov.db.FavoriteEntity
 import com.sf.jetpack.mymov.network.repository.repocontract.IMoviePagingRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
+import com.sf.jetpack.mymov.network.response.ListData
 import com.sf.jetpack.mymov.network.response.MovieResponse
 import kotlinx.coroutines.*
+import java.util.concurrent.Flow
 
 
 class MovieViewModel(
@@ -14,6 +17,7 @@ class MovieViewModel(
     private val moviePagingRepository: IMoviePagingRepository
 ) : ViewModel() {
     val listMovie = moviePagingRepository.getListMoviePaging().cachedIn(viewModelScope)
+    val listMovieFavorite = moviePagingRepository.getListMovieFavorite().cachedIn(viewModelScope)
     val movieFavoriteData = MutableLiveData<List<FavoriteEntity>>()
 
     fun getListMovieFromApi(): LiveData<MovieResponse> = movieRepository.getListMovie()

@@ -55,7 +55,7 @@ class MyApplication : Application() {
     }
     private val repositoryModule = module {
         single<IMovieRepository> { MovieRepository(get(), get()) }
-        single<IMoviePagingRepository> { MoviePagingRepository(get()) }
+        single<IMoviePagingRepository> { MoviePagingRepository(get(), get()) }
         single<ITvShowPagingRepository> { TvShowPagingRepository(get()) }
         single<ITvRepository> { TvRepository(get(), get()) }
     }

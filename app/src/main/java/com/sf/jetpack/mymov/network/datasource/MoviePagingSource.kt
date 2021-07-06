@@ -1,8 +1,7 @@
-package com.sf.jetpack.mymov.network.repository
+package com.sf.jetpack.mymov.network.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.sf.jetpack.mymov.network.datasource.MovieDataSource
 import com.sf.jetpack.mymov.network.response.ListData
 import retrofit2.*
 import java.io.IOException
