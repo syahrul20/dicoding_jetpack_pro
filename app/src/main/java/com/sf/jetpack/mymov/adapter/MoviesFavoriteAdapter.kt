@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,7 @@ class MoviesFavoriteAdapter(
             }
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(view.root)
@@ -43,7 +45,7 @@ class MoviesFavoriteAdapter(
         try {
             item!!.let { movie ->
                 var isFavorite = movie.isFavorite == 1
-
+                binding.imageBookmark.isVisible = true
                 binding.textName.text = movie.title
                 binding.textDescription.text = movie.overview
                 val rate = (movie.vote_average * 10) / 20

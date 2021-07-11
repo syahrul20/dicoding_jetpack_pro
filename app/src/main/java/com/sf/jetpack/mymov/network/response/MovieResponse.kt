@@ -17,6 +17,6 @@ data class ListData(
     val release_date: String,
     val title: String,
     val vote_average: Double,
-    var isFavorite: Int = 1,
+    var isFavorite: Int = 0,
     var type: String? = ""
 ) : Parcelable

@@ -35,27 +35,30 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/marginS"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="@dimen/fontL"
+                android:layout_marginStart="@dimen/marginM"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@id/view"
+                app:layout_constraintRight_toLeftOf="@id/imageBookmark"
+                app:layout_constraintTop_toTopOf="@id/imageBookmark"
+                tools:text="Movies 1" />
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginVertical="@dimen/marginM"
                 android:layout_marginStart="@dimen/marginM"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/view"
-                app:layout_constraintRight_toLeftOf="@id/imageBookmark"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/textName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/marginS"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textSize="@dimen/fontL"
-                    android:textStyle="bold"
-                    tools:text="Movies 1" />
+                app:layout_constraintRight_toRightOf="@id/imageBookmark"
+                app:layout_constraintTop_toBottomOf="@id/textName">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textDescription"
@@ -90,6 +93,7 @@
                 android:layout_margin="@dimen/marginM"
                 android:background="?attr/actionBarItemBackground"
                 android:padding="@dimen/paddingXS"
+                android:visibility="invisible"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_bookmark_inactive" />

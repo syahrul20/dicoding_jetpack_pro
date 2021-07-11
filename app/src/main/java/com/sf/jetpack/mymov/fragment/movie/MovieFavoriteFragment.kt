@@ -16,7 +16,6 @@ import com.sf.jetpack.mymov.databinding.FragmentMoviesFavoriteBinding
 import com.sf.jetpack.mymov.db.FavoriteEntity
 import com.sf.jetpack.mymov.detail.DetailMovieActivity
 import com.sf.jetpack.mymov.utils.Extra
-import com.sf.jetpack.mymov.utils.TYPE
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,6 +26,7 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
 
     private var _binding: FragmentMoviesFavoriteBinding? = null
     private val binding get() = _binding!!
+    private var movieFavoriteList = ArrayList<FavoriteEntity>()
     private val moviesFavoriteAdapter: MoviesFavoriteAdapter by lazy {
         MoviesFavoriteAdapter(this)
     }
@@ -63,10 +63,13 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
     private fun initData() {
         lifecycleScope.launch {
             viewModel.listMovieFavorite.collectLatest {
-                Log.i("zxcasdas", it.toString())
                 moviesFavoriteAdapter.submitData(it)
             }
         }
+
+        viewModel.movieFavoriteData.observe(viewLifecycleOwner, { favoriteList ->
+            movieFavoriteList.addAll(favoriteList)
+        })
     }
 
     private fun setLoading(isLoading: Boolean) = with(binding) {
@@ -88,14 +91,7 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
 
     override fun onItemFavoriteClicked(movie: FavoriteEntity) {
         movie.isFavorite = if (movie.isFavorite == 1) 0 else 1
-    }
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        Log.i("zxcasd", hidden.toString())
-        if (!hidden) {
-            initData()
-        }
+        viewModel.deleteMovieFavorite(movie)
     }
 
     override fun onDestroyView() {
