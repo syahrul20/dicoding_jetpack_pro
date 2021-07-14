@@ -63,7 +63,7 @@ class TvShowPagingAdapter(
                 binding.ratingBar.rating = rate.toFloat()
                 binding.imageMovies.loadUrl(BuildConfig.API_URL_IMAGE_W500 + tvShow.poster_path)
                 binding.root.setOnClickListener {
-                    listener?.onTvShowClickListener(item)
+                    listener?.onTvShowClickListener(tvShow)
                 }
             }
         }
@@ -71,6 +71,5 @@ class TvShowPagingAdapter(
 
     interface ITvShow {
         fun onTvShowClickListener(tvShow: TvResultList)
-        fun onItemFavoriteClicked(tvShow: TvResultList)
     }
 }

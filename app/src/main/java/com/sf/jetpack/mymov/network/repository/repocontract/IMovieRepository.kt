@@ -11,7 +11,4 @@ interface IMovieRepository {
     fun getDetailMovie(movieId: String): LiveData<MovieDetailResponse>
     fun getMovieCredit(movieId: String): LiveData<DataCreditResponse>
     fun getMovieRecommendations(movieId: String): LiveData<DataRecommendationsResponse>
-    suspend fun getListMovieFavorite(): List<FavoriteEntity>
-    suspend fun deleteListMovieFavorite(favoriteEntity: FavoriteEntity)
-    suspend fun insertListMovieFavorite(favoriteEntity: FavoriteEntity)
 }

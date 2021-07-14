@@ -16,8 +16,11 @@ interface FavoriteDao {
     @Query("SELECT * FROM favorites")
     fun getAll(): List<FavoriteEntity>
 
-    @Query("SELECT * FROM favorites")
+    @Query("SELECT * FROM favorites WHERE type LIKE 'MOVIE'")
     fun getAllMovieFavorite(): PagingSource<Int, FavoriteEntity>
+
+    @Query("SELECT * FROM favorites WHERE type LIKE 'TV_SHOW'")
+    fun getAllTvShowFavorite(): PagingSource<Int, FavoriteEntity>
 
     @Insert
     fun insert(vararg favorite: FavoriteEntity)

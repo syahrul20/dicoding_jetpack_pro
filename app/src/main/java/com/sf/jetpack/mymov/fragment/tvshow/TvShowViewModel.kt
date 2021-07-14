@@ -4,27 +4,36 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.sf.jetpack.mymov.db.FavoriteEntity
-import com.sf.jetpack.mymov.network.repository.repocontract.IMoviePagingRepository
+import com.sf.jetpack.mymov.network.repository.repocontract.IRoomRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvShowPagingRepository
 import com.sf.jetpack.mymov.network.response.TvResponse
 import kotlinx.coroutines.launch
 
 class TvShowViewModel(
-    private val tvShowRepo: ITvRepository,
-    private val tvShowPagingRepository: ITvShowPagingRepository
+    private val tvShowRepository: ITvRepository,
+    private val tvShowPagingRepository: ITvShowPagingRepository,
+    private val roomRepository: IRoomRepository
 ) : ViewModel() {
+    val tvShowFavoriteData = MutableLiveData<List<FavoriteEntity>>()
 
     fun getListTvShowPaging() = tvShowPagingRepository.getListTvOnAirPaging()
 
-    fun getListTvShowFromApi(): LiveData<TvResponse> = tvShowRepo.getListTvOnTheAir()
+    fun getListTvShowFromApi(): LiveData<TvResponse> = tvShowRepository.getListTvOnTheAir()
 
-    fun getAllFavoriteTvShow() : LiveData<List<FavoriteEntity>>{
-        val data = MutableLiveData<List<FavoriteEntity>>()
+    fun getListFavoriteTvShow() = tvShowPagingRepository.getListTvShowFavorite().cachedIn(viewModelScope)
+
+    fun getAllFavorite() {
         viewModelScope.launch {
-            data.value = tvShowRepo.getListTvFavorite()
+            tvShowFavoriteData.value = roomRepository.getListFavorite()
         }
-        return data
+    }
+
+    fun deleteMovieFavorite(favoriteEntity: FavoriteEntity) {
+        viewModelScope.launch {
+            roomRepository.deleteFavorite(favoriteEntity)
+        }
     }
 }

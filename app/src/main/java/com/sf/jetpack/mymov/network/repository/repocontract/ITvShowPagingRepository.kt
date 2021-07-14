@@ -1,6 +1,7 @@
 package com.sf.jetpack.mymov.network.repository.repocontract
 
 import androidx.paging.PagingData
+import com.sf.jetpack.mymov.db.FavoriteEntity
 import com.sf.jetpack.mymov.network.response.ListData
 import com.sf.jetpack.mymov.network.response.TvResultList
 import kotlinx.coroutines.flow.Flow
@@ -11,4 +12,5 @@ import kotlinx.coroutines.flow.Flow
  */
 interface ITvShowPagingRepository {
     fun getListTvOnAirPaging(): Flow<PagingData<TvResultList>>
+    fun getListTvShowFavorite(): Flow<PagingData<FavoriteEntity>>
 }

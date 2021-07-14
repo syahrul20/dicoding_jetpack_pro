@@ -99,6 +99,7 @@ class DetailMovieActivity : AppCompatActivity() {
                 }
             }
         })
+
         viewModel.getDetailMovieFromApi(movieId).observe(this, {
             viewModel.isLoading.value = false
             if (it.message == API.MESSAGE_FAIL) {
@@ -149,7 +150,7 @@ class DetailMovieActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.movieFavoriteData.observe(this, { favoriteList ->
+        viewModel.favoriteData.observe(this, { favoriteList ->
             val favoriteFiltered = favoriteList.filter { it.title == detailBinding.textMovieName.text }
             val favoriteItem = favoriteFiltered.find { it.title == detailBinding.textMovieName.text }
             isFavorite = favoriteItem?.isFavorite == 1
@@ -168,14 +169,14 @@ class DetailMovieActivity : AppCompatActivity() {
                     data.isFavorite = if (isFavorite) 0 else 1
                     isFavorite = !isFavorite
                     changeStateOfImageBookmark(isFavorite)
-                    viewModel.prepareDataToMovieFavorite(data)
+                    viewModel.prepareDataToFavorite(data)
                     showSnackBar(isFavorite)
                 }
                 is FavoriteEntity -> {
                     data.isFavorite = if (isFavorite) 0 else 1
                     isFavorite = !isFavorite
                     changeStateOfImageBookmark(isFavorite)
-                    viewModel.prepareDataToMovieFavorite(data)
+                    viewModel.prepareDataToFavorite(data)
                     showSnackBar(isFavorite)
                 }
             }

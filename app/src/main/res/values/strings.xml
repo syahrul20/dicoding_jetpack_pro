@@ -10,10 +10,10 @@
     <string name="app_movie_overview">Overview</string>
     <string name="app_movie_cast">Cast</string>
     <string name="app_movie_recommendations">Recommendation</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="title_movie">Movie</string>
     <string name="title_tv_show">TV Show</string>
-    <string name="title_profile">Profile</string>
+    <string name="title_profile">Favorite</string>
     <string name="app_success_insert_favorite">Sukses menambahkan favorite</string>
     <string name="app_success_remove_favorite">Sukses menghapus favorite</string>
+    <string name="app_no_data">No Data</string>
 </resources>

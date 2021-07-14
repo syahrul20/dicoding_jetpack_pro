@@ -63,7 +63,6 @@
                         android:layout_height="42dp"
                         android:layout_margin="@dimen/marginM"
                         android:background="?attr/actionBarItemBackground"
-                        android:padding="@dimen/paddingXS"
                         app:layout_constraintBottom_toTopOf="@id/textMovieName"
                         app:layout_constraintLeft_toRightOf="@id/imageMovie"
                         app:srcCompat="@drawable/ic_bookmark_inactive" />

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/containerDetailTvShow"
     android:background="@color/colorPrimary">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -56,6 +57,16 @@
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.SelectedCornerRadius"
                         tools:src="@drawable/poster_alita" />
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imageBookmark"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_margin="@dimen/marginM"
+                        android:background="?attr/actionBarItemBackground"
+                        app:layout_constraintBottom_toTopOf="@id/textTvShowName"
+                        app:layout_constraintLeft_toRightOf="@id/imageTvShow"
+                        app:srcCompat="@drawable/ic_bookmark_inactive" />
+
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/textTvShowName"
                         android:layout_width="0dp"
@@ -64,7 +75,7 @@
                         android:layout_marginTop="@dimen/marginML"
                         android:layout_marginBottom="@dimen/marginM"
                         android:ellipsize="end"
-                        android:maxLines="3"
+                        android:maxLines="2"
                         android:textSize="@dimen/fontXL"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/ratingBar"

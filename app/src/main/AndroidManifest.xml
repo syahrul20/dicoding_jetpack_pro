@@ -14,20 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMovies"
         android:usesCleartextTraffic="true"
-        tools:ignore="UnusedAttribute">
+        tools:ignore="AllowBackup,UnusedAttribute">
         <activity
-            android:name=".home.MainActivity"
-            android:label="@string/title_activity_main"
+            android:name=".home.HomeActivity"
+            android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyMovies.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".detail.DetailTvShowActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyMovies.NoActionBar"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyMovies.NoActionBar"
             tools:ignore="LockedOrientationActivity" />

@@ -15,6 +15,7 @@ import com.sf.jetpack.mymov.adapter.TvShowPagingAdapter
 import com.sf.jetpack.mymov.databinding.FragmentTvShowsBinding
 import com.sf.jetpack.mymov.db.AppDatabase
 import com.sf.jetpack.mymov.db.FavoriteEntity
+import com.sf.jetpack.mymov.detail.DetailMovieActivity
 import com.sf.jetpack.mymov.detail.DetailTvShowActivity
 import com.sf.jetpack.mymov.network.response.TvResultList
 import com.sf.jetpack.mymov.utils.Extra
@@ -82,25 +83,6 @@ class TvShowsFragment : Fragment(), TvShowPagingAdapter.ITvShow {
         Intent(requireActivity(), DetailTvShowActivity::class.java).apply {
             putExtra(Extra.DATA, tvShow)
             startActivity(this)
-        }
-    }
-
-    override fun onItemFavoriteClicked(tvShow: TvResultList) {
-        tvShow.isFavorite = if (tvShow.isFavorite == 1) 0 else 1
-        tvShow.type = TYPE.TV_SHOW.name
-        val db = AppDatabase.getInstance(requireContext())
-        lifecycleScope.launch {
-            val favoriteData = FavoriteEntity(
-                tvShow.id,
-                tvShow.name,
-                tvShow.overview,
-                tvShow.poster_path,
-                "",
-                tvShow.vote_average,
-                tvShow.isFavorite,
-                tvShow.type
-            )
-            db.favoriteDao().insert(favoriteData)
         }
     }
 

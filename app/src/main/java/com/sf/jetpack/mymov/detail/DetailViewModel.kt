@@ -1,12 +1,12 @@
 package com.sf.jetpack.mymov.detail
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sf.jetpack.mymov.db.FavoriteEntity
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
+import com.sf.jetpack.mymov.network.repository.repocontract.IRoomRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
 import com.sf.jetpack.mymov.network.response.*
 import com.sf.jetpack.mymov.utils.TYPE
@@ -19,10 +19,11 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val movieRepository: IMovieRepository,
-    private val tvShowRepository: ITvRepository
+    private val tvShowRepository: ITvRepository,
+    private val roomRepository: IRoomRepository
 ) : ViewModel() {
     var isLoading = MutableLiveData(true)
-    val movieFavoriteData = MutableLiveData<List<FavoriteEntity>>()
+    val favoriteData = MutableLiveData<List<FavoriteEntity>>()
 
     fun getDetailMovieFromApi(
         movieId: String
@@ -36,23 +37,33 @@ class DetailViewModel(
 
     fun getAllMovieFavorite() {
         viewModelScope.launch {
-            movieFavoriteData.value = movieRepository.getListMovieFavorite()
+            val listFavorite = roomRepository.getListFavorite()
+            listFavorite.filter { it.type == TYPE.TV_SHOW.name }
+            favoriteData.value = listFavorite
         }
     }
 
-    private fun insertMovieFavorite(favoriteEntity: FavoriteEntity) {
+    fun getTvShowFavorite() {
         viewModelScope.launch {
-            movieRepository.insertListMovieFavorite(favoriteEntity)
+            val listFavorite = roomRepository.getListFavorite()
+            listFavorite.filter { it.type == TYPE.TV_SHOW.name }
+            favoriteData.value = listFavorite
         }
     }
 
-    private fun deleteMovieFavorite(favoriteEntity: FavoriteEntity) {
+    private fun insertFavorite(favoriteEntity: FavoriteEntity) {
         viewModelScope.launch {
-            movieRepository.deleteListMovieFavorite(favoriteEntity)
+            roomRepository.insertFavorite(favoriteEntity)
         }
     }
 
-    fun <T> prepareDataToMovieFavorite(data: T) {
+    private fun deleteFavorite(favoriteEntity: FavoriteEntity) {
+        viewModelScope.launch {
+            roomRepository.deleteFavorite(favoriteEntity)
+        }
+    }
+
+    fun <T> prepareDataToFavorite(data: T) {
         when (data) {
             is ListData -> {
                 data.type = TYPE.MOVIE.name
@@ -67,13 +78,31 @@ class DetailViewModel(
                     data.type!!
                 )
                 if (data.isFavorite == 1) {
-                    insertMovieFavorite(favoriteData)
+                    insertFavorite(favoriteData)
                 } else {
-                    deleteMovieFavorite(favoriteData)
+                    deleteFavorite(favoriteData)
+                }
+            }
+            is TvResultList -> {
+                data.type = TYPE.TV_SHOW.name
+                val favoriteData = FavoriteEntity(
+                    data.id,
+                    data.name,
+                    data.overview,
+                    data.poster_path,
+                    data.first_air_date,
+                    data.vote_average,
+                    data.isFavorite,
+                    data.type!!
+                )
+                if (data.isFavorite == 1) {
+                    insertFavorite(favoriteData)
+                } else {
+                    deleteFavorite(favoriteData)
                 }
             }
             is FavoriteEntity -> {
-                data.type = TYPE.MOVIE.name
+                data.type = if (data is ListData) TYPE.MOVIE.name else TYPE.TV_SHOW.name
                 val favoriteData = FavoriteEntity(
                     data.id,
                     data.title,
@@ -85,17 +114,15 @@ class DetailViewModel(
                     data.type
                 )
                 if (data.isFavorite == 1) {
-                    insertMovieFavorite(favoriteData)
+                    insertFavorite(favoriteData)
                 } else {
-                    deleteMovieFavorite(favoriteData)
+                    deleteFavorite(favoriteData)
                 }
             }
         }
     }
 
-    fun getDetailTvFromApi(
-        tvId: String
-    ): LiveData<TvDetailResponse> = tvShowRepository.getDetailTv(tvId)
+    fun getDetailTvFromApi(tvId: String): LiveData<TvDetailResponse> = tvShowRepository.getDetailTv(tvId)
 
     fun getTvShowCredit(tvId: String): LiveData<DataCreditResponse> =
         tvShowRepository.getTvShowCredit(tvId)

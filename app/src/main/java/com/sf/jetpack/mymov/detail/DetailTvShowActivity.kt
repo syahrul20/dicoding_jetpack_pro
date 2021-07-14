@@ -5,14 +5,17 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.google.android.material.snackbar.Snackbar
 import com.sf.jetpack.mymov.BuildConfig
 import com.sf.jetpack.mymov.R
 import com.sf.jetpack.mymov.adapter.DataCreditAdapter
 import com.sf.jetpack.mymov.adapter.DataRecommendationsAdapter
 import com.sf.jetpack.mymov.databinding.ActivityDetailTvShowBinding
+import com.sf.jetpack.mymov.db.FavoriteEntity
 import com.sf.jetpack.mymov.network.response.TvResultList
 import com.sf.jetpack.mymov.utils.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.ClassCastException
 
 /**
  * بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
@@ -23,6 +26,7 @@ class DetailTvShowActivity : AppCompatActivity() {
 
     private lateinit var detailBinding: ActivityDetailTvShowBinding
     private val viewModel: DetailViewModel by viewModel()
+    private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,23 +40,51 @@ class DetailTvShowActivity : AppCompatActivity() {
     private fun setUpExtra() {
         val extras = intent.extras
         if (extras != null) {
-            val data = extras.getParcelable<TvResultList>(Extra.DATA)
-            val selectedId = data?.id
-            if (selectedId != null) {
-                setUpObserver(selectedId.toString())
-                with(detailBinding) {
-                    textTvShowName.text = data.name
-                    imageTvShowCover.loadUrl(BuildConfig.API_URL_IMAGE_ORIGINAL + data.poster_path)
-                    imageTvShow.loadUrl(BuildConfig.API_URL_IMAGE_W500 + data.poster_path)
-                    val rate = data.vote_average.let { (it * 10) / 20 }
-                    ratingBar.rating = rate.toFloat()
-                    textRating.text = getString(R.string.app_movie_rating_count, rate)
+            val data = try {
+                extras.getParcelable<TvResultList>(Extra.DATA)
+            } catch (e: ClassCastException) {
+                extras.getParcelable<FavoriteEntity>(Extra.DATA)
+            }
+            when (data) {
+                is TvResultList -> {
+                    val selectedId = data.id
+                    setUpObserver(selectedId.toString())
+                    with(detailBinding) {
+                        textTvShowName.text = data.name
+                        imageTvShowCover.loadUrl(BuildConfig.API_URL_IMAGE_ORIGINAL + data.poster_path)
+                        imageTvShow.loadUrl(BuildConfig.API_URL_IMAGE_W500 + data.poster_path)
+                        val rate = data.vote_average.let { (it * 10) / 20 }
+                        ratingBar.rating = rate.toFloat()
+                        textRating.text = getString(R.string.app_movie_rating_count, rate)
+                    }
+                }
+                is FavoriteEntity -> {
+                    val selectedId = data.id
+                    setUpObserver(selectedId.toString())
+                    with(detailBinding) {
+                        textTvShowName.text = data.title
+                        imageTvShowCover.loadUrl(BuildConfig.API_URL_IMAGE_ORIGINAL + data.poster_path)
+                        imageTvShow.loadUrl(BuildConfig.API_URL_IMAGE_W500 + data.poster_path)
+                        val rate = data.vote_average.let { (it * 10) / 20 }
+                        ratingBar.rating = rate.toFloat()
+                        textRating.text = getString(R.string.app_movie_rating_count, rate)
+                    }
                 }
             }
+            onFavoriteClicked(data)
+        }
+    }
+
+    private fun setUpActionBar() {
+        setSupportActionBar(detailBinding.toolbar)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
         }
     }
 
     private fun setUpObserver(tvShowId: String) {
+        viewModel.getTvShowFavorite()
         viewModel.isLoading.observe(this, { isLoading ->
             with(detailBinding) {
                 if (isLoading) {
@@ -64,6 +96,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                 }
             }
         })
+
         viewModel.getDetailTvFromApi(tvShowId).observe(this, {
             viewModel.isLoading.value = false
             if (it.message == API.MESSAGE_FAIL) {
@@ -112,13 +145,61 @@ class DetailTvShowActivity : AppCompatActivity() {
                 recyclerViewRecommendations.adapter = tvShowRecommendationAdapter
             }
         })
+
+        viewModel.favoriteData.observe(this, { favoriteList ->
+            val favoriteFiltered = favoriteList.filter { it.title == detailBinding.textTvShowName.text }
+            val favoriteItem = favoriteFiltered.find { it.title == detailBinding.textTvShowName.text }
+            isFavorite = favoriteItem?.isFavorite == 1
+            if (favoriteItem?.isFavorite == 1) {
+                detailBinding.imageBookmark.setImageResource(R.drawable.ic_bookmark_active)
+            } else {
+                detailBinding.imageBookmark.setImageResource(R.drawable.ic_bookmark_inactive)
+            }
+        })
     }
 
-    private fun setUpActionBar() {
-        setSupportActionBar(detailBinding.toolbar)
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
+    private fun <T> onFavoriteClicked(data: T) = with(detailBinding) {
+        imageBookmark.setOnClickListener {
+            when (data) {
+                is TvResultList -> {
+                    data.isFavorite = if (isFavorite) 0 else 1
+                    isFavorite = !isFavorite
+                    changeStateOfImageBookmark(isFavorite)
+                    viewModel.prepareDataToFavorite(data)
+                    showSnackBar(isFavorite)
+                }
+                is FavoriteEntity -> {
+                    data.isFavorite = if (isFavorite) 0 else 1
+                    isFavorite = !isFavorite
+                    changeStateOfImageBookmark(isFavorite)
+                    viewModel.prepareDataToFavorite(data)
+                    showSnackBar(isFavorite)
+                }
+            }
+        }
+    }
+
+    private fun changeStateOfImageBookmark(isFavorite: Boolean) = with(detailBinding) {
+        if (isFavorite) {
+            imageBookmark.setImageResource(R.drawable.ic_bookmark_active)
+        } else {
+            imageBookmark.setImageResource(R.drawable.ic_bookmark_inactive)
+        }
+    }
+
+    private fun showSnackBar(hasFavorite: Boolean) = with(detailBinding) {
+        if (hasFavorite) {
+            Snackbar.make(
+                containerDetailTvShow,
+                getString(R.string.app_success_insert_favorite),
+                Snackbar.LENGTH_SHORT
+            ).show()
+        } else {
+            Snackbar.make(
+                containerDetailTvShow,
+                getString(R.string.app_success_remove_favorite),
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 

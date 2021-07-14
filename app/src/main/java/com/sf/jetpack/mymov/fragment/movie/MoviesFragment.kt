@@ -2,7 +2,6 @@ package com.sf.jetpack.mymov.fragment.movie
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +12,9 @@ import androidx.paging.LoadState
 import com.sf.jetpack.mymov.adapter.MoviesPagingAdapter
 import com.sf.jetpack.mymov.adapter.ItemStateLoadingAdapter
 import com.sf.jetpack.mymov.databinding.FragmentMoviesBinding
-import com.sf.jetpack.mymov.db.FavoriteEntity
 import com.sf.jetpack.mymov.detail.DetailMovieActivity
 import com.sf.jetpack.mymov.network.response.ListData
 import com.sf.jetpack.mymov.utils.Extra
-import com.sf.jetpack.mymov.utils.TYPE
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel

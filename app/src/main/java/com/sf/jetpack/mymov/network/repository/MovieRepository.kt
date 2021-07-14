@@ -47,25 +47,6 @@ class MovieRepository(
         return data
     }
 
-    override suspend fun insertListMovieFavorite(favoriteEntity: FavoriteEntity) {
-        withContext(Dispatchers.IO) {
-            favoriteDao.insert(favoriteEntity)
-        }
-    }
-
-
-    override suspend fun deleteListMovieFavorite(favoriteEntity: FavoriteEntity) {
-        withContext(Dispatchers.IO) {
-            favoriteDao.delete(favoriteEntity)
-        }
-    }
-
-    override suspend fun getListMovieFavorite(): List<FavoriteEntity> {
-        return withContext(Dispatchers.IO) {
-            favoriteDao.getAll()
-        }
-    }
-
     override fun getDetailMovie(movieId: String): LiveData<MovieDetailResponse> {
         val data = MutableLiveData<MovieDetailResponse>()
         val call = movieDataSource.getDetailMovie(movieId)

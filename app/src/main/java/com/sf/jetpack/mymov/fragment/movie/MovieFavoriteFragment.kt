@@ -2,7 +2,6 @@ package com.sf.jetpack.mymov.fragment.movie
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import com.sf.jetpack.mymov.databinding.FragmentMoviesFavoriteBinding
 import com.sf.jetpack.mymov.db.FavoriteEntity
 import com.sf.jetpack.mymov.detail.DetailMovieActivity
 import com.sf.jetpack.mymov.utils.Extra
+import com.sf.jetpack.mymov.utils.TYPE
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -53,7 +53,8 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
             footer = ItemStateLoadingAdapter { moviesFavoriteAdapter.retry() }
         )
         moviesFavoriteAdapter.addLoadStateListener { loadState ->
-            val isListEmpty = loadState.refresh is LoadState.NotLoading && moviesFavoriteAdapter.itemCount  == 0
+            val isListEmpty =
+                loadState.refresh is LoadState.NotLoading && moviesFavoriteAdapter.itemCount == 0
             val isLoading = loadState.source.refresh is LoadState.Loading
             binding.containerNoData.isVisible = isListEmpty
             setLoading(isLoading)
@@ -68,7 +69,8 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
         }
 
         viewModel.movieFavoriteData.observe(viewLifecycleOwner, { favoriteList ->
-            movieFavoriteList.addAll(favoriteList)
+            val dataFiltered = favoriteList.filter { it.type == TYPE.MOVIE.name }
+            movieFavoriteList.addAll(dataFiltered)
         })
     }
 
