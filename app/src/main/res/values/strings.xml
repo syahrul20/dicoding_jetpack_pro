@@ -16,4 +16,6 @@
     <string name="app_success_insert_favorite">Sukses menambahkan favorite</string>
     <string name="app_success_remove_favorite">Sukses menghapus favorite</string>
     <string name="app_no_data">No Data</string>
+    <string name="app_recommendation_info_is_empty">Recommendation is empty</string>
+    <string name="app_overview_info_is_empty">Overview is empty</string>
 </resources>

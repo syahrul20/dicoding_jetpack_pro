@@ -32,7 +32,7 @@ class DetailTvShowActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         detailBinding = ActivityDetailTvShowBinding.inflate(layoutInflater)
         setContentView(detailBinding.root)
-        
+
         setUpExtra()
         setUpActionBar()
     }
@@ -110,13 +110,20 @@ class DetailTvShowActivity : AppCompatActivity() {
                     ratingBar.rating = rate?.toFloat() ?: 0F
                     textRating.text = getString(R.string.app_movie_rating_count, rate)
                     with(this.contentTvShowDetail) {
-                        textOverview.text = it.overview
+                        if (it.overview.isEmpty()) {
+                            textOverview.isVisible = false
+                            textOverviewNotFound.isVisible = true
+                        } else {
+                            textOverview.isVisible = true
+                            textOverview.text = it.overview
+                        }
                         val genres = ArrayList<String>()
                         it.genres.forEach { item ->
                             genres.add(item.name)
                         }
                         textGenre.text = genres.joinToString()
-                        textReleaseDate.text = convertDate(it.firstAirDate, "yyyy-MM-dd", "dd MMM yyyy")
+                        textReleaseDate.text =
+                            convertDate(it.firstAirDate, "yyyy-MM-dd", "dd MMM yyyy")
                     }
                 }
             }
@@ -135,20 +142,29 @@ class DetailTvShowActivity : AppCompatActivity() {
         viewModel.getTvShowRecommendations(tvShowId).observe(this, {
             val tvShowRecommendationAdapter = DataRecommendationsAdapter(it.results, false)
             with(detailBinding.contentTvShowDetail) {
-                recyclerViewRecommendations.addItemDecoration(
-                    GridItemDecoration(
-                        resources.getDimensionPixelSize(
-                            R.dimen.marginM
+                if (it.results.isEmpty()) {
+                    textRecommendationEmpty.isVisible = true
+                    recyclerViewRecommendations.isVisible = false
+                } else {
+                    textRecommendationEmpty.isVisible = false
+                    recyclerViewRecommendations.isVisible = true
+                    recyclerViewRecommendations.addItemDecoration(
+                        GridItemDecoration(
+                            resources.getDimensionPixelSize(
+                                R.dimen.marginM
+                            )
                         )
                     )
-                )
-                recyclerViewRecommendations.adapter = tvShowRecommendationAdapter
+                    recyclerViewRecommendations.adapter = tvShowRecommendationAdapter
+                }
             }
         })
 
         viewModel.favoriteData.observe(this, { favoriteList ->
-            val favoriteFiltered = favoriteList.filter { it.title == detailBinding.textTvShowName.text }
-            val favoriteItem = favoriteFiltered.find { it.title == detailBinding.textTvShowName.text }
+            val favoriteFiltered =
+                favoriteList.filter { it.title == detailBinding.textTvShowName.text }
+            val favoriteItem =
+                favoriteFiltered.find { it.title == detailBinding.textTvShowName.text }
             isFavorite = favoriteItem?.isFavorite == 1
             if (favoriteItem?.isFavorite == 1) {
                 detailBinding.imageBookmark.setImageResource(R.drawable.ic_bookmark_active)

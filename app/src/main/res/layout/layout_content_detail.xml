@@ -65,12 +65,22 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginM"
         android:text="@string/app_movie_overview"
         android:textSize="@dimen/fontL"
         android:textStyle="bold" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textOverviewNotFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginM"
+        android:text="@string/app_overview_info_is_empty"
+        android:visibility="gone"
+        tools:maxLines="10" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textOverview"
@@ -100,12 +110,22 @@
         tools:visibility="visible" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textRecommendation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginM"
         android:text="@string/app_movie_recommendations"
         android:textSize="@dimen/fontL"
         android:textStyle="bold" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textRecommendationEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginS"
+        android:text="@string/app_recommendation_info_is_empty"
+        android:visibility="gone"
+        tools:maxLines="10" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewRecommendations"
