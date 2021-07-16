@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.*
 import com.nhaarman.mockitokotlin2.verify
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
+import com.sf.jetpack.mymov.network.repository.repocontract.IRoomRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
 import com.sf.jetpack.mymov.network.response.DataCreditResponse
 import com.sf.jetpack.mymov.network.response.DataRecommendationsResponse
@@ -40,6 +41,9 @@ class DetailViewModelTest {
     private lateinit var tvShowRepository: ITvRepository
 
     @Mock
+    private lateinit var roomRepository: IRoomRepository
+
+    @Mock
     private lateinit var observerMovieDetail: Observer<MovieDetailResponse>
 
     @Mock
@@ -59,7 +63,7 @@ class DetailViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = DetailViewModel(movieRepository, tvShowRepository)
+        viewModel = DetailViewModel(movieRepository, tvShowRepository, roomRepository)
     }
 
     @Test

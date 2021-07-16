@@ -4,7 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.verify
+import com.sf.jetpack.mymov.network.repository.repocontract.IRoomRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
+import com.sf.jetpack.mymov.network.repository.repocontract.ITvShowPagingRepository
 import com.sf.jetpack.mymov.network.response.TvResponse
 import com.sf.jetpack.mymov.utils.DummyData
 import org.junit.Test
@@ -28,11 +30,17 @@ class TvShowViewModelTest {
     private lateinit var tvShowRepository: ITvRepository
 
     @Mock
+    private lateinit var tvShowPagingRepository: ITvShowPagingRepository
+
+    @Mock
+    private lateinit var roomRepository: IRoomRepository
+
+    @Mock
     private lateinit var tvShowObserver: Observer<TvResponse>
 
     @Before
     fun setUp() {
-        viewModel = TvShowViewModel(tvShowRepository)
+        viewModel = TvShowViewModel(tvShowRepository, tvShowPagingRepository, roomRepository)
     }
     @Test
     fun getListTvShow() {

@@ -58,7 +58,7 @@ class MoviesFragment : Fragment(), MoviesPagingAdapter.IMovie {
     private fun setUpObserver() {
         viewModel.getAllMovieFavorite()
         lifecycleScope.launch {
-            viewModel.listMovie.collectLatest {
+            viewModel.getListMoviePaging().collectLatest {
                 moviesPagingAdapter.submitData(it)
             }
         }

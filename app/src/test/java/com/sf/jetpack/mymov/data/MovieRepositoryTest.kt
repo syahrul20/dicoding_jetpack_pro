@@ -1,20 +1,16 @@
-package com.sf.jetpack.mymov.fragment.movie
+package com.sf.jetpack.mymov.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
-import androidx.lifecycle.asLiveData
-import androidx.paging.*
-import com.nhaarman.mockitokotlin2.verify
+import androidx.paging.PagingSource
 import com.sf.jetpack.mymov.network.datasource.MovieDataSource
 import com.sf.jetpack.mymov.network.datasource.MoviePagingSource
 import com.sf.jetpack.mymov.network.repository.repocontract.IMoviePagingRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.IRoomRepository
-import com.sf.jetpack.mymov.network.response.MovieResponse
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 import org.junit.Before
@@ -22,12 +18,12 @@ import org.junit.Rule
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
+import kotlin.math.exp
 
 @RunWith(MockitoJUnitRunner::class)
 class MovieViewModelTest {
-
-    private lateinit var viewModel: MovieViewModel
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -41,38 +37,15 @@ class MovieViewModelTest {
     @Mock
     private lateinit var roomRepository: IRoomRepository
 
-    @Mock
-    private lateinit var movieDataSource: MovieDataSource
-
-    @Mock
-    private lateinit var movieObserver: Observer<MovieResponse>
-
-    @Before
-    fun setUp() {
-        viewModel = MovieViewModel(roomRepository, moviePagingRepository)
-    }
-
     @Test
     fun getListMoviePaging(): Unit = runBlocking {
         launch {
-            val job = launch {
-                val data = Pager(
-                    config = PagingConfig(
-                        pageSize = 10,
-                        maxSize = 100,
-                        enablePlaceholders = false
-                    ),
-                    pagingSourceFactory = { MoviePagingSource(movieDataSource) }
-                ).flow
-                `when`(moviePagingRepository.getListMoviePaging()).thenReturn(data)
-            }
-            delay(1000)
-            val moviePaging = viewModel.getListMoviePaging().asLiveData().value
-            verify(moviePagingRepository).getListMoviePaging()
-//            assertEquals(mock, moviePaging)
-//            assertNotNull(moviePaging)
-            println(moviePaging)
-            job.cancel()
+//            `when`(moviePagingRepository.getListMoviePaging()).thenReturn(tData)
+//            val expected = DummyData.generateListMovieResponse()
+//            val pagingData = mock(PagingData::class.java) as PagingData<ListData>
+//            `when`(moviePagingRepository.getListMoviePaging()).thenReturn(flow { pagingData })
+//            moviePagingRepository.getListMoviePaging()
+
         }
     }
 

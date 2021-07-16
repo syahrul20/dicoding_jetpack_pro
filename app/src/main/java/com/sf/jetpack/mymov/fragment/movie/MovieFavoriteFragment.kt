@@ -63,7 +63,7 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
 
     private fun initData() {
         lifecycleScope.launch {
-            viewModel.listMovieFavorite.collectLatest {
+            viewModel.listMovieFavorite().collectLatest {
                 moviesFavoriteAdapter.submitData(it)
             }
         }

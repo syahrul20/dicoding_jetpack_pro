@@ -3,15 +3,11 @@ package com.sf.jetpack.mymov.network.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.sf.jetpack.mymov.db.FavoriteDao
-import com.sf.jetpack.mymov.db.FavoriteEntity
 import com.sf.jetpack.mymov.network.datasource.MovieDataSource
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
 import com.sf.jetpack.mymov.network.response.*
 import com.sf.jetpack.mymov.utils.API
 import com.sf.jetpack.mymov.utils.EspressoIdleResource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import retrofit2.*
 import java.lang.Exception
 
@@ -21,31 +17,9 @@ import java.lang.Exception
  */
 
 class MovieRepository(
-    private val movieDataSource: MovieDataSource,
-    private val favoriteDao: FavoriteDao
+    private val movieDataSource: MovieDataSource
 ) :
     IMovieRepository {
-
-    override fun getListMovie(): LiveData<MovieResponse> {
-        val data = MutableLiveData<MovieResponse>()
-        val call = movieDataSource.getListMovie()
-        EspressoIdleResource.increment()
-        call.enqueue(object : Callback<MovieResponse> {
-            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                try {
-                    data.value = response.body()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                EspressoIdleResource.decrement()
-            }
-
-            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                data.value = MovieResponse(message = API.MESSAGE_FAIL)
-            }
-        })
-        return data
-    }
 
     override fun getDetailMovie(movieId: String): LiveData<MovieDetailResponse> {
         val data = MutableLiveData<MovieDetailResponse>()
