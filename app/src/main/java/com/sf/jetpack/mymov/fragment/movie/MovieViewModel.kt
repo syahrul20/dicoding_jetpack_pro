@@ -1,33 +1,32 @@
 package com.sf.jetpack.mymov.fragment.movie
 
 import androidx.lifecycle.*
-import androidx.paging.cachedIn
-import com.sf.jetpack.mymov.db.FavoriteEntity
+import androidx.paging.PagedList
+import com.sf.jetpack.mymov.db.MovieEntity
+import com.sf.jetpack.mymov.network.repository.MovieRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.IMoviePagingRepository
+import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.IRoomRepository
-import kotlinx.coroutines.*
+import com.sf.jetpack.mymov.network.response.MovieResponse
+import com.sf.jetpack.mymov.network.state.Resource
 
 
 class MovieViewModel(
-    private val roomRepository: IRoomRepository,
-    private val moviePagingRepository: IMoviePagingRepository
+    private val movieRepository :IMovieRepository
 ) : ViewModel() {
+    val movieResponse = MutableLiveData<MovieResponse>()
 
-    val movieFavoriteData = MutableLiveData<List<FavoriteEntity>>()
+    fun getListMoviePaging(): LiveData<Resource<PagedList<MovieEntity>>> = movieRepository.getListMoviePaging()
 
-    fun getListMoviePaging() = moviePagingRepository.getListMoviePaging()
+//    fun getAllMovieFavorite() {
+//        viewModelScope.launch {
+//            movieFavoriteData.value = roomRepository.getListFavorite()
+//        }
+//    }
 
-    fun listMovieFavorite() = moviePagingRepository.getListMovieFavorite().cachedIn(viewModelScope)
-
-    fun getAllMovieFavorite() {
-        viewModelScope.launch {
-            movieFavoriteData.value = roomRepository.getListFavorite()
-        }
-    }
-
-    fun deleteMovieFavorite(favoriteEntity: FavoriteEntity) {
-        viewModelScope.launch {
-            roomRepository.deleteFavorite(favoriteEntity)
-        }
-    }
+//    fun deleteMovieFavorite(favoriteEntity: FavoriteEntity) {
+//        viewModelScope.launch {
+//            roomRepository.deleteFavorite(favoriteEntity)
+//        }
+//    }
 }

@@ -3,32 +3,30 @@ package com.sf.jetpack.mymov.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.paging.PagingDataAdapter
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sf.jetpack.mymov.BuildConfig.API_URL_IMAGE_W500
 import com.sf.jetpack.mymov.R
 import com.sf.jetpack.mymov.databinding.ItemMoviesBinding
-import com.sf.jetpack.mymov.db.FavoriteEntity
-import com.sf.jetpack.mymov.network.response.ListData
+import com.sf.jetpack.mymov.db.MovieEntity
 import com.sf.jetpack.mymov.utils.loadUrl
 import java.lang.NullPointerException
 
 class MoviesFavoriteAdapter(
     private val listener: IMovie? = null
 ) :
-    PagingDataAdapter<FavoriteEntity, MoviesFavoriteAdapter.ItemViewHolder>(DIFF_CALLBACK) {
+    PagedListAdapter<MovieEntity, MoviesFavoriteAdapter.ItemViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK: DiffUtil.ItemCallback<FavoriteEntity> =
-            object : DiffUtil.ItemCallback<FavoriteEntity>() {
-                override fun areItemsTheSame(oldItem: FavoriteEntity, newItem: FavoriteEntity): Boolean {
+        private val DIFF_CALLBACK: DiffUtil.ItemCallback<MovieEntity> =
+            object : DiffUtil.ItemCallback<MovieEntity>() {
+                override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
                     return oldItem.title == newItem.title && oldItem.overview == newItem.overview
                 }
 
-                override fun areContentsTheSame(oldItem: FavoriteEntity, newItem: FavoriteEntity): Boolean {
+                override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
                     return oldItem == newItem
                 }
             }
@@ -79,7 +77,7 @@ class MoviesFavoriteAdapter(
     }
 
     interface IMovie {
-        fun onMovieClicked(movie: FavoriteEntity)
-        fun onItemFavoriteClicked(movie: FavoriteEntity)
+        fun onMovieClicked(movie: MovieEntity)
+        fun onItemFavoriteClicked(movie: MovieEntity)
     }
 }

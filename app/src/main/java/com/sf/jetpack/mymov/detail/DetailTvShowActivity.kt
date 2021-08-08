@@ -11,7 +11,7 @@ import com.sf.jetpack.mymov.R
 import com.sf.jetpack.mymov.adapter.DataCreditAdapter
 import com.sf.jetpack.mymov.adapter.DataRecommendationsAdapter
 import com.sf.jetpack.mymov.databinding.ActivityDetailTvShowBinding
-import com.sf.jetpack.mymov.db.FavoriteEntity
+import com.sf.jetpack.mymov.db.TvShowEntity
 import com.sf.jetpack.mymov.network.response.TvResultList
 import com.sf.jetpack.mymov.utils.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -40,25 +40,9 @@ class DetailTvShowActivity : AppCompatActivity() {
     private fun setUpExtra() {
         val extras = intent.extras
         if (extras != null) {
-            val data = try {
-                extras.getParcelable<TvResultList>(Extra.DATA)
-            } catch (e: ClassCastException) {
-                extras.getParcelable<FavoriteEntity>(Extra.DATA)
-            }
+            val data = extras.getParcelable<TvShowEntity>(Extra.DATA)
             when (data) {
-                is TvResultList -> {
-                    val selectedId = data.id
-                    setUpObserver(selectedId.toString())
-                    with(detailBinding) {
-                        textTvShowName.text = data.name
-                        imageTvShowCover.loadUrl(BuildConfig.API_URL_IMAGE_ORIGINAL + data.poster_path)
-                        imageTvShow.loadUrl(BuildConfig.API_URL_IMAGE_W500 + data.poster_path)
-                        val rate = data.vote_average.let { (it * 10) / 20 }
-                        ratingBar.rating = rate.toFloat()
-                        textRating.text = getString(R.string.app_movie_rating_count, rate)
-                    }
-                }
-                is FavoriteEntity -> {
+                is TvShowEntity -> {
                     val selectedId = data.id
                     setUpObserver(selectedId.toString())
                     with(detailBinding) {
@@ -184,7 +168,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                     viewModel.prepareDataToFavorite(data)
                     showSnackBar(isFavorite)
                 }
-                is FavoriteEntity -> {
+                is TvShowEntity -> {
                     data.isFavorite = if (isFavorite) 0 else 1
                     isFavorite = !isFavorite
                     changeStateOfImageBookmark(isFavorite)

@@ -2,27 +2,18 @@ package com.sf.jetpack.mymov.fragment.tvshow
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
-import com.sf.jetpack.mymov.adapter.ItemStateLoadingAdapter
 import com.sf.jetpack.mymov.adapter.TvShowPagingAdapter
 import com.sf.jetpack.mymov.databinding.FragmentTvShowsBinding
-import com.sf.jetpack.mymov.db.AppDatabase
-import com.sf.jetpack.mymov.db.FavoriteEntity
-import com.sf.jetpack.mymov.detail.DetailMovieActivity
+import com.sf.jetpack.mymov.db.TvShowEntity
 import com.sf.jetpack.mymov.detail.DetailTvShowActivity
 import com.sf.jetpack.mymov.network.response.TvResultList
 import com.sf.jetpack.mymov.utils.Extra
-import com.sf.jetpack.mymov.utils.TYPE
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -54,19 +45,12 @@ class TvShowsFragment : Fragment(), TvShowPagingAdapter.ITvShow {
 
     private fun setUpRecyclerView() {
         binding.rvTvShows.adapter = tvShowPagingAdapter
-        binding.rvTvShows.adapter = tvShowPagingAdapter.withLoadStateFooter(
-            footer = ItemStateLoadingAdapter { tvShowPagingAdapter.retry() }
-        )
-        tvShowPagingAdapter.addLoadStateListener { loadState ->
-            val isLoading = loadState.source.refresh is LoadState.Loading
-            setLoading(isLoading)
-        }
     }
 
     private fun setUpObserver() {
-        lifecycleScope.launch {
-            viewModel.getListTvShowPaging().collectLatest { tvShowPagingAdapter.submitData(it) }
-        }
+//        lifecycleScope.launch {
+//            viewModel.getListTvShowPaging().collectLatest { tvShowPagingAdapter.submitData(it) }
+//        }
     }
 
     private fun setLoading(isLoading: Boolean) = with(binding) {
@@ -79,7 +63,7 @@ class TvShowsFragment : Fragment(), TvShowPagingAdapter.ITvShow {
         }
     }
 
-    override fun onTvShowClickListener(tvShow: TvResultList) {
+    override fun onTvShowClickListener(tvShow: TvShowEntity) {
         Intent(requireActivity(), DetailTvShowActivity::class.java).apply {
             putExtra(Extra.DATA, tvShow)
             startActivity(this)

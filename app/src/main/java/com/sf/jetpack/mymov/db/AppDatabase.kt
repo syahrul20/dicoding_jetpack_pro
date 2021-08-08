@@ -10,18 +10,19 @@ import androidx.room.RoomDatabase
  * Created By Fahmi
  */
 
-@Database(entities = [FavoriteEntity::class], version = 1)
+@Database(entities = [MovieEntity::class, TvShowEntity::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun favoriteDao(): FavoriteDao
+    abstract fun movieDao(): MovieDao
+    abstract fun tvShowDao(): TVShowDao
 
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null
         fun getInstance(context: Context): AppDatabase = INSTANCE ?: synchronized(this) {
-                Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "mimo.db")
-                    .fallbackToDestructiveMigration()
-                    .build().apply { INSTANCE = this }
+            Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "mimo.db")
+                .fallbackToDestructiveMigration()
+                .build().apply { INSTANCE = this }
 
-            }
+        }
     }
 }

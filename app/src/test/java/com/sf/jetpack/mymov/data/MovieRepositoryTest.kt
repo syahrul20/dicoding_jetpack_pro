@@ -1,26 +1,17 @@
 package com.sf.jetpack.mymov.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.paging.PagingSource
-import com.sf.jetpack.mymov.network.datasource.MovieDataSource
-import com.sf.jetpack.mymov.network.datasource.MoviePagingSource
 import com.sf.jetpack.mymov.network.repository.repocontract.IMoviePagingRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.IRoomRepository
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
 import org.junit.Test
 
-import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
-import kotlin.math.exp
 
 @RunWith(MockitoJUnitRunner::class)
 class MovieViewModelTest {

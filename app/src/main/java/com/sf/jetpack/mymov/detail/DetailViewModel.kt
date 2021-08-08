@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sf.jetpack.mymov.db.FavoriteEntity
+import com.sf.jetpack.mymov.db.MovieEntity
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.IRoomRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
@@ -23,7 +23,7 @@ class DetailViewModel(
     private val roomRepository: IRoomRepository
 ) : ViewModel() {
     var isLoading = MutableLiveData(true)
-    val favoriteData = MutableLiveData<List<FavoriteEntity>>()
+    val favoriteData = MutableLiveData<List<MovieEntity>>()
 
     fun getDetailMovieFromApi(
         movieId: String
@@ -36,82 +36,44 @@ class DetailViewModel(
         movieRepository.getMovieRecommendations(movieId)
 
     fun getAllMovieFavorite() {
-        viewModelScope.launch {
-            val listFavorite = roomRepository.getListFavorite()
-            listFavorite.filter { it.type == TYPE.TV_SHOW.name }
-            favoriteData.value = listFavorite
-        }
+//        viewModelScope.launch {
+//            val listFavorite = roomRepository.getListFavorite()
+//            listFavorite.filter { it.type == TYPE.TV_SHOW.name }
+//            favoriteData.value = listFavorite
+//        }
     }
 
     fun getTvShowFavorite() {
-        viewModelScope.launch {
-            val listFavorite = roomRepository.getListFavorite()
-            listFavorite.filter { it.type == TYPE.TV_SHOW.name }
-            favoriteData.value = listFavorite
-        }
+//        viewModelScope.launch {
+//            val listFavorite = roomRepository.getListFavorite()
+//            listFavorite.filter { it.type == TYPE.TV_SHOW.name }
+//            favoriteData.value = listFavorite
+//        }
     }
 
-    private fun insertFavorite(favoriteEntity: FavoriteEntity) {
-        viewModelScope.launch {
-            roomRepository.insertFavorite(favoriteEntity)
-        }
+    private fun insertFavorite(MovieEntity: MovieEntity) {
+//        viewModelScope.launch {
+//            roomRepository.insertFavorite(MovieEntity)
+//        }
     }
 
-    private fun deleteFavorite(favoriteEntity: FavoriteEntity) {
-        viewModelScope.launch {
-            roomRepository.deleteFavorite(favoriteEntity)
-        }
+    private fun deleteFavorite(MovieEntity: MovieEntity) {
+//        viewModelScope.launch {
+//            roomRepository.deleteFavorite(MovieEntity)
+//        }
     }
 
     fun <T> prepareDataToFavorite(data: T) {
         when (data) {
-            is ListData -> {
-                data.type = TYPE.MOVIE.name
-                val favoriteData = FavoriteEntity(
+            is MovieEntity -> {
+                val favoriteData = MovieEntity(
                     data.id,
                     data.title,
                     data.overview,
                     data.poster_path,
                     data.release_date,
                     data.vote_average,
-                    data.isFavorite,
-                    data.type!!
-                )
-                if (data.isFavorite == 1) {
-                    insertFavorite(favoriteData)
-                } else {
-                    deleteFavorite(favoriteData)
-                }
-            }
-            is TvResultList -> {
-                data.type = TYPE.TV_SHOW.name
-                val favoriteData = FavoriteEntity(
-                    data.id,
-                    data.name,
-                    data.overview,
-                    data.poster_path,
-                    data.first_air_date,
-                    data.vote_average,
-                    data.isFavorite,
-                    data.type!!
-                )
-                if (data.isFavorite == 1) {
-                    insertFavorite(favoriteData)
-                } else {
-                    deleteFavorite(favoriteData)
-                }
-            }
-            is FavoriteEntity -> {
-                data.type = if (data is ListData) TYPE.MOVIE.name else TYPE.TV_SHOW.name
-                val favoriteData = FavoriteEntity(
-                    data.id,
-                    data.title,
-                    data.overview,
-                    data.poster_path,
-                    data.release_date,
-                    data.vote_average,
-                    data.isFavorite,
-                    data.type
+                    data.isFavorite
                 )
                 if (data.isFavorite == 1) {
                     insertFavorite(favoriteData)

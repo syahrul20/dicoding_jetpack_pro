@@ -12,11 +12,9 @@ import com.sf.jetpack.mymov.R
 import com.sf.jetpack.mymov.adapter.DataCreditAdapter
 import com.sf.jetpack.mymov.adapter.DataRecommendationsAdapter
 import com.sf.jetpack.mymov.databinding.ActivityMovieDetailBinding
-import com.sf.jetpack.mymov.db.FavoriteEntity
-import com.sf.jetpack.mymov.network.response.ListData
+import com.sf.jetpack.mymov.db.MovieEntity
 import com.sf.jetpack.mymov.utils.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.ClassCastException
 import java.util.*
 
 /**
@@ -50,25 +48,9 @@ class DetailMovieActivity : AppCompatActivity() {
     private fun setUpExtra() {
         val extras = intent.extras
         if (extras != null) {
-            val data = try {
-                extras.getParcelable<ListData>(Extra.DATA)
-            } catch (e: ClassCastException) {
-                extras.getParcelable<FavoriteEntity>(Extra.DATA)
-            }
+            val data = extras.getParcelable<MovieEntity>(Extra.DATA)
             when (data) {
-                is ListData -> {
-                    val selectedId = data.id
-                    setUpObserver(selectedId.toString())
-                    with(detailBinding) {
-                        textMovieName.text = data.title
-                        imageMovieCover.loadUrl(API_URL_IMAGE_ORIGINAL + data.poster_path)
-                        imageMovie.loadUrl(API_URL_IMAGE_W500 + data.poster_path)
-                        val rate = data.vote_average.let { (it * 10) / 20 }
-                        ratingBar.rating = rate.toFloat()
-                        textRating.text = getString(R.string.app_movie_rating_count, rate)
-                    }
-                }
-                is FavoriteEntity -> {
+                is MovieEntity -> {
                     val selectedId = data.id
                     setUpObserver(selectedId.toString())
                     with(detailBinding) {
@@ -165,14 +147,7 @@ class DetailMovieActivity : AppCompatActivity() {
     private fun <T> onFavoriteClicked(data: T) = with(detailBinding) {
         imageBookmark.setOnClickListener {
             when (data) {
-                is ListData -> {
-                    data.isFavorite = if (isFavorite) 0 else 1
-                    isFavorite = !isFavorite
-                    changeStateOfImageBookmark(isFavorite)
-                    viewModel.prepareDataToFavorite(data)
-                    showSnackBar(isFavorite)
-                }
-                is FavoriteEntity -> {
+                is MovieEntity -> {
                     data.isFavorite = if (isFavorite) 0 else 1
                     isFavorite = !isFavorite
                     changeStateOfImageBookmark(isFavorite)

@@ -217,33 +217,50 @@ object DummyData {
     }
 
     fun generateMovieDetailData(): MovieDetailResponse {
+
+
+        /**
+         *
+         *
+        false,
+        "",
+        null,
+        0,
+        arrayListOf(),
+        "",
+        578701,
+        "tt3215824",
+        "",
+        "Those Who Wish Me Dead",
+        "A young boy finds himself pursued by two assassins in the Montana wilderness with a survival expert determined to protecting him - and a forest fire threatening to consume them all.",
+        null,
+        "",
+        arrayListOf(),
+        arrayListOf(),
+        "",
+        0,
+        0,
+        arrayListOf(),
+        "",
+        "Nature finds a way.",
+        "",
+        false,
+        null,
+        0,
+        API.MESSAGE_SUCCESS
+         */
         return MovieDetailResponse(
-            false,
-            "",
-            null,
-            0,
             arrayListOf(),
-            "",
             578701,
-            "tt3215824",
-            "",
             "Those Who Wish Me Dead",
             "A young boy finds himself pursued by two assassins in the Montana wilderness with a survival expert determined to protecting him - and a forest fire threatening to consume them all.",
-            null,
+            0.0,
             "",
-            arrayListOf(),
-            arrayListOf(),
             "",
+            "",
+            0.0,
             0,
-            0,
-            arrayListOf(),
-            "",
-            "Nature finds a way.",
-            "",
-            false,
-            null,
-            0,
-            API.MESSAGE_SUCCESS
+            API.MESSAGE_FAIL
         )
     }
 
@@ -365,9 +382,6 @@ object DummyData {
             "After a particle accelerator causes a freak storm, CSI Investigator Barry Allen is struck by lightning and falls into a coma. Months later he awakens with the power of super speed, granting him the ability to move through Central City like an unseen guardian angel. Though initially excited by his newfound powers, Barry is shocked to discover he is not the only \\\"meta-human\\\" who was created in the wake of the accelerator explosion -- and not everyone is using their new powers for good. Barry partners with S.T.A.R. Labs and dedicates his life to protect the innocent. For now, only a few close friends and associates know that Barry is literally the fastest man alive, but it won't be long before the world learns what Barry Allen has become...The Flash.",
             1028.647,
             "/lJA2RCMfsWoskqlQhXPSLFQGXEJ.jpg",
-            arrayListOf(),
-            arrayListOf(),
-            arrayListOf(),
             arrayListOf(),
             "",
             "",

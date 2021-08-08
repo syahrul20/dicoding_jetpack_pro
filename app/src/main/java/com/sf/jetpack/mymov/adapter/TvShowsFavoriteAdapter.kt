@@ -5,13 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.paging.PagingDataAdapter
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sf.jetpack.mymov.BuildConfig.API_URL_IMAGE_W500
 import com.sf.jetpack.mymov.R
 import com.sf.jetpack.mymov.databinding.ItemMoviesBinding
-import com.sf.jetpack.mymov.db.FavoriteEntity
+import com.sf.jetpack.mymov.db.TvShowEntity
 import com.sf.jetpack.mymov.network.response.ListData
 import com.sf.jetpack.mymov.utils.loadUrl
 import java.lang.NullPointerException
@@ -19,16 +19,16 @@ import java.lang.NullPointerException
 class TvShowsFavoriteAdapter(
     private val listener: ITvShow? = null
 ) :
-    PagingDataAdapter<FavoriteEntity, TvShowsFavoriteAdapter.ItemViewHolder>(DIFF_CALLBACK) {
+    PagedListAdapter<TvShowEntity, TvShowsFavoriteAdapter.ItemViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK: DiffUtil.ItemCallback<FavoriteEntity> =
-            object : DiffUtil.ItemCallback<FavoriteEntity>() {
-                override fun areItemsTheSame(oldItem: FavoriteEntity, newItem: FavoriteEntity): Boolean {
+        private val DIFF_CALLBACK: DiffUtil.ItemCallback<TvShowEntity> =
+            object : DiffUtil.ItemCallback<TvShowEntity>() {
+                override fun areItemsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
                     return oldItem.title == newItem.title && oldItem.overview == newItem.overview
                 }
 
-                override fun areContentsTheSame(oldItem: FavoriteEntity, newItem: FavoriteEntity): Boolean {
+                override fun areContentsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
                     return oldItem == newItem
                 }
             }
@@ -79,7 +79,7 @@ class TvShowsFavoriteAdapter(
     }
 
     interface ITvShow {
-        fun onTvShowClicked(tvShow: FavoriteEntity)
-        fun onItemFavoriteClicked(tvShow: FavoriteEntity)
+        fun onTvShowClicked(tvShow: TvShowEntity)
+        fun onItemFavoriteClicked(tvShow: TvShowEntity)
     }
 }

@@ -18,10 +18,10 @@ interface MovieDataSource {
     ): Call<MovieResponse>
 
     @GET("movie/now_playing")
-    suspend fun getListMoviePaging(
+    fun getListMoviePaging(
         @Query("page") page: Int,
         @Query("api_key") api_key: String = API_KEY
-    ): Response<MovieResponse>
+    ): Call<MovieResponse>
 
     @GET("movie/{id}")
     fun getDetailMovie(

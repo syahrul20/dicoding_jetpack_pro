@@ -7,16 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
 import com.sf.jetpack.mymov.adapter.MoviesPagingAdapter
-import com.sf.jetpack.mymov.adapter.ItemStateLoadingAdapter
 import com.sf.jetpack.mymov.databinding.FragmentMoviesBinding
+import com.sf.jetpack.mymov.db.MovieEntity
 import com.sf.jetpack.mymov.detail.DetailMovieActivity
-import com.sf.jetpack.mymov.network.response.ListData
+import com.sf.jetpack.mymov.network.state.Status
 import com.sf.jetpack.mymov.utils.Extra
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesFragment : Fragment(), MoviesPagingAdapter.IMovie {
@@ -46,22 +42,25 @@ class MoviesFragment : Fragment(), MoviesPagingAdapter.IMovie {
     private fun setUpView() {
         moviesPagingAdapter = MoviesPagingAdapter(this)
         binding.rvMovie.adapter = moviesPagingAdapter
-        binding.rvMovie.adapter = moviesPagingAdapter.withLoadStateFooter(
-            footer = ItemStateLoadingAdapter { moviesPagingAdapter.retry() }
-        )
-        moviesPagingAdapter.addLoadStateListener { loadState ->
-            val isLoading = loadState.source.refresh is LoadState.Loading
-            setLoading(isLoading)
-        }
     }
 
     private fun setUpObserver() {
-        viewModel.getAllMovieFavorite()
-        lifecycleScope.launch {
-            viewModel.getListMoviePaging().collectLatest {
-                moviesPagingAdapter.submitData(it)
+        viewModel.getListMoviePaging().observe(viewLifecycleOwner, { movie ->
+            movie?.let {
+                when(movie.status) {
+                    Status.LOADING -> {
+                        setLoading(true)
+                    }
+                    Status.SUCCESS -> {
+                        setLoading(false)
+                        moviesPagingAdapter.submitList(movie.data)
+                    }
+                    Status.ERROR -> {
+                        setLoading(false)
+                    }
+                }
             }
-        }
+        })
     }
     private fun setLoading(isLoading: Boolean) = with(binding) {
         if (isLoading) {
@@ -73,7 +72,7 @@ class MoviesFragment : Fragment(), MoviesPagingAdapter.IMovie {
         }
     }
 
-    override fun onMovieClicked(movie: ListData) {
+    override fun onMovieClicked(movie: MovieEntity) {
         Intent(requireActivity(), DetailMovieActivity::class.java).apply {
             putExtra(Extra.DATA, movie)
             startActivity(this)

@@ -12,8 +12,27 @@ import kotlinx.parcelize.Parcelize
  */
 
 @Parcelize
-@Entity(tableName = "favorites")
-data class FavoriteEntity(
+@Entity(tableName = "movieentities")
+data class MovieEntity(
+    @PrimaryKey
+    val id: Int,
+    @ColumnInfo(name = "title")
+    val title: String,
+    @ColumnInfo(name = "overview")
+    val overview: String,
+    @ColumnInfo(name = "poster_path")
+    val poster_path: String,
+    @ColumnInfo(name = "release_date")
+    val release_date: String,
+    @ColumnInfo(name = "vote_average")
+    val vote_average: Double,
+    @ColumnInfo(name = "is_favorite")
+    var isFavorite: Int
+) : Parcelable
+
+@Parcelize
+@Entity(tableName = "tvshowentities")
+data class TvShowEntity(
     @PrimaryKey
     val id: Int,
     @ColumnInfo(name = "title")

@@ -3,38 +3,33 @@ package com.sf.jetpack.mymov.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sf.jetpack.mymov.BuildConfig
 import com.sf.jetpack.mymov.databinding.ItemMoviesBinding
-import com.sf.jetpack.mymov.network.response.TvResultList
+import com.sf.jetpack.mymov.db.TvShowEntity
 import com.sf.jetpack.mymov.utils.loadUrl
 import java.lang.NullPointerException
 
 /**
- * بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
+ * بِسْمِ اللَّهِ الرَّحْمَنِ `الرَّحِيم`
  * Created By Fahmi
  */
 
+
 class TvShowPagingAdapter(
     private val listener: ITvShow? = null
-) : PagingDataAdapter<TvResultList, TvShowPagingAdapter.ItemViewHolder>(DIFF_CALLBACK) {
+) : PagedListAdapter<TvShowEntity, TvShowPagingAdapter.ItemViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK: DiffUtil.ItemCallback<TvResultList> =
-            object : DiffUtil.ItemCallback<TvResultList>() {
-                override fun areItemsTheSame(
-                    oldItem: TvResultList,
-                    newItem: TvResultList
-                ): Boolean {
-                    return oldItem.name == newItem.name && oldItem.overview == newItem.overview
+        private val DIFF_CALLBACK: DiffUtil.ItemCallback<TvShowEntity> =
+            object : DiffUtil.ItemCallback<TvShowEntity>() {
+                override fun areItemsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
+                    return oldItem.title == newItem.title && oldItem.overview == newItem.overview
                 }
 
-                override fun areContentsTheSame(
-                    oldItem: TvResultList,
-                    newItem: TvResultList
-                ): Boolean {
+                override fun areContentsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
                     return oldItem == newItem
                 }
             }
@@ -55,21 +50,21 @@ class TvShowPagingAdapter(
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemMoviesBinding.bind(itemView)
-        fun bind(item: TvResultList) {
-            item.let { tvShow ->
-                binding.textName.text = tvShow.name
-                binding.textDescription.text = tvShow.overview
-                val rate = (tvShow.vote_average * 10) / 20
+        fun bind(item: TvShowEntity) {
+            item.let { movie ->
+                binding.textName.text = movie.title
+                binding.textDescription.text = movie.overview
+                val rate = (movie.vote_average * 10) / 20
                 binding.ratingBar.rating = rate.toFloat()
-                binding.imageMovies.loadUrl(BuildConfig.API_URL_IMAGE_W500 + tvShow.poster_path)
+                binding.imageMovies.loadUrl(BuildConfig.API_URL_IMAGE_W500 + movie.poster_path)
                 binding.root.setOnClickListener {
-                    listener?.onTvShowClickListener(tvShow)
+                    listener?.onTvShowClickListener(item)
                 }
             }
         }
     }
 
     interface ITvShow {
-        fun onTvShowClickListener(tvShow: TvResultList)
+        fun onTvShowClickListener(tvShow: TvShowEntity)
     }
 }

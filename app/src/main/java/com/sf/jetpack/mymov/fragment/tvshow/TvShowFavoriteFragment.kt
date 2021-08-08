@@ -7,16 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
-import com.sf.jetpack.mymov.adapter.ItemStateLoadingAdapter
 import com.sf.jetpack.mymov.adapter.TvShowsFavoriteAdapter
 import com.sf.jetpack.mymov.databinding.FragmentTvShowFavoriteBinding
-import com.sf.jetpack.mymov.db.FavoriteEntity
+import com.sf.jetpack.mymov.db.TvShowEntity
 import com.sf.jetpack.mymov.detail.DetailTvShowActivity
 import com.sf.jetpack.mymov.utils.Extra
 import com.sf.jetpack.mymov.utils.TYPE
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,7 +21,7 @@ class TvShowFavoriteFragment : Fragment(), TvShowsFavoriteAdapter.ITvShow {
     private val viewModel: TvShowViewModel by viewModel()
     private var _binding: FragmentTvShowFavoriteBinding? = null
     private val binding get() = _binding!!
-    private var tvShowFavoriteList = ArrayList<FavoriteEntity>()
+//    private var tvShowFavoriteList = ArrayList<FavoriteEntity>()
     private val tvShowFavoriteAdapter: TvShowsFavoriteAdapter by lazy {
         TvShowsFavoriteAdapter(this)
     }
@@ -48,29 +44,19 @@ class TvShowFavoriteFragment : Fragment(), TvShowsFavoriteAdapter.ITvShow {
 
     private fun setUpView() {
         binding.rvTvShows.adapter = tvShowFavoriteAdapter
-        binding.rvTvShows.adapter = tvShowFavoriteAdapter.withLoadStateFooter(
-            footer = ItemStateLoadingAdapter { tvShowFavoriteAdapter.retry() }
-        )
-        tvShowFavoriteAdapter.addLoadStateListener { loadState ->
-            val isListEmpty =
-                loadState.refresh is LoadState.NotLoading && tvShowFavoriteAdapter.itemCount == 0
-            val isLoading = loadState.source.refresh is LoadState.Loading
-            binding.containerNoData.isVisible = isListEmpty
-            setLoading(isLoading)
-        }
     }
 
     private fun setupObserver() {
-        viewModel.getAllFavorite()
-        lifecycleScope.launch {
-            viewModel.getListFavoriteTvShow().collectLatest {
-                tvShowFavoriteAdapter.submitData(it)
-            }
-        }
-        viewModel.tvShowFavoriteData.observe(viewLifecycleOwner, { favoriteList ->
-            val dataFiltered = favoriteList.filter { it.type == TYPE.TV_SHOW.name }
-            tvShowFavoriteList.addAll(dataFiltered)
-        })
+//        viewModel.getAllFavorite()
+//        lifecycleScope.launch {
+//            viewModel.getListFavoriteTvShow().collectLatest {
+//                tvShowFavoriteAdapter.submitData(it)
+//            }
+//        }
+//        viewModel.tvShowFavoriteData.observe(viewLifecycleOwner, { favoriteList ->
+//            val dataFiltered = favoriteList.filter { it.type == TYPE.TV_SHOW.name }
+//            tvShowFavoriteList.addAll(dataFiltered)
+//        })
     }
 
     private fun setLoading(isLoading: Boolean) = with(binding) {
@@ -83,16 +69,15 @@ class TvShowFavoriteFragment : Fragment(), TvShowsFavoriteAdapter.ITvShow {
         }
     }
 
-    override fun onTvShowClicked(tvShow: FavoriteEntity) {
+    override fun onTvShowClicked(tvShow: TvShowEntity) {
         Intent(requireActivity(), DetailTvShowActivity::class.java).apply {
             putExtra(Extra.DATA, tvShow)
             startActivity(this)
         }
     }
 
-    override fun onItemFavoriteClicked(tvShow: FavoriteEntity) {
+    override fun onItemFavoriteClicked(tvShow: TvShowEntity) {
         tvShow.isFavorite = if (tvShow.isFavorite == 1) 0 else 1
-        viewModel.deleteMovieFavorite(tvShow)
     }
 
 
