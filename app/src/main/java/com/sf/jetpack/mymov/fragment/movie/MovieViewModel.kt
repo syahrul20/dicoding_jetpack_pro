@@ -17,7 +17,7 @@ class MovieViewModel(
 
     fun getListMoviePaging() = moviePagingRepository.getListMoviePaging()
 
-    fun listMovieFavorite() = moviePagingRepository.getListMovieFavorite().cachedIn(viewModelScope)
+    fun listMovieFavorite() = moviePagingRepository.getListMovieFavorite()
 
     fun getAllMovieFavorite() {
         viewModelScope.launch {

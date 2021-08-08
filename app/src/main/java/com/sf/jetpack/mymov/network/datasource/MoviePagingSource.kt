@@ -1,5 +1,6 @@
 package com.sf.jetpack.mymov.network.datasource
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.sf.jetpack.mymov.network.response.ListData
@@ -12,16 +13,15 @@ import java.io.IOException
  */
 
 class MoviePagingSource(
-    private val movieDataSource: MovieDataSource
+    private val movieDataSource: MoviePagingDataSource
 ) : PagingSource<Int, ListData>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ListData> {
         val pageIndex = params.key ?: 1
         return try {
-            val response = movieDataSource.getListMoviePaging(pageIndex)
+            val response = movieDataSource.getListMoviePaging(pageIndex).results
             val listMovie = mutableListOf<ListData>()
-            val data = response.body()?.results ?: emptyList()
-            listMovie.addAll(data)
+            listMovie.addAll(response)
 
             LoadResult.Page(
                 data = listMovie,

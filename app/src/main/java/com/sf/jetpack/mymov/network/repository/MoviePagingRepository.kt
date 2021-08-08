@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import com.sf.jetpack.mymov.db.FavoriteDao
 import com.sf.jetpack.mymov.db.FavoriteEntity
 import com.sf.jetpack.mymov.network.datasource.MovieDataSource
+import com.sf.jetpack.mymov.network.datasource.MoviePagingDataSource
 import com.sf.jetpack.mymov.network.datasource.MoviePagingSource
 import com.sf.jetpack.mymov.network.repository.repocontract.IMoviePagingRepository
 import com.sf.jetpack.mymov.network.response.ListData
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.Flow
  * Created By Fahmi
  */
 class MoviePagingRepository(
-    private val movieApi: MovieDataSource,
+    private val movieApi: MoviePagingDataSource,
     private val favoriteDao: FavoriteDao
 ) : IMoviePagingRepository {
     override fun getListMoviePaging(): Flow<PagingData<ListData>> {

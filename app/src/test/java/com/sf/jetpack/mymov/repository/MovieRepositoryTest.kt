@@ -9,13 +9,9 @@ import com.sf.jetpack.mymov.network.repository.repocontract.IRoomRepository
 import com.sf.jetpack.mymov.network.response.ListData
 import com.sf.jetpack.mymov.utils.DummyData
 import com.sf.jetpack.mymov.utils.FakeApi
-import com.sf.jetpack.mymov.utils.MainCoroutineScopeRule
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.core.IsEqual
 import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertThat
 import org.junit.Test
 
 import org.junit.Before
@@ -23,21 +19,19 @@ import org.junit.Rule
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.internal.verification.Times
 import org.mockito.junit.MockitoJUnitRunner
 import kotlin.test.assertEquals
 
 @RunWith(MockitoJUnitRunner::class)
-class MovieViewModelTest {
+class MovieRepositoryTest {
 
     private lateinit var viewModel: MovieViewModel
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    val coroutineScope = MainCoroutineScopeRule()
-
+    private val fakeMovies = DummyData.generateListMovieResponse().results
     private val fakeApi = FakeApi()
 
     @Mock
@@ -46,9 +40,6 @@ class MovieViewModelTest {
     @Mock
     private lateinit var roomRepository: IRoomRepository
 
-    @Mock
-    private lateinit var flow: Flow<PagingData<ListData>>
-
     @Before
     fun setUp() {
         viewModel = MovieViewModel(roomRepository, moviePagingRepository)
@@ -56,7 +47,7 @@ class MovieViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `get movies should be success`(): Unit = coroutineScope.runBlockingTest {
+    fun `get movies from repository`(): Unit = runBlocking {
         val moviePagingSource = MoviePagingSource(fakeApi)
         val fakePagingData = Pager(
             config = PagingConfig(
@@ -67,13 +58,26 @@ class MovieViewModelTest {
             pagingSourceFactory = { moviePagingSource }
         ).flow
 
+        val expectedPagingData = PagingSource.LoadResult.Page(
+            data = fakeMovies,
+            prevKey = null,
+            nextKey = (fakeMovies.size / 10) + 1
+        )
+        val actualPagingData = moviePagingSource.load(
+            PagingSource.LoadParams.Refresh(
+                key = null,
+                loadSize = 2,
+                placeholdersEnabled = false
+            )
+        )
+
         `when`(moviePagingRepository.getListMoviePaging()).thenReturn(fakePagingData)
-        val moviesEntitites = viewModel.getListMoviePaging()
-        val job = launch {
-            viewModel.getListMoviePaging().collect {
-            }
-        }
-//        assertNotNull(moviesEntities)
-        job.cancel()
+        val moviesEntities = viewModel.getListMoviePaging()
+        verify(moviePagingRepository).getListMoviePaging()
+        assertNotNull(moviesEntities)
+        assertEquals(
+            expected = expectedPagingData,
+            actual = actualPagingData,
+        )
     }
 }

@@ -12,17 +12,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieDataSource {
-    @GET("movie/now_playing")
-    fun getListMovie(
-        @Query("api_key") api_key: String = API_KEY
-    ): Call<MovieResponse>
-
-    @GET("movie/now_playing")
-    suspend fun getListMoviePaging(
-        @Query("page") page: Int,
-        @Query("api_key") api_key: String = API_KEY
-    ): Response<MovieResponse>
-
     @GET("movie/{id}")
     fun getDetailMovie(
         @Path("id") id: String,

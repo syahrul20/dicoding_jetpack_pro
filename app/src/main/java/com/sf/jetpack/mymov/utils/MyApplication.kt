@@ -8,6 +8,7 @@ import com.sf.jetpack.mymov.fragment.movie.MovieViewModel
 import com.sf.jetpack.mymov.fragment.tvshow.TvShowViewModel
 import com.sf.jetpack.mymov.network.ApiService
 import com.sf.jetpack.mymov.network.datasource.MovieDataSource
+import com.sf.jetpack.mymov.network.datasource.MoviePagingDataSource
 import com.sf.jetpack.mymov.network.datasource.TvDataSource
 import com.sf.jetpack.mymov.network.repository.*
 import com.sf.jetpack.mymov.network.repository.repocontract.*
@@ -48,6 +49,7 @@ class MyApplication : Application() {
 
     private val retrofitModule = module {
         single { ApiService.apiRequest<MovieDataSource>(get()) }
+        single { ApiService.apiRequest<MoviePagingDataSource>(get()) }
         single { ApiService.apiRequest<TvDataSource>(get()) }
     }
     private val repositoryModule = module {
