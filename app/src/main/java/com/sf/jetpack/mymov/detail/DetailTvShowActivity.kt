@@ -12,10 +12,8 @@ import com.sf.jetpack.mymov.adapter.DataCreditAdapter
 import com.sf.jetpack.mymov.adapter.DataRecommendationsAdapter
 import com.sf.jetpack.mymov.databinding.ActivityDetailTvShowBinding
 import com.sf.jetpack.mymov.db.TvShowEntity
-import com.sf.jetpack.mymov.network.response.TvResultList
 import com.sf.jetpack.mymov.utils.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.ClassCastException
 
 /**
  * بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
@@ -46,6 +44,8 @@ class DetailTvShowActivity : AppCompatActivity() {
                     val selectedId = data.id
                     setUpObserver(selectedId.toString())
                     with(detailBinding) {
+                        changeStateOfImageBookmark(data.isFavorite == 1)
+                        isFavorite = data.isFavorite == 1
                         textTvShowName.text = data.title
                         imageTvShowCover.loadUrl(BuildConfig.API_URL_IMAGE_ORIGINAL + data.poster_path)
                         imageTvShow.loadUrl(BuildConfig.API_URL_IMAGE_W500 + data.poster_path)
@@ -142,18 +142,6 @@ class DetailTvShowActivity : AppCompatActivity() {
                 }
             }
         })
-
-        viewModel.favoriteData.observe(this, { favoriteList ->
-            val favoriteFiltered = favoriteList.filter { it.title == detailBinding.textTvShowName.text }
-            val favoriteItem =
-                favoriteFiltered.find { it.title == detailBinding.textTvShowName.text }
-            isFavorite = favoriteItem?.isFavorite == 1
-            if (favoriteItem?.isFavorite == 1) {
-                detailBinding.imageBookmark.setImageResource(R.drawable.ic_bookmark_active)
-            } else {
-                detailBinding.imageBookmark.setImageResource(R.drawable.ic_bookmark_inactive)
-            }
-        })
     }
 
     private fun <T> onFavoriteClicked(data: T) = with(detailBinding) {
@@ -163,8 +151,8 @@ class DetailTvShowActivity : AppCompatActivity() {
                     data.isFavorite = if (isFavorite) 0 else 1
                     isFavorite = !isFavorite
                     changeStateOfImageBookmark(isFavorite)
-//                    viewModel.prepareDataToFavorite(data)
-                    showSnackBar(isFavorite)
+                    viewModel.saveFavoriteTvShow(data)
+                    showSnackBar(hasFavorite = isFavorite)
                 }
             }
         }

@@ -95,12 +95,28 @@ class TvRepository(
         }.asLiveData()
     }
 
+    override fun getListTvShowFavoritePaging(): LiveData<PagedList<TvShowEntity>> {
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(true)
+            .setInitialLoadSizeHint(4)
+            .setPageSize(4)
+            .build()
+        return LivePagedListBuilder(tvShowDao.getAllTvShowFavorite(), config).build()
+    }
+
+    override fun saveFavoriteTvShow(tvShowEntity: TvShowEntity) {
+        appExecutors.diskIO().execute { tvShowDao.updateTvShowEntities(tvShowEntity) }
+    }
+
     override fun getDetailTv(tvId: String): LiveData<TvDetailResponse> {
         val data = MutableLiveData<TvDetailResponse>()
         val call = tvDataSource.getTvDetail(tvId)
         EspressoIdleResource.increment()
         call.enqueue(object : Callback<TvDetailResponse> {
-            override fun onResponse(call: Call<TvDetailResponse>, response: Response<TvDetailResponse>) {
+            override fun onResponse(
+                call: Call<TvDetailResponse>,
+                response: Response<TvDetailResponse>
+            ) {
                 try {
                     data.value = response.body()
                 } catch (e: Exception) {
@@ -110,31 +126,14 @@ class TvRepository(
             }
 
             override fun onFailure(call: Call<TvDetailResponse>, t: Throwable) {
-                data.value =  TvDetailResponse(
+                data.value = TvDetailResponse(
                     "",
                     arrayListOf(),
-                    arrayListOf(),
-                    "",
-                    arrayListOf(),
-                    "",
                     0,
-                    true,
-                    arrayListOf(),
-                    "",
-                    null,
-                    "",
-                    arrayListOf(),
-                    null,
-                    0,
-                    0,
-                    arrayListOf(),
                     "",
                     "",
                     "",
                     null,
-                    "",
-                    arrayListOf(),
-                    "",
                     "",
                     "",
                     null,
@@ -164,7 +163,7 @@ class TvRepository(
             }
 
             override fun onFailure(call: Call<DataCreditResponse>, t: Throwable) {
-                data.value = DataCreditResponse(message =API.MESSAGE_FAIL, id = null)
+                data.value = DataCreditResponse(message = API.MESSAGE_FAIL, id = null)
             }
         })
         return data

@@ -19,16 +19,4 @@ class MovieViewModel(
     fun saveFavoriteMovie(movie: MovieEntity) {
         movieRepository.saveFavoriteMovie(movie)
     }
-
-//    fun getAllMovieFavorite() {
-//        viewModelScope.launch {
-//            movieFavoriteData.value = roomRepository.getListFavorite()
-//        }
-//    }
-
-//    fun deleteMovieFavorite(favoriteEntity: FavoriteEntity) {
-//        viewModelScope.launch {
-//            roomRepository.deleteFavorite(favoriteEntity)
-//        }
-//    }
 }

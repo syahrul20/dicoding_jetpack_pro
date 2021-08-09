@@ -8,6 +8,8 @@ import com.sf.jetpack.mymov.network.state.Resource
 
 interface ITvRepository {
     fun getListTvShowPaging(): LiveData<Resource<PagedList<TvShowEntity>>>
+    fun getListTvShowFavoritePaging(): LiveData<PagedList<TvShowEntity>>
+    fun saveFavoriteTvShow(tvShowEntity: TvShowEntity)
     fun getDetailTv(tvId: String): LiveData<TvDetailResponse>
     fun getTvShowCredit(tvId: String): LiveData<DataCreditResponse>
     fun getTvShowRecommendations(tvId: String): LiveData<DataRecommendationsResponse>

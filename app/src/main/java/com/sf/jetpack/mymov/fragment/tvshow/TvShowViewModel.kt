@@ -12,5 +12,12 @@ class TvShowViewModel(
     private val tvShowRepository: ITvRepository,
 ) : ViewModel() {
 
-    fun getListTvShowPaging(): LiveData<Resource<PagedList<TvShowEntity>>> = tvShowRepository.getListTvShowPaging()
+    fun getListTvShowPaging(): LiveData<Resource<PagedList<TvShowEntity>>> =
+        tvShowRepository.getListTvShowPaging()
+
+    fun getListTvShowFavoritePaging(): LiveData<PagedList<TvShowEntity>> =
+        tvShowRepository.getListTvShowFavoritePaging()
+
+    fun saveFavoriteTvShow(tvShowEntity: TvShowEntity) =
+        tvShowRepository.saveFavoriteTvShow(tvShowEntity)
 }

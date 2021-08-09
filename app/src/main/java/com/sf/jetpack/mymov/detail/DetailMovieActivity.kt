@@ -1,6 +1,7 @@
 package com.sf.jetpack.mymov.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -55,6 +56,8 @@ class DetailMovieActivity : AppCompatActivity() {
                     setUpObserver(selectedId.toString())
                     with(detailBinding) {
                         changeStateOfImageBookmark(data.isFavorite == 1)
+                        isFavorite = data.isFavorite == 1
+                        Log.i("zxcasd", isFavorite.toString())
                         textMovieName.text = data.title
                         imageMovieCover.loadUrl(API_URL_IMAGE_ORIGINAL + data.poster_path)
                         imageMovie.loadUrl(API_URL_IMAGE_W500 + data.poster_path)
@@ -131,17 +134,6 @@ class DetailMovieActivity : AppCompatActivity() {
                 recyclerViewRecommendations.adapter = movieRecommendationAdapter
             }
         })
-
-        viewModel.favoriteData.observe(this, { favoriteList ->
-            val favoriteFiltered = favoriteList.filter { it.title == detailBinding.textMovieName.text }
-            val favoriteItem = favoriteFiltered.find { it.title == detailBinding.textMovieName.text }
-            isFavorite = favoriteItem?.isFavorite == 1
-            if (favoriteItem?.isFavorite == 1) {
-                detailBinding.imageBookmark.setImageResource(R.drawable.ic_bookmark_active)
-            } else {
-                detailBinding.imageBookmark.setImageResource(R.drawable.ic_bookmark_inactive)
-            }
-        })
     }
 
     private fun <T> onFavoriteClicked(data: T) = with(detailBinding) {
@@ -152,7 +144,8 @@ class DetailMovieActivity : AppCompatActivity() {
                     isFavorite = !isFavorite
                     changeStateOfImageBookmark(isFavorite)
                     viewModel.saveFavoriteMovie(data)
-                    showSnackBar(isFavorite)
+                    showSnackBar(hasFavorite = isFavorite)
+                    Log.i("zxcasd", isFavorite.toString())
                 }
             }
         }

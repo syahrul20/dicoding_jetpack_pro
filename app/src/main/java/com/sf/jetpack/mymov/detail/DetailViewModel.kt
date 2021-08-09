@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sf.jetpack.mymov.db.MovieEntity
+import com.sf.jetpack.mymov.db.TvShowEntity
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
 import com.sf.jetpack.mymov.network.response.*
@@ -19,7 +20,6 @@ class DetailViewModel(
     private val tvShowRepository: ITvRepository,
 ) : ViewModel() {
     var isLoading = MutableLiveData(true)
-    val favoriteData = MutableLiveData<List<MovieEntity>>()
 
     fun getDetailMovieFromApi(
         movieId: String
@@ -35,7 +35,12 @@ class DetailViewModel(
         movieRepository.saveFavoriteMovie(movie)
     }
 
-    fun getDetailTvFromApi(tvId: String): LiveData<TvDetailResponse> = tvShowRepository.getDetailTv(tvId)
+    fun saveFavoriteTvShow(tvShowEntity: TvShowEntity) {
+        tvShowRepository.saveFavoriteTvShow(tvShowEntity)
+    }
+
+    fun getDetailTvFromApi(tvId: String): LiveData<TvDetailResponse> =
+        tvShowRepository.getDetailTv(tvId)
 
     fun getTvShowCredit(tvId: String): LiveData<DataCreditResponse> =
         tvShowRepository.getTvShowCredit(tvId)
