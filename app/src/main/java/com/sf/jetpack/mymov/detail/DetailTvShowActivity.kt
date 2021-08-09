@@ -68,7 +68,6 @@ class DetailTvShowActivity : AppCompatActivity() {
     }
 
     private fun setUpObserver(tvShowId: String) {
-        viewModel.getTvShowFavorite()
         viewModel.isLoading.observe(this, { isLoading ->
             with(detailBinding) {
                 if (isLoading) {
@@ -145,8 +144,7 @@ class DetailTvShowActivity : AppCompatActivity() {
         })
 
         viewModel.favoriteData.observe(this, { favoriteList ->
-            val favoriteFiltered =
-                favoriteList.filter { it.title == detailBinding.textTvShowName.text }
+            val favoriteFiltered = favoriteList.filter { it.title == detailBinding.textTvShowName.text }
             val favoriteItem =
                 favoriteFiltered.find { it.title == detailBinding.textTvShowName.text }
             isFavorite = favoriteItem?.isFavorite == 1
@@ -161,18 +159,11 @@ class DetailTvShowActivity : AppCompatActivity() {
     private fun <T> onFavoriteClicked(data: T) = with(detailBinding) {
         imageBookmark.setOnClickListener {
             when (data) {
-                is TvResultList -> {
-                    data.isFavorite = if (isFavorite) 0 else 1
-                    isFavorite = !isFavorite
-                    changeStateOfImageBookmark(isFavorite)
-                    viewModel.prepareDataToFavorite(data)
-                    showSnackBar(isFavorite)
-                }
                 is TvShowEntity -> {
                     data.isFavorite = if (isFavorite) 0 else 1
                     isFavorite = !isFavorite
                     changeStateOfImageBookmark(isFavorite)
-                    viewModel.prepareDataToFavorite(data)
+//                    viewModel.prepareDataToFavorite(data)
                     showSnackBar(isFavorite)
                 }
             }

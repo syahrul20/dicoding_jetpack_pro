@@ -11,9 +11,14 @@ import com.sf.jetpack.mymov.network.state.Resource
 class MovieViewModel(
     private val movieRepository :IMovieRepository
 ) : ViewModel() {
-    val movieResponse = MutableLiveData<MovieResponse>()
 
     fun getListMoviePaging(): LiveData<Resource<PagedList<MovieEntity>>> = movieRepository.getListMoviePaging()
+
+    fun getListMovieFavoritePaging(): LiveData<PagedList<MovieEntity>> = movieRepository.getListMovieFavoritePaging()
+
+    fun saveFavoriteMovie(movie: MovieEntity) {
+        movieRepository.saveFavoriteMovie(movie)
+    }
 
 //    fun getAllMovieFavorite() {
 //        viewModelScope.launch {

@@ -27,7 +27,7 @@ data class MovieEntity(
     @ColumnInfo(name = "vote_average")
     val vote_average: Double,
     @ColumnInfo(name = "is_favorite")
-    var isFavorite: Int
+    var isFavorite: Int = 0
 ) : Parcelable
 
 @Parcelize

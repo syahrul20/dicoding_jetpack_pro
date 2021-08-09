@@ -7,14 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.sf.jetpack.mymov.adapter.MoviesFavoriteAdapter
 import com.sf.jetpack.mymov.databinding.FragmentMoviesFavoriteBinding
 import com.sf.jetpack.mymov.db.MovieEntity
 import com.sf.jetpack.mymov.detail.DetailMovieActivity
 import com.sf.jetpack.mymov.utils.Extra
-import com.sf.jetpack.mymov.utils.TYPE
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
@@ -23,7 +20,7 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
 
     private var _binding: FragmentMoviesFavoriteBinding? = null
     private val binding get() = _binding!!
-//    private var movieFavoriteList = ArrayList<FavoriteEntity>()
+
     private val moviesFavoriteAdapter: MoviesFavoriteAdapter by lazy {
         MoviesFavoriteAdapter(this)
     }
@@ -49,16 +46,12 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
     }
 
     private fun initData() {
-//        lifecycleScope.launch {
-//            viewModel.listMovieFavorite().collectLatest {
-//                moviesFavoriteAdapter.submitData(it)
-//            }
-//        }
-//
-//        viewModel.movieFavoriteData.observe(viewLifecycleOwner, { favoriteList ->
-//            val dataFiltered = favoriteList.filter { it.type == TYPE.MOVIE.name }
-//            movieFavoriteList.addAll(dataFiltered)
-//        })
+        setLoading(true)
+        viewModel.getListMovieFavoritePaging().observe(viewLifecycleOwner, { movieFavoriteList ->
+            setLoading(false)
+            binding.containerNoData.isVisible = movieFavoriteList.isEmpty()
+            moviesFavoriteAdapter.submitList(movieFavoriteList)
+        })
     }
 
     private fun setLoading(isLoading: Boolean) = with(binding) {
@@ -80,7 +73,8 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
 
     override fun onItemFavoriteClicked(movie: MovieEntity) {
         movie.isFavorite = if (movie.isFavorite == 1) 0 else 1
-//        viewModel.deleteMovieFavorite(movie)
+        viewModel.saveFavoriteMovie(movie)
+        moviesFavoriteAdapter.notifyItemChanged(0)
     }
 
     override fun onDestroyView() {

@@ -54,6 +54,7 @@ class DetailMovieActivity : AppCompatActivity() {
                     val selectedId = data.id
                     setUpObserver(selectedId.toString())
                     with(detailBinding) {
+                        changeStateOfImageBookmark(data.isFavorite == 1)
                         textMovieName.text = data.title
                         imageMovieCover.loadUrl(API_URL_IMAGE_ORIGINAL + data.poster_path)
                         imageMovie.loadUrl(API_URL_IMAGE_W500 + data.poster_path)
@@ -69,7 +70,6 @@ class DetailMovieActivity : AppCompatActivity() {
 
 
     private fun setUpObserver(movieId: String) {
-        viewModel.getAllMovieFavorite()
         viewModel.isLoading.observe(this, { isLoading ->
             with(detailBinding) {
                 if (isLoading) {
@@ -151,7 +151,7 @@ class DetailMovieActivity : AppCompatActivity() {
                     data.isFavorite = if (isFavorite) 0 else 1
                     isFavorite = !isFavorite
                     changeStateOfImageBookmark(isFavorite)
-                    viewModel.prepareDataToFavorite(data)
+                    viewModel.saveFavoriteMovie(data)
                     showSnackBar(isFavorite)
                 }
             }

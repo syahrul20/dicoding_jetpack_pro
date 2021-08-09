@@ -94,6 +94,19 @@ class MovieRepository(
         }.asLiveData()
     }
 
+    override fun getListMovieFavoritePaging(): LiveData<PagedList<MovieEntity>> {
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(4)
+            .setPageSize(4)
+            .build()
+        return LivePagedListBuilder(movieDao.getAllMovieFavorite(), config).build()
+    }
+
+    override fun saveFavoriteMovie(movieEntity: MovieEntity) {
+        appExecutors.diskIO().execute { movieDao.updateMovieEntities(movieEntity) }
+    }
+
     override fun getDetailMovie(movieId: String): LiveData<MovieDetailResponse> {
         val data = MutableLiveData<MovieDetailResponse>()
         val call = movieDataSource.getDetailMovie(movieId)
