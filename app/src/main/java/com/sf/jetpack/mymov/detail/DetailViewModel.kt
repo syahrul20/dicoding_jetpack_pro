@@ -3,14 +3,10 @@ package com.sf.jetpack.mymov.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.sf.jetpack.mymov.db.MovieEntity
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
-import com.sf.jetpack.mymov.network.repository.repocontract.IRoomRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
 import com.sf.jetpack.mymov.network.response.*
-import com.sf.jetpack.mymov.utils.TYPE
-import kotlinx.coroutines.launch
 
 /**
  * بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
@@ -20,7 +16,6 @@ import kotlinx.coroutines.launch
 class DetailViewModel(
     private val movieRepository: IMovieRepository,
     private val tvShowRepository: ITvRepository,
-    private val roomRepository: IRoomRepository
 ) : ViewModel() {
     var isLoading = MutableLiveData(true)
     val favoriteData = MutableLiveData<List<MovieEntity>>()

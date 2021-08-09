@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.*
 import com.nhaarman.mockitokotlin2.verify
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
-import com.sf.jetpack.mymov.network.repository.repocontract.IRoomRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
 import com.sf.jetpack.mymov.network.response.DataCreditResponse
 import com.sf.jetpack.mymov.network.response.DataRecommendationsResponse

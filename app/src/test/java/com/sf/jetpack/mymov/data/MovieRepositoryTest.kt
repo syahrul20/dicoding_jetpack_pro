@@ -1,9 +1,7 @@
 package com.sf.jetpack.mymov.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.sf.jetpack.mymov.network.repository.repocontract.IMoviePagingRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
-import com.sf.jetpack.mymov.network.repository.repocontract.IRoomRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

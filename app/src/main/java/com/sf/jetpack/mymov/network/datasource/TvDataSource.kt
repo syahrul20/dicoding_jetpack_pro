@@ -15,10 +15,10 @@ interface TvDataSource {
     ): Call<TvResponse>
 
     @GET("tv/on_the_air")
-    suspend fun getTvOnAirPaging(
+    fun getTvOnAirPaging(
         @Query("page") page: Int,
         @Query("api_key") api_key: String = BuildConfig.API_KEY
-    ): Response<TvResponse>
+    ): Call<TvResponse>
 
     @GET("tv/{tvId}")
     fun getTvDetail(

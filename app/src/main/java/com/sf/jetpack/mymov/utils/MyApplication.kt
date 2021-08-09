@@ -48,6 +48,7 @@ class MyApplication : Application() {
         fun movieDao(database: AppDatabase): MovieDao {
             return database.movieDao()
         }
+
         fun tvShowDao(database: AppDatabase): TVShowDao {
             return database.tvShowDao()
         }
@@ -62,12 +63,11 @@ class MyApplication : Application() {
     }
     private val repositoryModule = module {
         single<IMovieRepository> { MovieRepository(get(), get(), get()) }
-        single<ITvRepository> { TvRepository(get()) }
-//        single<IRoomRepository> { RoomRepository(get()) }
+        single<ITvRepository> { TvRepository(get(), get(), get()) }
     }
     private val viewModelModule = module {
         viewModel { MovieViewModel(get()) }
         viewModel { TvShowViewModel(get()) }
-        viewModel { DetailViewModel(get(), get(), get()) }
+        viewModel { DetailViewModel(get(), get()) }
     }
 }

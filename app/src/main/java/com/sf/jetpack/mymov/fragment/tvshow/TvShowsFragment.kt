@@ -13,6 +13,7 @@ import com.sf.jetpack.mymov.databinding.FragmentTvShowsBinding
 import com.sf.jetpack.mymov.db.TvShowEntity
 import com.sf.jetpack.mymov.detail.DetailTvShowActivity
 import com.sf.jetpack.mymov.network.response.TvResultList
+import com.sf.jetpack.mymov.network.state.Status
 import com.sf.jetpack.mymov.utils.Extra
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -48,9 +49,22 @@ class TvShowsFragment : Fragment(), TvShowPagingAdapter.ITvShow {
     }
 
     private fun setUpObserver() {
-//        lifecycleScope.launch {
-//            viewModel.getListTvShowPaging().collectLatest { tvShowPagingAdapter.submitData(it) }
-//        }
+        viewModel.getListTvShowPaging().observe(viewLifecycleOwner, { tvShow ->
+            tvShow?.let {
+                when(tvShow.status) {
+                    Status.LOADING -> {
+                        setLoading(true)
+                    }
+                    Status.SUCCESS -> {
+                        setLoading(false)
+                        tvShowPagingAdapter.submitList(tvShow.data)
+                    }
+                    Status.ERROR -> {
+                        setLoading(false)
+                    }
+                }
+            }
+        })
     }
 
     private fun setLoading(isLoading: Boolean) = with(binding) {

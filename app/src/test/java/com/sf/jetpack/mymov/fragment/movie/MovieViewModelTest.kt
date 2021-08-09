@@ -5,9 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.paging.*
 import com.nhaarman.mockitokotlin2.verify
 import com.sf.jetpack.mymov.network.datasource.MovieDataSource
-import com.sf.jetpack.mymov.network.repository.repocontract.IMoviePagingRepository
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
-import com.sf.jetpack.mymov.network.repository.repocontract.IRoomRepository
 import com.sf.jetpack.mymov.network.response.MovieResponse
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
