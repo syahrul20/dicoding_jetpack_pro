@@ -40,9 +40,6 @@ class DetailViewModelTest {
     private lateinit var tvShowRepository: ITvRepository
 
     @Mock
-    private lateinit var roomRepository: IRoomRepository
-
-    @Mock
     private lateinit var observerMovieDetail: Observer<MovieDetailResponse>
 
     @Mock
@@ -62,7 +59,7 @@ class DetailViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = DetailViewModel(movieRepository, tvShowRepository, roomRepository)
+        viewModel = DetailViewModel(movieRepository, tvShowRepository)
     }
 
     @Test
@@ -71,10 +68,12 @@ class DetailViewModelTest {
         val movieDetailData = MutableLiveData<MovieDetailResponse>()
         movieDetailData.value = movieDetailDataDummy
 
+        //repository
         `when`(movieRepository.getDetailMovie(movieDummy.id.toString())).thenReturn(movieDetailData)
         val movieDetailEntities =
             viewModel.getDetailMovieFromApi(movieDummy.id.toString()).value as MovieDetailResponse
         verify(movieRepository).getDetailMovie(movieDummy.id.toString())
+
         assertNotNull(movieDetailEntities)
         assertEquals(movieDummy.originalTitle, movieDetailEntities.originalTitle)
         assertEquals(movieDummy.releaseDate, movieDetailEntities.releaseDate)
@@ -82,6 +81,7 @@ class DetailViewModelTest {
         assertEquals(movieDummy.voteAverage, movieDetailEntities.voteAverage)
         assertEquals(movieDummy.overview, movieDetailEntities.overview)
 
+        //viewModel
         viewModel.getDetailMovieFromApi(movieDummy.id.toString())
             .observeForever(observerMovieDetail)
         verify(observerMovieDetail).onChanged(movieDetailDataDummy)
@@ -93,11 +93,12 @@ class DetailViewModelTest {
         val movieCreditData = MutableLiveData<DataCreditResponse>()
         movieCreditData.value = movieCreditDummy
 
+        //repository
         `when`(movieRepository.getMovieCredit(movieDummy.id.toString())).thenReturn(movieCreditData)
-        val movieCreditEntities =
-            viewModel.getMovieCredit(movieDummy.id.toString()).value as DataCreditResponse
+        val movieCreditEntities = viewModel.getMovieCredit(movieDummy.id.toString()).value as DataCreditResponse
         verify(movieRepository).getMovieCredit(movieDummy.id.toString())
         assertNotNull(movieCreditEntities)
+
         assertEquals(_movieCreditDummy.cast[0].creditId, movieCreditEntities.cast[0].creditId)
         assertEquals(_movieCreditDummy.cast[0].name, movieCreditEntities.cast[0].name)
         assertEquals(_movieCreditDummy.cast[0].character, movieCreditEntities.cast[0].character)
@@ -105,6 +106,7 @@ class DetailViewModelTest {
         assertEquals(_movieCreditDummy.crew[0].name, movieCreditEntities.crew[0].name)
         assertEquals(_movieCreditDummy.crew[0].job, movieCreditEntities.crew[0].job)
 
+        //viewModel
         viewModel.getMovieCredit(movieDummy.id.toString()).observeForever(observerMovieDataCredit)
         verify(observerMovieDataCredit).onChanged(movieCreditDummy)
     }
@@ -118,8 +120,7 @@ class DetailViewModelTest {
         `when`(movieRepository.getMovieRecommendations(movieDummy.id.toString())).thenReturn(
             movieRecommendationData
         )
-        val movieRecommendationEntities =
-            viewModel.getMovieRecommendations(movieDummy.id.toString()).value as DataRecommendationsResponse
+        val movieRecommendationEntities = viewModel.getMovieRecommendations(movieDummy.id.toString()).value as DataRecommendationsResponse
         verify(movieRepository).getMovieRecommendations(movieDummy.id.toString())
         assertNotNull(movieRecommendationEntities)
         assertEquals(

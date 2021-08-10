@@ -13,11 +13,6 @@ import retrofit2.http.Query
 
 interface MovieDataSource {
     @GET("movie/now_playing")
-    fun getListMovie(
-        @Query("api_key") api_key: String = API_KEY
-    ): Call<MovieResponse>
-
-    @GET("movie/now_playing")
     fun getListMoviePaging(
         @Query("page") page: Int,
         @Query("api_key") api_key: String = API_KEY

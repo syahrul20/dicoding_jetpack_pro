@@ -217,38 +217,6 @@ object DummyData {
     }
 
     fun generateMovieDetailData(): MovieDetailResponse {
-
-
-        /**
-         *
-         *
-        false,
-        "",
-        null,
-        0,
-        arrayListOf(),
-        "",
-        578701,
-        "tt3215824",
-        "",
-        "Those Who Wish Me Dead",
-        "A young boy finds himself pursued by two assassins in the Montana wilderness with a survival expert determined to protecting him - and a forest fire threatening to consume them all.",
-        null,
-        "",
-        arrayListOf(),
-        arrayListOf(),
-        "",
-        0,
-        0,
-        arrayListOf(),
-        "",
-        "Nature finds a way.",
-        "",
-        false,
-        null,
-        0,
-        API.MESSAGE_SUCCESS
-         */
         return MovieDetailResponse(
             arrayListOf(),
             578701,
