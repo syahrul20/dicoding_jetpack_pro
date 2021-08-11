@@ -68,7 +68,6 @@ class DetailViewModelTest {
         val movieDetailData = MutableLiveData<MovieDetailResponse>()
         movieDetailData.value = movieDetailDataDummy
 
-        //repository
         `when`(movieRepository.getDetailMovie(movieDummy.id.toString())).thenReturn(movieDetailData)
         val movieDetailEntities =
             viewModel.getDetailMovieFromApi(movieDummy.id.toString()).value as MovieDetailResponse
@@ -81,7 +80,6 @@ class DetailViewModelTest {
         assertEquals(movieDummy.voteAverage, movieDetailEntities.voteAverage)
         assertEquals(movieDummy.overview, movieDetailEntities.overview)
 
-        //viewModel
         viewModel.getDetailMovieFromApi(movieDummy.id.toString())
             .observeForever(observerMovieDetail)
         verify(observerMovieDetail).onChanged(movieDetailDataDummy)
@@ -93,7 +91,6 @@ class DetailViewModelTest {
         val movieCreditData = MutableLiveData<DataCreditResponse>()
         movieCreditData.value = movieCreditDummy
 
-        //repository
         `when`(movieRepository.getMovieCredit(movieDummy.id.toString())).thenReturn(movieCreditData)
         val movieCreditEntities = viewModel.getMovieCredit(movieDummy.id.toString()).value as DataCreditResponse
         verify(movieRepository).getMovieCredit(movieDummy.id.toString())
@@ -106,7 +103,6 @@ class DetailViewModelTest {
         assertEquals(_movieCreditDummy.crew[0].name, movieCreditEntities.crew[0].name)
         assertEquals(_movieCreditDummy.crew[0].job, movieCreditEntities.crew[0].job)
 
-        //viewModel
         viewModel.getMovieCredit(movieDummy.id.toString()).observeForever(observerMovieDataCredit)
         verify(observerMovieDataCredit).onChanged(movieCreditDummy)
     }
@@ -148,9 +144,9 @@ class DetailViewModelTest {
         tvShowDetailData.value = tvShowDetailDataDummy
 
         `when`(tvShowRepository.getDetailTv(tvDummy.id.toString())).thenReturn(tvShowDetailData)
-        val tvShowDetailEntities =
-            viewModel.getDetailTvFromApi(tvDummy.id.toString()).value as TvDetailResponse
+        val tvShowDetailEntities = viewModel.getDetailTvFromApi(tvDummy.id.toString()).value as TvDetailResponse
         verify(tvShowRepository).getDetailTv(tvDummy.id.toString())
+
         assertNotNull(tvShowDetailEntities)
         assertEquals(tvDummy.name, tvShowDetailEntities.name)
         assertEquals(tvDummy.overview, tvShowDetailEntities.overview)
@@ -168,9 +164,9 @@ class DetailViewModelTest {
         tvShowCreditData.value = tvShowCreditDummy
 
         `when`(tvShowRepository.getTvShowCredit(tvDummy.id.toString())).thenReturn(tvShowCreditData)
-        val tvShowCreditEntities =
-            viewModel.getTvShowCredit(tvDummy.id.toString()).value as DataCreditResponse
+        val tvShowCreditEntities = viewModel.getTvShowCredit(tvDummy.id.toString()).value as DataCreditResponse
         verify(tvShowRepository).getTvShowCredit(tvDummy.id.toString())
+
         assertNotNull(tvShowCreditEntities)
         assertEquals(_tvShowCreditDummy.cast[0].creditId, tvShowCreditEntities.cast[0].creditId)
         assertEquals(_tvShowCreditDummy.cast[0].name, tvShowCreditEntities.cast[0].name)
@@ -192,9 +188,9 @@ class DetailViewModelTest {
         `when`(tvShowRepository.getTvShowRecommendations(tvDummy.id.toString())).thenReturn(
             tvShowRecommendationData
         )
-        val tvShowRecommendationEntities =
-            viewModel.getTvShowRecommendations(tvDummy.id.toString()).value as DataRecommendationsResponse
+        val tvShowRecommendationEntities = viewModel.getTvShowRecommendations(tvDummy.id.toString()).value as DataRecommendationsResponse
         verify(tvShowRepository).getTvShowRecommendations(tvDummy.id.toString())
+
         assertNotNull(tvShowRecommendationEntities)
         assertEquals(
             _tvShowRecommendationDummy.results[0].id,

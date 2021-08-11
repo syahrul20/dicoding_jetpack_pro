@@ -42,7 +42,7 @@ class TvShowFavoriteFragment : Fragment(), TvShowsFavoriteAdapter.ITvShow {
     }
 
     private fun setUpView() {
-        binding.rvTvShows.adapter = tvShowFavoriteAdapter
+        binding.rvTvShowsBookmark.adapter = tvShowFavoriteAdapter
     }
 
     private fun setupObserver() {
@@ -57,10 +57,10 @@ class TvShowFavoriteFragment : Fragment(), TvShowsFavoriteAdapter.ITvShow {
     private fun setLoading(isLoading: Boolean) = with(binding) {
         if (isLoading) {
             progressLoading.isVisible = true
-            rvTvShows.isVisible = false
+            rvTvShowsBookmark.isVisible = false
         } else {
             progressLoading.isVisible = false
-            rvTvShows.isVisible = true
+            rvTvShowsBookmark.isVisible = true
         }
     }
 

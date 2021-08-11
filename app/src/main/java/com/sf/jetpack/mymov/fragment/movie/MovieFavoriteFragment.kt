@@ -42,7 +42,7 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
     }
 
     private fun setUpView() {
-        binding.rvMovie.adapter = moviesFavoriteAdapter
+        binding.rvMovieBookmark.adapter = moviesFavoriteAdapter
     }
 
     private fun initData() {
@@ -57,10 +57,10 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
     private fun setLoading(isLoading: Boolean) = with(binding) {
         if (isLoading) {
             progressLoading.isVisible = true
-            rvMovie.isVisible = false
+            rvMovieBookmark.isVisible = false
         } else {
             progressLoading.isVisible = false
-            rvMovie.isVisible = true
+            rvMovieBookmark.isVisible = true
         }
     }
 

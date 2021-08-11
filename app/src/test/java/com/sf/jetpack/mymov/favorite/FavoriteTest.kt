@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.paging.DataSource
 import androidx.paging.PagedList
-import androidx.paging.PositionalDataSource
 import com.nhaarman.mockitokotlin2.verify
 import com.sf.jetpack.mymov.data.movie.FakeMovieRepository
 import com.sf.jetpack.mymov.data.tvshow.FakeTvShowRepository
@@ -134,7 +133,6 @@ class FavoriteTest {
 
         val actualValue = movieViewModel.getListMovieFavoritePaging().value?.size
         assertTrue("size of the data should be 0, but actual is $actualValue", actualValue == 0)
-        print("size of the data should be 0, but actual is $actualValue")
     }
 
 
@@ -170,5 +168,19 @@ class FavoriteTest {
         assertNotNull(expectedValue)
         assertEquals(expectedValue, actualValue)
         assertEquals(expectedValue?.size, actualValue?.size)
+    }
+
+    @Test
+    fun `get list tv show favorite success but empty data`() {
+        val expected = MutableLiveData<PagedList<TvShowEntity>>()
+        val tvShow = PagedTestDataSources.snapshot(listOf<TvShowEntity>())
+        expected.value = tvShow
+
+        `when`(tvRepository.getListTvShowFavoritePaging()).thenReturn(expected)
+        tvShowViewModel.getListTvShowFavoritePaging().observeForever(tvShowFavoriteObserver)
+        verify(tvShowFavoriteObserver).onChanged(expected.value)
+
+        val actualValue = tvShowViewModel.getListTvShowFavoritePaging().value?.size
+        assertTrue("size of the data should be 0, but actual is $actualValue", actualValue == 0)
     }
 }

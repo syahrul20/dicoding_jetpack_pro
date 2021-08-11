@@ -65,7 +65,7 @@ class TvShowTest {
     }
 
     @Test
-    fun `get list tvshow paging from repository`() {
+    fun `get list tv show paging from repository`() {
         val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, TvShowEntity>
         `when`(tvShowDao.getAllTvShow()).thenReturn(dataSourceFactory)
         fakeTvShowRepository.getListTvShowPaging()
@@ -80,7 +80,7 @@ class TvShowTest {
     }
 
     @Test
-    fun `get list tvshow paging from viewModel`() {
+    fun `get list tv show paging from viewModel`() {
         val expected = MutableLiveData<Resource<PagedList<TvShowEntity>>>()
         val movie = PagedTestDataSources.snapshot((tvShowDummy.results as? List<TvShowEntity>)!!)
         expected.value = Resource.success(movie)
