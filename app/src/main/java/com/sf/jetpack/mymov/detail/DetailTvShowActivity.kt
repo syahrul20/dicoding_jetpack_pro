@@ -24,7 +24,7 @@ class DetailTvShowActivity : AppCompatActivity() {
 
     private lateinit var detailBinding: ActivityDetailTvShowBinding
     private val viewModel: DetailViewModel by viewModel()
-    private var isFavorite: Boolean = false
+    private var isBookmark: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +44,8 @@ class DetailTvShowActivity : AppCompatActivity() {
                     val selectedId = data.id
                     setUpObserver(selectedId.toString())
                     with(detailBinding) {
-                        changeStateOfImageBookmark(data.isFavorite == 1)
-                        isFavorite = data.isFavorite == 1
+                        changeStateOfImageBookmark(data.isBookmark == 1)
+                        isBookmark = data.isBookmark == 1
                         textTvShowName.text = data.title
                         imageTvShowCover.loadUrl(BuildConfig.API_URL_IMAGE_ORIGINAL + data.poster_path)
                         imageTvShow.loadUrl(BuildConfig.API_URL_IMAGE_W500 + data.poster_path)
@@ -55,7 +55,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                     }
                 }
             }
-            onFavoriteClicked(data)
+            onBookmarkClicked(data)
         }
     }
 
@@ -144,39 +144,37 @@ class DetailTvShowActivity : AppCompatActivity() {
         })
     }
 
-    private fun <T> onFavoriteClicked(data: T) = with(detailBinding) {
+    private fun onBookmarkClicked(data: TvShowEntity?) = with(detailBinding) {
         imageBookmark.setOnClickListener {
-            when (data) {
-                is TvShowEntity -> {
-                    data.isFavorite = if (isFavorite) 0 else 1
-                    isFavorite = !isFavorite
-                    changeStateOfImageBookmark(isFavorite)
-                    viewModel.saveFavoriteTvShow(data)
-                    showSnackBar(hasFavorite = isFavorite)
-                }
+            data?.let {
+                data.isBookmark = if (isBookmark) 0 else 1
+                isBookmark = !isBookmark
+                changeStateOfImageBookmark(isBookmark)
+                viewModel.saveBookmarkTvShow(data)
+                showSnackBar(hasBookmarked = isBookmark)
             }
         }
     }
 
-    private fun changeStateOfImageBookmark(isFavorite: Boolean) = with(detailBinding) {
-        if (isFavorite) {
+    private fun changeStateOfImageBookmark(isBookmark: Boolean) = with(detailBinding) {
+        if (isBookmark) {
             imageBookmark.setImageResource(R.drawable.ic_bookmark_active)
         } else {
             imageBookmark.setImageResource(R.drawable.ic_bookmark_inactive)
         }
     }
 
-    private fun showSnackBar(hasFavorite: Boolean) = with(detailBinding) {
-        if (hasFavorite) {
+    private fun showSnackBar(hasBookmarked: Boolean) = with(detailBinding) {
+        if (hasBookmarked) {
             Snackbar.make(
                 containerDetailTvShow,
-                getString(R.string.app_success_insert_favorite),
+                getString(R.string.app_success_insert_bookmark),
                 Snackbar.LENGTH_SHORT
             ).show()
         } else {
             Snackbar.make(
                 containerDetailTvShow,
-                getString(R.string.app_success_remove_favorite),
+                getString(R.string.app_success_remove_bookmark),
                 Snackbar.LENGTH_SHORT
             ).show()
         }

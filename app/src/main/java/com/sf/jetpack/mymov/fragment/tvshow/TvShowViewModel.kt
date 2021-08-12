@@ -3,7 +3,6 @@ package com.sf.jetpack.mymov.fragment.tvshow
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
-import com.sf.jetpack.mymov.db.MovieEntity
 import com.sf.jetpack.mymov.db.TvShowEntity
 import com.sf.jetpack.mymov.network.repository.repocontract.ITvRepository
 import com.sf.jetpack.mymov.network.state.Resource
@@ -15,9 +14,9 @@ class TvShowViewModel(
     fun getListTvShowPaging(): LiveData<Resource<PagedList<TvShowEntity>>> =
         tvShowRepository.getListTvShowPaging()
 
-    fun getListTvShowFavoritePaging(): LiveData<PagedList<TvShowEntity>> =
-        tvShowRepository.getListTvShowFavoritePaging()
+    fun getListTvShowBookmarkPaging(): LiveData<PagedList<TvShowEntity>> =
+        tvShowRepository.getListTvShowBookmarkPaging()
 
-    fun saveFavoriteTvShow(tvShowEntity: TvShowEntity) =
-        tvShowRepository.saveFavoriteTvShow(tvShowEntity)
+    fun saveBookmarkTvShow(tvShowEntity: TvShowEntity) =
+        tvShowRepository.saveBookmarkTvShow(tvShowEntity)
 }

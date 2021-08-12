@@ -2,9 +2,7 @@ package com.sf.jetpack.mymov.utils
 
 import androidx.paging.PagedList
 import org.mockito.ArgumentMatchers
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.`when`
 
 object PagedListUtil {
 

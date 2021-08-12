@@ -86,7 +86,7 @@ class TvRepository(
                         response.poster_path,
                         response.first_air_date,
                         response.vote_average,
-                        response.isFavorite,
+                        response.isBookmark,
                     )
                     tvShowList.add(course)
                 }
@@ -95,16 +95,16 @@ class TvRepository(
         }.asLiveData()
     }
 
-    override fun getListTvShowFavoritePaging(): LiveData<PagedList<TvShowEntity>> {
+    override fun getListTvShowBookmarkPaging(): LiveData<PagedList<TvShowEntity>> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(true)
             .setInitialLoadSizeHint(4)
             .setPageSize(4)
             .build()
-        return LivePagedListBuilder(tvShowDao.getAllTvShowFavorite(), config).build()
+        return LivePagedListBuilder(tvShowDao.getAllTvShowBookmark(), config).build()
     }
 
-    override fun saveFavoriteTvShow(tvShowEntity: TvShowEntity) {
+    override fun saveBookmarkTvShow(tvShowEntity: TvShowEntity) {
         appExecutors.diskIO().execute { tvShowDao.updateTvShowEntities(tvShowEntity) }
     }
 

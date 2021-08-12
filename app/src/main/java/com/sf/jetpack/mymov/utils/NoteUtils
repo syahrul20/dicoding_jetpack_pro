@@ -6,35 +6,45 @@
    ------------
    UNIT TESTING
    ------------
-   #MovieViewModelTest:
-   - Memastikan data tidak null
-   - Memastikan banyak data sesuai dengan yang diharapkan
-   - Memastikan judul item pertama sesuai dengan yang diharapkan
+   #MovieTest:
+        * MENGAMBIL DATA LIST MOVIE DARI REPOSITORY
+           - Memastikan data tidak null
+           - Memastikan banyak data sesuai dengan yang diharapkan
 
-   #TvShowViewModelTest:
-   - Memastikan data tidak null
-   - Memastikan banyak data sesuai dengan yang diharapkan
-   - Memastikan judul item pertama sesuai dengan yang diharapkan
+        * MENGAMBIL DATA LIST MOVIE DARI VIEWMODEL
+           - Memastikan data tidak null
+           - Memastikan banyak data sesuai dengan yang diharapkan
+           - Memastikan data yang diterima sesuai dengan data yang diharapkan
 
-   #DetailViewModelTest:
-   * Detail Movie
-        - Memastikan data tidak null
-        - Memastikan data yang tampil sesuai dengan yang diharapkan
-   * Movie Credit
-        - Memastikan data tidak null
-        - Memastikan data yang tampil sesuai dengan yang diharapkan
-   * Movie Recommendation
-        - Memastikan data tidak null
-        - Memastikan data yang tampil sesuai dengan yang diharapkan
-   * Detail TV Show
-        - Memastikan data tidak null
-        - Memastikan data yang tampil sesuai dengan yang diharapkan
-   * TV Show Credit
-        - Memastikan data tidak null
-        - Memastikan data yang tampil sesuai dengan yang diharapkan
-   * TV Show Recommendation
-        - Memastikan data tidak null
-        - Memastikan data yang tampil sesuai dengan yang diharapkan
+   #TvShowTest:
+        * MENGAMBIL DATA LIST TV SHOW DARI REPOSITORY
+          - Memastikan data tidak null
+          - Memastikan banyak data sesuai dengan yang diharapkan
+
+       * MENGAMBIL DATA LIST TV SHOW DARI VIEWMODEL
+          - Memastikan data tidak null
+          - Memastikan banyak data sesuai dengan yang diharapkan
+          - Memastikan data yang diterima sesuai dengan data yang diharapkan
+
+   #DetailTest:
+       * Detail Movie
+            - Memastikan data tidak null
+            - Memastikan data yang tampil sesuai dengan yang diharapkan
+       * Movie Credit
+            - Memastikan data tidak null
+            - Memastikan data yang tampil sesuai dengan yang diharapkan
+       * Movie Recommendation
+            - Memastikan data tidak null
+            - Memastikan data yang tampil sesuai dengan yang diharapkan
+       * Detail TV Show
+            - Memastikan data tidak null
+            - Memastikan data yang tampil sesuai dengan yang diharapkan
+       * TV Show Credit
+            - Memastikan data tidak null
+            - Memastikan data yang tampil sesuai dengan yang diharapkan
+       * TV Show Recommendation
+            - Memastikan data tidak null
+            - Memastikan data yang tampil sesuai dengan yang diharapkan
 
    ------------------------
    INSTRUMENTATION TESTING
@@ -50,9 +60,13 @@
     - memastikan komponen ImageView untuk gambar film dalam keadaan tampil
     - memastikan komponen ImageView untuk gambar cover film dalam keadaan tampil
 
-   #MENAMPILKAN DATA CAST MOVIE
-    - memberikan action ke item pertama dari rv_movie
-    - memastikan komponen RecyclerView untuk data cast movie film dalam keadaan tampil
+   #MENAMPILKAN DATA BOOKMARK DARI MOVIE
+    - memberikan action klik ke item pertama dari rv_movie
+    - memberikan action klik untuk tombol bookmark
+    - memberikan action klik kembali untuk tampilan root
+    - memberikan action klik untuk navigation_bookmark
+    - memastikan rv_movie_bookmark dalam keadaan tampil
+    - memberikan action klik kembali untuk tampilan root
 
    #MENAMPILKAN LIST DATA DARI TV SHOW
     - menekan tablayout dengan teks "TV Show"
@@ -67,7 +81,12 @@
     - memastikan komponen ImageView untuk gambar film tv show keadaan tampil
     - memastikan komponen ImageView untuk gambar cover tv show dalam keadaan tampil
 
-   #MENAMPILKAN DATA CAST MOVIE
-    - menekan tablayout dengan teks "TV Show"
-    - memberikan action ke item pertama dari rv_tv_shows
-    - memastikan komponen RecyclerView untuk data cast tv show film dalam keadaan tampil
+   #MENAMPILKAN DATA BOOKMARK DARI TV SHOW
+    - memberikan action klik untuk navigation_tv_shows
+    - memberikan action klik ke item pertama dari rv_movie
+    - memberikan action klik untuk tombol bookmark
+    - memberikan action klik kembali untuk tampilan root
+    - memberikan action klik untuk navigation_bookmark
+    - memberikan action klik untuk komponen dengan teks "TV SHOW"
+    - memastikan rv_tv_shows_bookmark dalam keadaan tampil
+    - memberikan action klik kembali untuk tampilan root

@@ -16,6 +16,6 @@ data class TvResultList(
     val poster_path: String,
     val vote_average: Double,
     val first_air_date: String = "",
-    var isFavorite: Int = 0,
+    var isBookmark: Int = 0,
     var type: String? = ""
 ) : Parcelable

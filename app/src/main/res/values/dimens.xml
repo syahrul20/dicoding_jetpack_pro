@@ -1,5 +1,4 @@
 <resources>
-    <dimen name="appbar_padding">16dp</dimen>
 
     <dimen name="marginXS">4dp</dimen>
     <dimen name="marginS">8dp</dimen>
@@ -10,12 +9,10 @@
 
     <dimen name="fontXS">12sp</dimen>
     <dimen name="fontS">14sp</dimen>
-    <dimen name="fontM">16sp</dimen>
     <dimen name="fontL">18sp</dimen>
     <dimen name="fontXL">20sp</dimen>
     <dimen name="fontXXL">24sp</dimen>
 
-    <dimen name="paddingM">16dp</dimen>
     <dimen name="paddingS">8dp</dimen>
     <dimen name="paddingXS">4dp</dimen>
 </resources>

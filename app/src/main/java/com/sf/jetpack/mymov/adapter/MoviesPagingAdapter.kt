@@ -1,6 +1,5 @@
 package com.sf.jetpack.mymov.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +44,7 @@ class MoviesPagingAdapter(
         try {
             holder.bind(item!!)
         } catch (e: NullPointerException) {
+            return
         }
     }
 

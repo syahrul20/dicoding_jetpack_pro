@@ -1,4 +1,4 @@
-package com.sf.jetpack.mymov.favorite
+package com.sf.jetpack.mymov.bookmark
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
@@ -23,7 +23,7 @@ import com.sf.jetpack.mymov.network.repository.TvRepository
 import com.sf.jetpack.mymov.utils.AppExecutors
 import com.sf.jetpack.mymov.utils.PagedListUtil
 import com.sf.jetpack.mymov.utils.PagedTestDataSources
-import junit.framework.Assert.*
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
@@ -35,7 +35,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.Mockito.mock
 
 @RunWith(MockitoJUnitRunner::class)
-class FavoriteTest {
+class BookmarkTest {
 
     private val movieDummy = DummyData.generateListMovieResponse()
     private val tvShowDummy = DummyData.generateListTvShowResponse()
@@ -62,7 +62,7 @@ class FavoriteTest {
     private lateinit var fakeMovieRepository: FakeMovieRepository
 
     @Mock
-    private lateinit var movieFavoriteObserver: Observer<PagedList<MovieEntity>>
+    private lateinit var movieBookmarkObserver: Observer<PagedList<MovieEntity>>
 
     @Mock
     private lateinit var tvShowDataSource: TvDataSource
@@ -77,7 +77,7 @@ class FavoriteTest {
     private lateinit var tvRepository: TvRepository
 
     @Mock
-    private lateinit var tvShowFavoriteObserver: Observer<PagedList<TvShowEntity>>
+    private lateinit var tvShowBookmarkObserver: Observer<PagedList<TvShowEntity>>
 
     @Before
     fun setUp() {
@@ -88,99 +88,98 @@ class FavoriteTest {
     }
 
     @Test
-    fun `get list movie favorite from repository`() {
+    fun `get list movie bookmark from repository`() {
         val dataSourceFactory =
             mock(DataSource.Factory::class.java) as DataSource.Factory<Int, MovieEntity>
-        `when`(movieDao.getAllMovieFavorite()).thenReturn(dataSourceFactory)
-        fakeMovieRepository.getListMovieFavoritePaging()
+        `when`(movieDao.getAllMovieBookmark()).thenReturn(dataSourceFactory)
+        fakeMovieRepository.getListMovieBookmarkPaging()
 
-        val movieFavoriteEntities =
-            Resource.success(PagedListUtil.mockPagedList(DummyData.generateListMovieResponse().results))
-        verify(movieDao).getAllMovieFavorite()
+        val movieBookmarkEntities = Resource.success(PagedListUtil.mockPagedList(DummyData.generateListMovieResponse().results))
+        verify(movieDao).getAllMovieBookmark()
 
         val expected = DummyData.generateListMovieResponse().results.size.toLong()
-        val actual = movieFavoriteEntities.data?.size?.toLong()
-        assertNotNull(movieFavoriteEntities.data)
+        val actual = movieBookmarkEntities.data?.size?.toLong()
+        assertNotNull(movieBookmarkEntities.data)
         assertEquals(expected, actual)
     }
 
     @Test
-    fun `get list movie favorite from viewModel`() {
+    fun `get list movie bookmark from viewModel`() {
         val expected = MutableLiveData<PagedList<MovieEntity>>()
         val movie = PagedTestDataSources.snapshot((movieDummy.results as? List<MovieEntity>)!!)
         expected.value = movie
 
-        `when`(movieRepository.getListMovieFavoritePaging()).thenReturn(expected)
-        movieViewModel.getListMovieFavoritePaging().observeForever(movieFavoriteObserver)
-        verify(movieFavoriteObserver).onChanged(expected.value)
+        `when`(movieRepository.getListMovieBookmarkPaging()).thenReturn(expected)
+        movieViewModel.getListMovieBookmarkPaging().observeForever(movieBookmarkObserver)
+        verify(movieBookmarkObserver).onChanged(expected.value)
 
         val expectedValue = expected.value
-        val actualValue = movieViewModel.getListMovieFavoritePaging().value
+        val actualValue = movieViewModel.getListMovieBookmarkPaging().value
         assertNotNull(expectedValue)
         assertEquals(expectedValue, actualValue)
         assertEquals(expectedValue?.size, actualValue?.size)
     }
 
     @Test
-    fun `get list movie favorite from viewModel success but empty data`() {
+    fun `get list movie bookmark success but empty data`() {
         val expected = MutableLiveData<PagedList<MovieEntity>>()
         val movie = PagedTestDataSources.snapshot(listOf<MovieEntity>())
         expected.value = movie
 
-        `when`(movieRepository.getListMovieFavoritePaging()).thenReturn(expected)
-        movieViewModel.getListMovieFavoritePaging().observeForever(movieFavoriteObserver)
-        verify(movieFavoriteObserver).onChanged(expected.value)
+        `when`(movieRepository.getListMovieBookmarkPaging()).thenReturn(expected)
+        movieViewModel.getListMovieBookmarkPaging().observeForever(movieBookmarkObserver)
+        verify(movieBookmarkObserver).onChanged(expected.value)
 
-        val actualValue = movieViewModel.getListMovieFavoritePaging().value?.size
+        val actualValue = movieViewModel.getListMovieBookmarkPaging().value?.size
         assertTrue("size of the data should be 0, but actual is $actualValue", actualValue == 0)
     }
 
 
     @Test
-    fun `get list tv show favorite from repository`() {
+    fun `get list tv show bookmark from repository`() {
         val dataSourceFactory =
             mock(DataSource.Factory::class.java) as DataSource.Factory<Int, TvShowEntity>
-        `when`(tvShowDao.getAllTvShowFavorite()).thenReturn(dataSourceFactory)
-        fakeTvShowRepository.getListTvShowFavoritePaging()
+        `when`(tvShowDao.getAllTvShowBookmark()).thenReturn(dataSourceFactory)
+        fakeTvShowRepository.getListTvShowBookmarkPaging()
 
-        val tvShowFavoriteEntities =
+        val tvShowBookmarkEntities =
             Resource.success(PagedListUtil.mockPagedList(tvShowDummy.results))
-        verify(tvShowDao).getAllTvShowFavorite()
+        verify(tvShowDao).getAllTvShowBookmark()
 
         val expected = tvShowDummy.results.size.toLong()
-        val actual = tvShowFavoriteEntities.data?.size?.toLong()
-        assertNotNull(tvShowFavoriteEntities.data)
+        val actual = tvShowBookmarkEntities.data?.size?.toLong()
+        assertNotNull(tvShowBookmarkEntities.data)
         assertEquals(expected, actual)
     }
 
     @Test
-    fun `get list tv show favorite from viewModel`() {
+    fun `get list tv show bookmark from viewModel`() {
         val expected = MutableLiveData<PagedList<TvShowEntity>>()
         val movie = PagedTestDataSources.snapshot((tvShowDummy.results as? List<TvShowEntity>)!!)
         expected.value = movie
 
-        `when`(tvRepository.getListTvShowFavoritePaging()).thenReturn(expected)
-        tvShowViewModel.getListTvShowFavoritePaging().observeForever(tvShowFavoriteObserver)
-        verify(tvShowFavoriteObserver).onChanged(expected.value)
+        `when`(tvRepository.getListTvShowBookmarkPaging()).thenReturn(expected)
+        tvShowViewModel.getListTvShowBookmarkPaging().observeForever(tvShowBookmarkObserver)
+        verify(tvShowBookmarkObserver).onChanged(expected.value)
 
         val expectedValue = expected.value
-        val actualValue = tvShowViewModel.getListTvShowFavoritePaging().value
+        val actualValue = tvShowViewModel.getListTvShowBookmarkPaging().value
         assertNotNull(expectedValue)
         assertEquals(expectedValue, actualValue)
         assertEquals(expectedValue?.size, actualValue?.size)
     }
 
     @Test
-    fun `get list tv show favorite success but empty data`() {
+    fun `get list tv show bookmark success but empty data`() {
         val expected = MutableLiveData<PagedList<TvShowEntity>>()
         val tvShow = PagedTestDataSources.snapshot(listOf<TvShowEntity>())
         expected.value = tvShow
 
-        `when`(tvRepository.getListTvShowFavoritePaging()).thenReturn(expected)
-        tvShowViewModel.getListTvShowFavoritePaging().observeForever(tvShowFavoriteObserver)
-        verify(tvShowFavoriteObserver).onChanged(expected.value)
+        `when`(tvRepository.getListTvShowBookmarkPaging()).thenReturn(expected)
+        tvShowViewModel.getListTvShowBookmarkPaging().observeForever(tvShowBookmarkObserver)
+        verify(tvShowBookmarkObserver).onChanged(expected.value)
 
-        val actualValue = tvShowViewModel.getListTvShowFavoritePaging().value?.size
+        val actualValue = tvShowViewModel.getListTvShowBookmarkPaging().value?.size
         assertTrue("size of the data should be 0, but actual is $actualValue", actualValue == 0)
     }
 }

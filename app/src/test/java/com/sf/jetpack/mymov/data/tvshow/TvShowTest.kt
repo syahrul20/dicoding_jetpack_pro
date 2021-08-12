@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.paging.DataSource
 import androidx.paging.PagedList
-import androidx.paging.PositionalDataSource
 import com.nhaarman.mockitokotlin2.verify
 import com.sf.jetpack.mymov.db.TVShowDao
 import com.sf.jetpack.mymov.db.TvShowEntity
@@ -28,7 +27,6 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.Mockito.mock
-import java.util.concurrent.Executors
 
 @RunWith(MockitoJUnitRunner::class)
 class TvShowTest {

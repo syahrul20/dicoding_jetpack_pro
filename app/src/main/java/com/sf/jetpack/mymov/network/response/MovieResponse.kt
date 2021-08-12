@@ -1,7 +1,6 @@
 package com.sf.jetpack.mymov.network.response
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 data class MovieResponse(
@@ -17,6 +16,6 @@ data class ListData(
     val release_date: String,
     val title: String,
     val vote_average: Double,
-    var isFavorite: Int = 0,
+    var isBookmark: Int = 0,
     var type: String? = ""
 ) : Parcelable

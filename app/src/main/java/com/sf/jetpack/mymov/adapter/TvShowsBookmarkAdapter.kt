@@ -3,7 +3,6 @@ package com.sf.jetpack.mymov.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -12,14 +11,13 @@ import com.sf.jetpack.mymov.BuildConfig.API_URL_IMAGE_W500
 import com.sf.jetpack.mymov.R
 import com.sf.jetpack.mymov.databinding.ItemMoviesBinding
 import com.sf.jetpack.mymov.db.TvShowEntity
-import com.sf.jetpack.mymov.network.response.ListData
 import com.sf.jetpack.mymov.utils.loadUrl
 import java.lang.NullPointerException
 
-class TvShowsFavoriteAdapter(
+class TvShowsBookmarkAdapter(
     private val listener: ITvShow? = null
 ) :
-    PagedListAdapter<TvShowEntity, TvShowsFavoriteAdapter.ItemViewHolder>(DIFF_CALLBACK) {
+    PagedListAdapter<TvShowEntity, TvShowsBookmarkAdapter.ItemViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK: DiffUtil.ItemCallback<TvShowEntity> =
@@ -34,7 +32,6 @@ class TvShowsFavoriteAdapter(
             }
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(view.root)
@@ -44,26 +41,26 @@ class TvShowsFavoriteAdapter(
         val item = getItem(position)
         try {
             item!!.let { tvShow ->
-                var isFavorite = tvShow.isFavorite == 1
+                var isBookmark = tvShow.isBookmark == 1
                 binding.imageBookmark.isVisible = true
                 binding.textName.text = tvShow.title
                 binding.textDescription.text = tvShow.overview
                 val rate = (tvShow.vote_average * 10) / 20
                 binding.ratingBar.rating = rate.toFloat()
                 binding.imageMovies.loadUrl(API_URL_IMAGE_W500 + tvShow.poster_path)
-                if (tvShow.isFavorite == 1) {
+                if (tvShow.isBookmark == 1) {
                     binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_active)
                 } else {
                     binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_inactive)
                 }
                 binding.imageBookmark.setOnClickListener {
-                    isFavorite = !isFavorite
-                    if (isFavorite) {
+                    isBookmark = !isBookmark
+                    if (isBookmark) {
                         binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_active)
                     } else {
                         binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_inactive)
                     }
-                    listener?.onItemFavoriteClicked(tvShow)
+                    listener?.onItemBookmarkClicked(tvShow)
                 }
                 binding.root.setOnClickListener {
                     listener?.onTvShowClicked(tvShow)
@@ -80,6 +77,6 @@ class TvShowsFavoriteAdapter(
 
     interface ITvShow {
         fun onTvShowClicked(tvShow: TvShowEntity)
-        fun onItemFavoriteClicked(tvShow: TvShowEntity)
+        fun onItemBookmarkClicked(tvShow: TvShowEntity)
     }
 }

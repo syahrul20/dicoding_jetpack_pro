@@ -3,17 +3,11 @@ package com.sf.jetpack.mymov.network.datasource
 import com.sf.jetpack.mymov.BuildConfig
 import com.sf.jetpack.mymov.network.response.*
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TvDataSource {
-    @GET("tv/on_the_air")
-    fun getTvOnTheAir(
-        @Query("api_key") api_key: String = BuildConfig.API_KEY
-    ): Call<TvResponse>
-
     @GET("tv/on_the_air")
     fun getTvOnAirPaging(
         @Query("page") page: Int,

@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.sf.jetpack.mymov.db.MovieEntity
 import com.sf.jetpack.mymov.network.repository.repocontract.IMovieRepository
-import com.sf.jetpack.mymov.network.response.MovieResponse
 import com.sf.jetpack.mymov.network.state.Resource
 
 
@@ -14,9 +13,9 @@ class MovieViewModel(
 
     fun getListMoviePaging(): LiveData<Resource<PagedList<MovieEntity>>> = movieRepository.getListMoviePaging()
 
-    fun getListMovieFavoritePaging(): LiveData<PagedList<MovieEntity>> = movieRepository.getListMovieFavoritePaging()
+    fun getListMovieBookmarkPaging(): LiveData<PagedList<MovieEntity>> = movieRepository.getListMovieBookmarkPaging()
 
-    fun saveFavoriteMovie(movie: MovieEntity) {
-        movieRepository.saveFavoriteMovie(movie)
+    fun saveBookmarkMovie(movie: MovieEntity) {
+        movieRepository.saveBookmarkMovie(movie)
     }
 }

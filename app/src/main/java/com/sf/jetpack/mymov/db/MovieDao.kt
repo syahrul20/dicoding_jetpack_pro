@@ -13,8 +13,8 @@ interface MovieDao {
     @Query("SELECT * FROM movieentities")
     fun getAllMovie(): DataSource.Factory<Int, MovieEntity>
 
-    @Query("SELECT * FROM movieentities WHERE is_favorite = 1")
-    fun getAllMovieFavorite(): DataSource.Factory<Int, MovieEntity>
+    @Query("SELECT * FROM movieentities WHERE is_bookmark = 1")
+    fun getAllMovieBookmark(): DataSource.Factory<Int, MovieEntity>
 
     @Update
     fun updateMovieEntities(movieEntity: MovieEntity)

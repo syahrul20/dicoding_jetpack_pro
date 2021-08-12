@@ -6,7 +6,6 @@ import com.sf.jetpack.mymov.network.response.MovieDetailResponse
 import com.sf.jetpack.mymov.network.response.DataRecommendationsResponse
 import com.sf.jetpack.mymov.network.response.MovieResponse
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

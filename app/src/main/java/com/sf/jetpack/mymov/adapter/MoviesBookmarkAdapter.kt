@@ -14,10 +14,10 @@ import com.sf.jetpack.mymov.db.MovieEntity
 import com.sf.jetpack.mymov.utils.loadUrl
 import java.lang.NullPointerException
 
-class MoviesFavoriteAdapter(
+class MoviesBookmarkAdapter(
     private val listener: IMovie? = null
 ) :
-    PagedListAdapter<MovieEntity, MoviesFavoriteAdapter.ItemViewHolder>(DIFF_CALLBACK) {
+    PagedListAdapter<MovieEntity, MoviesBookmarkAdapter.ItemViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK: DiffUtil.ItemCallback<MovieEntity> =
@@ -42,26 +42,26 @@ class MoviesFavoriteAdapter(
         val item = getItem(position)
         try {
             item!!.let { movie ->
-                var isFavorite = movie.isFavorite == 1
+                var isBookmark = movie.isBookmark == 1
                 binding.imageBookmark.isVisible = true
                 binding.textName.text = movie.title
                 binding.textDescription.text = movie.overview
                 val rate = (movie.vote_average * 10) / 20
                 binding.ratingBar.rating = rate.toFloat()
                 binding.imageMovies.loadUrl(API_URL_IMAGE_W500 + movie.poster_path)
-                if (movie.isFavorite == 1) {
+                if (movie.isBookmark == 1) {
                     binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_active)
                 } else {
                     binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_inactive)
                 }
                 binding.imageBookmark.setOnClickListener {
-                    isFavorite = !isFavorite
-                    if (isFavorite) {
+                    isBookmark = !isBookmark
+                    if (isBookmark) {
                         binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_active)
                     } else {
                         binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_inactive)
                     }
-                    listener?.onItemFavoriteClicked(movie)
+                    listener?.onItemBookmarkClicked(movie)
                 }
                 binding.root.setOnClickListener {
                     listener?.onMovieClicked(movie)
@@ -78,6 +78,6 @@ class MoviesFavoriteAdapter(
 
     interface IMovie {
         fun onMovieClicked(movie: MovieEntity)
-        fun onItemFavoriteClicked(movie: MovieEntity)
+        fun onItemBookmarkClicked(movie: MovieEntity)
     }
 }

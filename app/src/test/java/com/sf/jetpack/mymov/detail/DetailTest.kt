@@ -20,7 +20,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class DetailViewModelTest {
+class DetailTest {
 
     private lateinit var viewModel: DetailViewModel
     private val movieDummy = DummyData.generateMovieDetailData()

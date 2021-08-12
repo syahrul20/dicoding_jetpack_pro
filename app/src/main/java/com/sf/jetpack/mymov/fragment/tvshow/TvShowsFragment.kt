@@ -7,15 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.sf.jetpack.mymov.adapter.TvShowPagingAdapter
 import com.sf.jetpack.mymov.databinding.FragmentTvShowsBinding
 import com.sf.jetpack.mymov.db.TvShowEntity
 import com.sf.jetpack.mymov.detail.DetailTvShowActivity
-import com.sf.jetpack.mymov.network.response.TvResultList
 import com.sf.jetpack.mymov.network.state.Status
 import com.sf.jetpack.mymov.utils.Extra
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TvShowsFragment : Fragment(), TvShowPagingAdapter.ITvShow {

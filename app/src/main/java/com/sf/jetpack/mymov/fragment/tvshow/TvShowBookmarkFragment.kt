@@ -7,22 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.sf.jetpack.mymov.adapter.TvShowsFavoriteAdapter
-import com.sf.jetpack.mymov.databinding.FragmentTvShowFavoriteBinding
+import com.sf.jetpack.mymov.adapter.TvShowsBookmarkAdapter
+import com.sf.jetpack.mymov.databinding.FragmentTvShowBookmarkBinding
 import com.sf.jetpack.mymov.db.TvShowEntity
 import com.sf.jetpack.mymov.detail.DetailTvShowActivity
 import com.sf.jetpack.mymov.utils.Extra
-import com.sf.jetpack.mymov.utils.TYPE
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class TvShowFavoriteFragment : Fragment(), TvShowsFavoriteAdapter.ITvShow {
+class TvShowBookmarkFragment : Fragment(), TvShowsBookmarkAdapter.ITvShow {
 
     private val viewModel: TvShowViewModel by viewModel()
-    private var _binding: FragmentTvShowFavoriteBinding? = null
+    private var _binding: FragmentTvShowBookmarkBinding? = null
     private val binding get() = _binding!!
-    private val tvShowFavoriteAdapter: TvShowsFavoriteAdapter by lazy {
-        TvShowsFavoriteAdapter(this)
+    private val tvShowsBookmarkAdapter: TvShowsBookmarkAdapter by lazy {
+        TvShowsBookmarkAdapter(this)
     }
 
     override fun onCreateView(
@@ -30,7 +28,7 @@ class TvShowFavoriteFragment : Fragment(), TvShowsFavoriteAdapter.ITvShow {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTvShowFavoriteBinding.inflate(inflater, container, false)
+        _binding = FragmentTvShowBookmarkBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -42,15 +40,15 @@ class TvShowFavoriteFragment : Fragment(), TvShowsFavoriteAdapter.ITvShow {
     }
 
     private fun setUpView() {
-        binding.rvTvShowsBookmark.adapter = tvShowFavoriteAdapter
+        binding.rvTvShowsBookmark.adapter = tvShowsBookmarkAdapter
     }
 
     private fun setupObserver() {
         setLoading(true)
-        viewModel.getListTvShowFavoritePaging().observe(viewLifecycleOwner, { tvShowFavoriteList ->
+        viewModel.getListTvShowBookmarkPaging().observe(viewLifecycleOwner, { tvShowBookmarkList ->
             setLoading(false)
-            binding.containerNoData.isVisible = tvShowFavoriteList.isEmpty()
-            tvShowFavoriteAdapter.submitList(tvShowFavoriteList)
+            binding.containerNoData.isVisible = tvShowBookmarkList.isEmpty()
+            tvShowsBookmarkAdapter.submitList(tvShowBookmarkList)
         })
     }
 
@@ -71,10 +69,10 @@ class TvShowFavoriteFragment : Fragment(), TvShowsFavoriteAdapter.ITvShow {
         }
     }
 
-    override fun onItemFavoriteClicked(tvShow: TvShowEntity) {
-        tvShow.isFavorite = if (tvShow.isFavorite == 1) 0 else 1
-        viewModel.saveFavoriteTvShow(tvShow)
-        tvShowFavoriteAdapter.notifyItemChanged(0)
+    override fun onItemBookmarkClicked(tvShow: TvShowEntity) {
+        tvShow.isBookmark = if (tvShow.isBookmark == 1) 0 else 1
+        viewModel.saveBookmarkTvShow(tvShow)
+        tvShowsBookmarkAdapter.notifyItemChanged(0)
     }
 
     override fun onDestroyView() {

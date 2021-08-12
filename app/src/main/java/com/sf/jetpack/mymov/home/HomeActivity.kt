@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.sf.jetpack.mymov.R
 import com.sf.jetpack.mymov.databinding.ActivityMainBinding
-import com.sf.jetpack.mymov.fragment.favorite.FavoriteFragment
+import com.sf.jetpack.mymov.fragment.bookmark.BookmarkFragment
 import com.sf.jetpack.mymov.fragment.movie.MoviesFragment
 import com.sf.jetpack.mymov.fragment.tvshow.TvShowsFragment
 
@@ -22,7 +22,7 @@ class HomeActivity : AppCompatActivity() {
     companion object {
         const val TAG_MOVIES = "tag_movies"
         const val TAG_TV_SHOW = "tag_tv_show"
-        const val TAG_FAVORITE = "tag_favorite"
+        const val TAG_BOOKMARK = "tag_bookmark"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,9 +55,9 @@ class HomeActivity : AppCompatActivity() {
                     pushFragment(TAG_TV_SHOW, TvShowsFragment())
                     binding.toolbar.title = getString(R.string.title_tv_show)
                 }
-                R.id.navigation_favorite -> {
-                    pushFragment(TAG_FAVORITE, FavoriteFragment())
-                    binding.toolbar.title = getString(R.string.title_profile)
+                R.id.navigation_bookmark -> {
+                    pushFragment(TAG_BOOKMARK, BookmarkFragment())
+                    binding.toolbar.title = getString(R.string.title_bookmark)
                 }
             }
             true
@@ -71,7 +71,7 @@ class HomeActivity : AppCompatActivity() {
         }
         val movies = manager.findFragmentByTag(TAG_MOVIES)
         val tvShow = manager.findFragmentByTag(TAG_TV_SHOW)
-        val favorite = manager.findFragmentByTag(TAG_FAVORITE)
+        val bookmark = manager.findFragmentByTag(TAG_BOOKMARK)
 
         if (movies != null) {
             ft.hide(movies)
@@ -79,8 +79,8 @@ class HomeActivity : AppCompatActivity() {
         if (tvShow != null) {
             ft.hide(tvShow)
         }
-        if (favorite != null) {
-            ft.hide(favorite)
+        if (bookmark != null) {
+            ft.hide(bookmark)
         }
 
         if (tag == TAG_MOVIES) {
@@ -95,10 +95,10 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        if (tag == TAG_FAVORITE) {
-            if (favorite != null) {
-                ft.show(favorite)
-                binding.toolbar.title = getString(R.string.title_profile)
+        if (tag == TAG_BOOKMARK) {
+            if (bookmark != null) {
+                ft.show(bookmark)
+                binding.toolbar.title = getString(R.string.title_bookmark)
             }
         }
         ft.commitAllowingStateLoss()

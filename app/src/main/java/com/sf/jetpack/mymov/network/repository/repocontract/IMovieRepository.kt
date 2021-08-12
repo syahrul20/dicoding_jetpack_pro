@@ -8,8 +8,8 @@ import com.sf.jetpack.mymov.network.state.Resource
 
 interface IMovieRepository {
     fun getListMoviePaging(): LiveData<Resource<PagedList<MovieEntity>>>
-    fun getListMovieFavoritePaging(): LiveData<PagedList<MovieEntity>>
-    fun saveFavoriteMovie(movieEntity: MovieEntity)
+    fun getListMovieBookmarkPaging(): LiveData<PagedList<MovieEntity>>
+    fun saveBookmarkMovie(movieEntity: MovieEntity)
     fun getDetailMovie(movieId: String): LiveData<MovieDetailResponse>
     fun getMovieCredit(movieId: String): LiveData<DataCreditResponse>
     fun getMovieRecommendations(movieId: String): LiveData<DataRecommendationsResponse>

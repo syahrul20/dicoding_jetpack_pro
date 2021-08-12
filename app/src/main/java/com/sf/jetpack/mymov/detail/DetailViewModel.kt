@@ -1,6 +1,5 @@
 package com.sf.jetpack.mymov.detail
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,12 +30,12 @@ class DetailViewModel(
     fun getMovieRecommendations(movieId: String): LiveData<DataRecommendationsResponse> =
         movieRepository.getMovieRecommendations(movieId)
 
-    fun saveFavoriteMovie(movie: MovieEntity) {
-        movieRepository.saveFavoriteMovie(movie)
+    fun saveBookmarkMovie(movie: MovieEntity) {
+        movieRepository.saveBookmarkMovie(movie)
     }
 
-    fun saveFavoriteTvShow(tvShowEntity: TvShowEntity) {
-        tvShowRepository.saveFavoriteTvShow(tvShowEntity)
+    fun saveBookmarkTvShow(tvShowEntity: TvShowEntity) {
+        tvShowRepository.saveBookmarkTvShow(tvShowEntity)
     }
 
     fun getDetailTvFromApi(tvId: String): LiveData<TvDetailResponse> =

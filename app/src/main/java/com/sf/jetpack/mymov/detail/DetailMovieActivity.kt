@@ -1,7 +1,6 @@
 package com.sf.jetpack.mymov.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +26,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
     private lateinit var detailBinding: ActivityMovieDetailBinding
     private val viewModel: DetailViewModel by viewModel()
-    private var isFavorite: Boolean = false
+    private var isBookmark: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,9 +54,8 @@ class DetailMovieActivity : AppCompatActivity() {
                     val selectedId = data.id
                     setUpObserver(selectedId.toString())
                     with(detailBinding) {
-                        changeStateOfImageBookmark(data.isFavorite == 1)
-                        isFavorite = data.isFavorite == 1
-                        Log.i("zxcasd", isFavorite.toString())
+                        changeStateOfImageBookmark(data.isBookmark == 1)
+                        isBookmark = data.isBookmark == 1
                         textMovieName.text = data.title
                         imageMovieCover.loadUrl(API_URL_IMAGE_ORIGINAL + data.poster_path)
                         imageMovie.loadUrl(API_URL_IMAGE_W500 + data.poster_path)
@@ -67,7 +65,7 @@ class DetailMovieActivity : AppCompatActivity() {
                     }
                 }
             }
-            onFavoriteClicked(data)
+            onBookmarkClicked(data)
         }
     }
 
@@ -136,40 +134,37 @@ class DetailMovieActivity : AppCompatActivity() {
         })
     }
 
-    private fun <T> onFavoriteClicked(data: T) = with(detailBinding) {
+    private fun onBookmarkClicked(data: MovieEntity?) = with(detailBinding) {
         imageBookmark.setOnClickListener {
-            when (data) {
-                is MovieEntity -> {
-                    data.isFavorite = if (isFavorite) 0 else 1
-                    isFavorite = !isFavorite
-                    changeStateOfImageBookmark(isFavorite)
-                    viewModel.saveFavoriteMovie(data)
-                    showSnackBar(hasFavorite = isFavorite)
-                    Log.i("zxcasd", isFavorite.toString())
-                }
+            data?.let {
+                data.isBookmark = if (isBookmark) 0 else 1
+                isBookmark = !isBookmark
+                changeStateOfImageBookmark(isBookmark)
+                viewModel.saveBookmarkMovie(data)
+                showSnackBar(hasBookmarked = isBookmark)
             }
         }
     }
 
-    private fun changeStateOfImageBookmark(isFavorite: Boolean) = with(detailBinding) {
-        if (isFavorite) {
+    private fun changeStateOfImageBookmark(isBookmark: Boolean) = with(detailBinding) {
+        if (isBookmark) {
             imageBookmark.setImageResource(R.drawable.ic_bookmark_active)
         } else {
             imageBookmark.setImageResource(R.drawable.ic_bookmark_inactive)
         }
     }
 
-    private fun showSnackBar(hasFavorite: Boolean) = with(detailBinding) {
-        if (hasFavorite) {
+    private fun showSnackBar(hasBookmarked: Boolean) = with(detailBinding) {
+        if (hasBookmarked) {
             Snackbar.make(
                 containerDetailMovie,
-                getString(R.string.app_success_insert_favorite),
+                getString(R.string.app_success_insert_bookmark),
                 Snackbar.LENGTH_SHORT
             ).show()
         } else {
             Snackbar.make(
                 containerDetailMovie,
-                getString(R.string.app_success_remove_favorite),
+                getString(R.string.app_success_remove_bookmark),
                 Snackbar.LENGTH_SHORT
             ).show()
         }

@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Fahmi/AndroidStudioProjects/MyMovies/app/src/main/res/drawable/ic_bookmark_active.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Fahmi/AndroidStudioProjects/MyMovies/app/src/main/res/drawable/ic_favorite_bookmark_white.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Fahmi/AndroidStudioProjects/MyMovies/app/src/main/res/layout/activity_detail_tv_show.xml" value="0.1" />
         <entry key="..\:/Users/Fahmi/AndroidStudioProjects/MyMovies/app/src/main/res/layout/activity_movie_detail.xml" value="0.240625" />
         <entry key="..\:/Users/Fahmi/AndroidStudioProjects/MyMovies/app/src/main/res/layout/fragment_favorite.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/Fahmi/AndroidStudioProjects/MyMovies/app/src/main/res/layout/fragment_movies_favorite.xml" value="0.1388888888888889" />

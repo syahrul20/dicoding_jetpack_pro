@@ -71,7 +71,7 @@ class HomeActivityTest {
         onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
         onView(withId(R.id.imageBookmark)).perform(click())
         onView(isRoot()).perform(pressBack())
-        onView(withId(R.id.navigation_favorite)).perform(click())
+        onView(withId(R.id.navigation_bookmark)).perform(click())
         onView(withId(R.id.rv_movie_bookmark)).check(matches(isDisplayed()))
         onView(isRoot()).perform(pressBack())
     }
@@ -82,7 +82,7 @@ class HomeActivityTest {
         onView(withId(R.id.rv_tv_shows)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
         onView(withId(R.id.imageBookmark)).perform(click())
         onView(isRoot()).perform(pressBack())
-        onView(withId(R.id.navigation_favorite)).perform(click())
+        onView(withId(R.id.navigation_bookmark)).perform(click())
         onView(withText("TV SHOW")).perform(click())
         onView(withId(R.id.rv_tv_shows_bookmark)).check(matches(isDisplayed()))
         onView(isRoot()).perform(pressBack())

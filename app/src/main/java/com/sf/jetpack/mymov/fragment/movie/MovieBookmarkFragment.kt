@@ -7,22 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.sf.jetpack.mymov.adapter.MoviesFavoriteAdapter
-import com.sf.jetpack.mymov.databinding.FragmentMoviesFavoriteBinding
+import com.sf.jetpack.mymov.adapter.MoviesBookmarkAdapter
+import com.sf.jetpack.mymov.databinding.FragmentMoviesBookmarkBinding
 import com.sf.jetpack.mymov.db.MovieEntity
 import com.sf.jetpack.mymov.detail.DetailMovieActivity
 import com.sf.jetpack.mymov.utils.Extra
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
+class MovieBookmarkFragment : Fragment(), MoviesBookmarkAdapter.IMovie {
 
     private val viewModel: MovieViewModel by viewModel()
 
-    private var _binding: FragmentMoviesFavoriteBinding? = null
+    private var _binding: FragmentMoviesBookmarkBinding? = null
     private val binding get() = _binding!!
 
-    private val moviesFavoriteAdapter: MoviesFavoriteAdapter by lazy {
-        MoviesFavoriteAdapter(this)
+    private val moviesBookmarkAdapter: MoviesBookmarkAdapter by lazy {
+        MoviesBookmarkAdapter(this)
     }
 
     override fun onCreateView(
@@ -30,7 +30,7 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMoviesFavoriteBinding.inflate(inflater, container, false)
+        _binding = FragmentMoviesBookmarkBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -42,15 +42,15 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
     }
 
     private fun setUpView() {
-        binding.rvMovieBookmark.adapter = moviesFavoriteAdapter
+        binding.rvMovieBookmark.adapter = moviesBookmarkAdapter
     }
 
     private fun initData() {
         setLoading(true)
-        viewModel.getListMovieFavoritePaging().observe(viewLifecycleOwner, { movieFavoriteList ->
+        viewModel.getListMovieBookmarkPaging().observe(viewLifecycleOwner, { movieBookmarkList ->
             setLoading(false)
-            binding.containerNoData.isVisible = movieFavoriteList.isEmpty()
-            moviesFavoriteAdapter.submitList(movieFavoriteList)
+            binding.containerNoData.isVisible = movieBookmarkList.isEmpty()
+            moviesBookmarkAdapter.submitList(movieBookmarkList)
         })
     }
 
@@ -71,10 +71,10 @@ class MovieFavoriteFragment : Fragment(), MoviesFavoriteAdapter.IMovie {
         }
     }
 
-    override fun onItemFavoriteClicked(movie: MovieEntity) {
-        movie.isFavorite = if (movie.isFavorite == 1) 0 else 1
-        viewModel.saveFavoriteMovie(movie)
-        moviesFavoriteAdapter.notifyItemChanged(0)
+    override fun onItemBookmarkClicked(movie: MovieEntity) {
+        movie.isBookmark = if (movie.isBookmark == 1) 0 else 1
+        viewModel.saveBookmarkMovie(movie)
+        moviesBookmarkAdapter.notifyItemChanged(0)
     }
 
     override fun onDestroyView() {
