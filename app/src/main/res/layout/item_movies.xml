@@ -67,7 +67,7 @@
                     android:layout_marginTop="@dimen/marginSM"
                     android:layout_marginEnd="@dimen/marginS"
                     android:ellipsize="end"
-                    android:maxLines="3"
+                    android:maxLines="2"
                     android:textSize="@dimen/fontS"
                     tools:text="@tools:sample/lorem/random" />
 
